@@ -1,5 +1,7 @@
 # Bacillus project
-Genome assembly, annotation and comparative genomics of 25 Bacillus species 
+Genome assembly, annotation and comparative genomics of 25 Bacillus species.
+
+## Scope
 
 ## Assembly
 The new species were assembled using the Perfect Genome Assembly tutorial.
