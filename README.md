@@ -37,7 +37,7 @@ Then the results are loaded in R.
 ## Coding environment
 
 Most computations were performed in the SarrisLab server: Linux sarrislab 22.04.1-Ubuntu,
-Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz, 256 gb Memory.
+Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz, 24 CPU cores, 256 gb Memory.
 
 Additional computations were performed in the Zorbas HPC facility of [IMBBC-HCMR](https://hpc.hcmr.gr),
 see here for more [info](https://doi.org/10.1093/gigascience/giab053).
