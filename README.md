@@ -2,7 +2,8 @@
 Genome assembly, annotation and comparative genomics of 25 Bacillus species.
 
 ## Scope
-zitw o trump!
+What is the question?
+
 ## Assembly
 The new species were assembled using the Perfect Genome Assembly tutorial.
 
