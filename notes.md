@@ -29,3 +29,59 @@ prokka --outdir /home/nik_arapitsas/Documents/Bacillus_project/Results/prokka_an
 ```
 art /home/nik_arapitsas/Documents/Bacillus_project/Results/prokka_annotation/SRL152_prokka_annotation.gff
 ```
+
+# Comparative genomics (All vs All) using Orthofinder
+
+## Unzip the IMG protein files from the zip files
+
+```
+mkdir -p /mnt/assemblies_repository/proteins_Bacillus_project  
+```
+
+The extract_proteins.sh script was created for the extraction of the protein files of the 25 Bacillus, from the zip files downloaded from the IMG database.
+
+```
+chmod +x extract_proteins.sh
+```
+
+```
+./extract_proteins.sh
+```
+
+## Install Orthofinder
+
+1) **Create an environment for Orthofinder**
+
+```
+conda create --name orthofinder
+conda activate orthofinder
+```
+
+2) **Install Orthofinder**
+
+```
+conda install bioconda::orthofinder
+```
+
+3) **Update Orthofinder**
+
+```
+conda install -c conda-forge -c bioconda orthofinder=2.5.5
+```
+
+## Run Orthofinder
+
+Diamond version was outdated and that made an issue in running Orthofinder. Thus it got updated to the last version sing the following command: 
+
+```
+conda update -c bioconda diamond
+```
+
+```
+orthofinder -f /mnt/assemblies_repository/proteins_Bacillus_project -t 20 -o /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder
+```
+
+
+
+
+
