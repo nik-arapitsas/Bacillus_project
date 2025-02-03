@@ -81,6 +81,7 @@ conda update -c bioconda diamond
 orthofinder -f /mnt/assemblies_repository/proteins_Bacillus_project -t 20 -o /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder
 ```
 
+It took about 15 minutes to complete. It produced 741.5 Mb of output files. 
 
 
 
