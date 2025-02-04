@@ -83,6 +83,12 @@ orthofinder -f /mnt/assemblies_repository/proteins_Bacillus_project -t 20 -o /ho
 
 It took about 15 minutes to complete. It produced 741.5 Mb of output files. 
 
+## Create Graphs
+
+```
+awk -F'\t' 'NR==1{for(i=2;i<=NF;i++) species[i]=$i} NR==9{for(i=2;i<=NF;i++) print species[i], $i}' Statistics_PerSpecies.tsv | sort -k2,2nr > species_specific_counts.txt 
+```
+
 
 
 
