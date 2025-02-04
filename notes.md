@@ -86,9 +86,17 @@ It took about 15 minutes to complete. It produced 741.5 Mb of output files.
 ## Create Graphs
 
 ```
-awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==9 {for(i=2; i<=NF; i++) print species[i], $i}' Statistics_PerSpecies.tsv | sort -k2,2n > species_specific_counts.txt 
+mkdir /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs
+```
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==9 {for(i=2; i<=NF; i++) print species[i], $i}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/species_specific_orthogroups.txt  
 ```
 
+The graph was designed in Rstudio. The script is located in the following path:
+
+```
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/orthofinder_graphs.R
+```
 
 
 
