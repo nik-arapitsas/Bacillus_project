@@ -59,6 +59,7 @@ tree_assemblies <- extract.clade(tree, assemblies_mrca) %>%
 all_assemblies <- extract.clade(tree, all_assemblies_m) %>%
     as_tibble() %>%
     left_join(taxonomy_w, by=c("label"="gtdb_id")) %>%
+    mutate(species=ifelse(s=="NA",label,s)) %>%
     as.treedata()
 
 #claude_mrca <- groupClade(tree_taxonomy, assemblies_mrca) %>%
@@ -102,7 +103,7 @@ ggsave(plot=tree_plot_mrca2,
 
 
 tree_plot_mrca3 <- ggtree(all_assemblies) + 
-     geom_tiplab(size=2, aes(label=s, color=g)) + 
+     geom_tiplab(size=2, aes(label=species, color=g)) + 
 #     geom_text(aes(label=branch.length, color=g)) + 
      theme_tree2(legend.position = c(.1, .88))
 
