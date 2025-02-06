@@ -152,9 +152,9 @@ NR==1 {
   }
 }
 END {
-  printf "%-10s %-20s %-20s\n", "Species", "Core Orthogroups", "Partially Shared Orthogroups";
+  print "Isolates" "\t" "Core Orthogroups" "\t" "Partially Shared Orthogroups";
   for (i in species) {
-    printf "%-10s %-20d %-20d\n", species[i], core_count[i], shared[i];
+    print species[i] "\t" core_count[i] "\t" shared[i];
   }
 }
 ' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Orthogroups/Orthogroups.GeneCount.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt
