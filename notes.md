@@ -121,3 +121,49 @@ Then use it to assign the percentage of genes in orthofroups in the desirable or
 awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1, a[$1]}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/percofgenes_inogs_per_isolate_unsorted.txt /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/isolates.txt > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/percofgenes_inogs_per_isolate.txt
 ```
 
+3) **Genes with orthogroups in all or any isolates**
+
+```
+
+awk '
+NR==1 {
+  for (i=2; i<=NF-1; i++) {
+    species[i] = substr($i, 1, 6); # Keep only first 6 letters
+    core_count[i] = 0;
+    shared[i] = 0;
+  }
+  next
+}
+{
+  core=1;
+  for (i=2; i<=NF-1; i++) if ($i==0) core=0; # Check if this is a core orthogroup
+
+  if (core) {
+    for (i=2; i<=NF-1; i++) core_count[i]++; # Count core orthogroups for each species
+    next; # Skip counting this orthogroup in the shared category
+  }
+
+  for (i=2; i<=NF-1; i++) {
+    if ($i > 0) {
+      for (j=2; j<=NF-1; j++) {
+        if (j != i && $j > 0) {shared[i]++; break}
+      }
+    }
+  }
+}
+END {
+  printf "%-10s %-20s %-20s\n", "Species", "Core Orthogroups", "Partially Shared Orthogroups";
+  for (i in species) {
+    printf "%-10s %-20d %-20d\n", species[i], core_count[i], shared[i];
+  }
+}
+' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Orthogroups/Orthogroups.GeneCount.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt
+```
+
+```
+awk '{print $1}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/species_specific_orthogroups.txt > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/isolates.txt
+```
+
+```
+awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1 FS a[$1] FS $2 FS $3}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/isolates.txt > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates_sorted.txt
+```
