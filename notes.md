@@ -123,8 +123,9 @@ awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1, a[$1]}' /home/nik_arapitsas/Docu
 
 3) **Genes with orthogroups in all or any isolates**
 
-```
+With the code below when counting the partially shared orthogroups we do not count the core orthogroups.
 
+```
 awk '
 NR==1 {
   for (i=2; i<=NF-1; i++) {
@@ -160,10 +161,37 @@ END {
 ' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Orthogroups/Orthogroups.GeneCount.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt
 ```
 
-```
-awk '{print $1}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/species_specific_orthogroups.txt > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/isolates.txt
-```
+With the code below when counting the partially shared orthogroups we count the core orthogroups as well. This is better for creating a bar plot where the bars of all and any orthogroups will be overlapping. 
 
 ```
-awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1 FS a[$1] FS $2 FS $3}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/isolates.txt > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates_sorted.txt
+awk '
+NR==1 {
+  for (i=2; i<=NF-1; i++) {
+    species[i] = substr($i, 1, 6); # Keep only first 6 letters of species name
+    core_count[i] = 0;
+    shared[i] = 0;
+  }
+  next
+}
+{
+  core=1;
+  for (i=2; i<=NF-1; i++) if ($i==0) core=0; # Check if this is a core orthogroup
+
+  for (i=2; i<=NF-1; i++) {
+    if ($i > 0) {
+      if (core) core_count[i]++;  # Count genes in core orthogroups
+      for (j=2; j<=NF-1; j++) {
+        if (j != i && $j > 0) {shared[i]++; break} # Count genes in shared orthogroups, including core
+      }
+    }
+  }
+}
+END {
+  print "Isolates" "\t" "Core Orthogroups" "\t" "Partially Shared Orthogroups";
+  for (i in species) {
+    print species[i] "\t" core_count[i] "\t" shared[i];
+  }
+}
+' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Orthogroups/Orthogroups.GeneCount.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt
 ```
+
