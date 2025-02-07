@@ -195,3 +195,31 @@ END {
 ' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Orthogroups/Orthogroups.GeneCount.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt
 ```
 
+# FastANI for the 25 isolates
+
+First we need to activate the gtdb environment:
+
+```
+conda activate gtdbtk-2.3.2
+```
+
+We create a new directory in the Results called FastANI:
+
+```
+mkdir /home/nik_arapitsas/Documents/Bacillus_project/Results/FastANI
+```
+
+We create a bash file containing the paths to the assemblies of each isolate. I ran this command while I was in the "/mnt/assemblies_repository" directory. We need a tab separated txt file that will have 2 columns: the first column will have the path to the FASTA file and the second column the six first letters of the filename (the isolate ID). We need to be in the "/mnt/assemblies_repository" to run this command:
+
+```
+find "$(pwd)" -type f -name "*.fasta" | awk -F'/' '{file=$NF; print $0 "\t" substr(file, 1, 6)}' > /home/nik_arapitsas/Documents/Bacillus_project/Results/FastANI/genome_list.txt
+```
+
+*In the "/mnt/assemblies_repository" directory there were more assemblies than the 25 (SRL307, SRL376 and SRL550). I manually deleted from the bash file the SRL307 and SRL376 isolates. I kept SRL550 for cross-validation. 
+
+Go to the FastANI directory and run the FastANI using the GTDBTK database:
+
+```
+gtdbtk ani_rep --batchfile /home/nik_arapitsas/Documents/Bacillus_project/Results/FastANI/genome_list.txt --out_dir . --cpus 20
+```
+
