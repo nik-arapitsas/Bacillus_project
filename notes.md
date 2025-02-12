@@ -195,6 +195,161 @@ END {
 ' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Orthogroups/Orthogroups.GeneCount.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt
 ```
 
+# Comparative genomics (All vs All) using Orthofinder for the SRL368 and relatives
+
+## Run Orthofinder
+
+```
+orthofinder -f /mnt/assemblies_repository/proteins_Bacillus_th_israel -t 20 -o /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives
+```
+
+CITATION:
+ When publishing work that uses OrthoFinder please cite:
+ Emms D.M. & Kelly S. (2019), Genome Biology 20:238
+
+ If you use the species tree in your work then please also cite:
+ Emms D.M. & Kelly S. (2017), MBE 34(12): 3267-3278
+ Emms D.M. & Kelly S. (2018), bioRxiv https://doi.org/10.1101/267914
+
+## Create Graphs
+
+```
+mkdir /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs
+```
+
+1) **Number of Isolate-Specific Orthogroups per Isolate - Genetic Novelty**
+
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, index($i, "_")-1)} NR==9 {for(i=2; i<=NF; i++) print species[i], $i}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/species_specific_orthogroups.txt  
+```
+
+2) **Percentage of genes from each isolate assigned to orthogroups**
+
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, index($i, "_")-1)} NR==5 {for(i=2; i<=NF; i++) print species[i], $i}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/percofgenes_inogs_per_isolate_unsorted.txt  
+```
+
+3) **Genes with orthogroups in all or any isolates**
+
+With the code below when counting the partially shared orthogroups we count the core orthogroups as well. This is better for creating a bar plot where the bars of all and any orthogroups will be overlapping. 
+
+```
+awk '
+NR==1 {
+  for (i=2; i<=NF-1; i++) {
+    for(i=2; i<=NF; i++) species[i]=substr($i, 1, index($i, "_")-1);
+    core_count[i] = 0;
+    shared[i] = 0;
+  }
+  next
+}
+{
+  core=1;
+  for (i=2; i<=NF-1; i++) if ($i==0) core=0; # Check if this is a core orthogroup
+
+  for (i=2; i<=NF-1; i++) {
+    if ($i > 0) {
+      if (core) core_count[i]++;  # Count genes in core orthogroups
+      for (j=2; j<=NF-1; j++) {
+        if (j != i && $j > 0) {shared[i]++; break} # Count genes in shared orthogroups, including core
+      }
+    }
+  }
+}
+END {
+  print "Isolates" "\t" "Core Orthogroups" "\t" "Partially Shared Orthogroups";
+  for (i=2; i<=NF; i++) {  # Iterate over the expected index range
+    if (species[i] != "") {  # Ensure valid species name
+      print species[i] "\t" (core_count[i] ? core_count[i] : 0) "\t" (shared[i] ? shared[i] : 0);
+    }
+  }
+}
+' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Orthogroups/Orthogroups.GeneCount.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/orthogroupcount_in_isolates.txt
+```
+
+## Check which genes are in the species specific orthogroups of SRL368:
+
+```
+mkdir /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes 
+```
+### 1) Get the species-specific Orthogroups for SRL368
+
+```
+awk -F'\t' '
+NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignoring last column
+{
+  target = 5;  # Column for isolate E (adjust if needed)
+  if ($target > 0) {  # Ensure isolate E has genes
+    is_species_specific = 1;
+
+    # Check if any other isolate (excluding column 6) has genes
+    for (i=2; i<=NF-2; i++) {  # NF-2 to ignore the last column
+      if (i != target && $i > 0) {
+        is_species_specific = 0;
+        break;
+      }
+    }
+
+    if (is_species_specific) {
+      print $1, species[target];  # Print orthogroup ID & species name
+    }
+  }
+}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Orthogroups/Orthogroups.GeneCount.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/species_specific_orthogroups.txt
+```
+
+Initially I did not get anything. I found out that it was searching in column 6 (total) as well. That was the reason for the issue, as the column 6 will have always a value > 0. So, I changed the code in order not to search in the column 6. 
+
+### 2) Get the species-specific Genes for SRL368 by searching using species-specific Orthogroups
+
+First I need to use tab as delimiter in the txt file: 
+
+```
+sed 's/ \+/	/g' species_specific_orthogroups.txt > species_specific_orthogroups_with_tabs.txt
+```
+
+Validate it with:
+
+```
+cat -T species_specific_orthogroups_with_tabs.txt
+```
+
+As ^I symbols appeared it validated that the tab was set as a delimiter successfully.
+
+In order to get the isolate-specific genes I used the following command:
+
+```
+awk -F'\t' '
+NR==FNR {species_specific[$1]; next}  # Read orthogroups from species_specific_orthogroups.txt into an array
+{
+    orthogroup = $1;  # Get orthogroup name from the first column of Orthogroups.tsv
+    if (orthogroup in species_specific) {  # If orthogroup exists in species-specific list
+        genes = $5;  # Extract the gene names from the fifth column
+        print orthogroup, genes;  # Print orthogroup name and corresponding gene names
+    }
+}
+' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/species_specific_orthogroups_with_tabs.txt /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Orthogroups/Orthogroups.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/species_specific_genes.txt
+```
+
+Get as output the genes in a list:
+
+```
+awk -F'\t' '
+NR==FNR {species_specific[$1]; next}  # Read orthogroups from species_specific_orthogroups_with_tabs.txt into an array
+{
+    orthogroup = $1;  # Get orthogroup name from the first column of Orthogroups.tsv
+    if (orthogroup in species_specific) {  # If orthogroup exists in species-specific list
+        genes = $5;  # Extract the gene names from the fifth column
+        split(genes, gene_array, ",");  # Split the gene names into an array
+        for (i in gene_array) {
+            print orthogroup, gene_array[i];  # Print orthogroup and gene in two columns
+        }
+    }
+}
+' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/species_specific_orthogroups_with_tabs.txt /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Orthogroups/Orthogroups.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/species_specific_genes_list.txt
+```
+
+
+
 # FastANI for the 25 isolates
 
 First we need to activate the gtdb environment:
@@ -226,6 +381,4 @@ gtdbtk ani_rep --batchfile /home/nik_arapitsas/Documents/Bacillus_project/Result
 It ran in about 15 minutes.   
 
 
-```
-orthofinder -f /mnt/assemblies_repository/proteins_Bacillus_th_israel -t 20 -o /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives
-```
+
