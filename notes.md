@@ -223,3 +223,9 @@ Go to the FastANI directory and run the FastANI using the GTDBTK database:
 gtdbtk ani_rep --batchfile /home/nik_arapitsas/Documents/Bacillus_project/Results/FastANI/genome_list.txt --out_dir . --cpus 20
 ```
 
+It ran in about 15 minutes.   
+
+
+```
+orthofinder -f /mnt/assemblies_repository/proteins_Bacillus_th_israel -t 20 -o /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives
+```
