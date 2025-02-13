@@ -223,13 +223,19 @@ mkdir /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_
 awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, index($i, "_")-1)} NR==9 {for(i=2; i<=NF; i++) print species[i], $i}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/species_specific_orthogroups.txt  
 ```
 
-2) **Percentage of genes from each isolate assigned to orthogroups**
+2) **Number of Isolate-Specific Genes per Isolate - Genetic Novelty**
+
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, index($i, "_")-1)} NR==10 {for(i=2; i<=NF; i++) print species[i], $i}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/species_specific_genes_number.txt  
+```
+
+3) **Percentage of genes from each isolate assigned to orthogroups**
 
 ```
 awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, index($i, "_")-1)} NR==5 {for(i=2; i<=NF; i++) print species[i], $i}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/percofgenes_inogs_per_isolate_unsorted.txt  
 ```
 
-3) **Genes with orthogroups in all or any isolates**
+4) **Genes with orthogroups in all or any isolates**
 
 With the code below when counting the partially shared orthogroups we count the core orthogroups as well. This is better for creating a bar plot where the bars of all and any orthogroups will be overlapping. 
 
@@ -354,6 +360,24 @@ Extract the protein sequence of each isolate specific gene:
 ./extract_isolate_specific_genes.sh
 ```
 
+### 3) Run blastp for the sequences
+
+First create a fasta file with the sequences:
+
+```
+awk '{print ">"$1"\n"$2}' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/filtered_protein_sequences.txt > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/filtered_protein_sequences.fasta
+```
+
+Run BLASTP against the nr (non-redundant protein sequences) database (the default of the online BLAST) for every sequence of our file: 
+
+```
+conda activate perfect_assembly
+```
+
+```
+blastp -query /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/filtered_protein_sequences.fasta -db nr -out /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/blastp_results_filtered_protein_sequences.txt -evalue 1e-5 -num_threads 20 -outfmt 6
+```
+blastp -db nr -query proteins.fasta -remote -out /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/result.txt 
 
 # FastANI for the 25 isolates
 
