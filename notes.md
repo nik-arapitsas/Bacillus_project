@@ -348,6 +348,11 @@ NR==FNR {species_specific[$1]; next}  # Read orthogroups from species_specific_o
 ' /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/species_specific_orthogroups_with_tabs.txt /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Orthogroups/Orthogroups.tsv > /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/species_specific_genes_list.txt
 ```
 
+Extract the protein sequence of each isolate specific gene: 
+
+```
+./extract_isolate_specific_genes.sh
+```
 
 
 # FastANI for the 25 isolates
