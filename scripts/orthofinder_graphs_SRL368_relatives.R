@@ -15,6 +15,8 @@ ggplot(data_IsolatesSpecificOrthogroups, aes(x = Isolates, y = IsolatesSpecificO
   theme_minimal() +
   labs(title = "Number of Isolate-Specific Orthogroups",
        x = "", y = "") +
+  geom_hline(yintercept = 3, linetype = "dashed", color = "black", size = 0.2) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black", size = 0.2) +
   theme(
     panel.grid = element_blank(),  # Remove grid lines
     axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
@@ -24,6 +26,8 @@ ggplot(data_IsolatesSpecificOrthogroups, aes(x = Isolates, y = IsolatesSpecificO
     axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5, 
                                size = 10, color = "black", family = "sans", 
                                margin = margin(t = 2.5)),  # Darker and more spaced letters
+    axis.text.y = element_text(hjust = 0.5, vjust = 0.5, size = 10, color = "black", family = "sans", 
+                               margin = margin(t = 2.0)),
     plot.margin = margin(10, 10, 1, 0.5),  # Add extra space around the plot
     legend.position = "none"  # Remove the legend
   ) +
@@ -108,3 +112,37 @@ ggplot(data_combined, aes(x = Isolates, y = Count, fill = Category)) +
         plot.margin = margin(10, 1, 1, 0.1)) + 
   scale_y_continuous(breaks = c(0, 3500, 7000)) +
   coord_cartesian(expand = FALSE, ylim = c(0,7000))
+
+# 4 Number of Isolate-Specific Genes per Isolate 
+
+# Read the sorted data into R
+data_IsolatesSpecificGenes <- read.table("/home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/species_specific_genes_number.txt", header=FALSE, col.names=c("Isolates", "IsolatesSpecificGenes"))
+
+# Convert Species to factor to maintain sorting order
+data_IsolatesSpecificGenes$Isolates <- factor(data_IsolatesSpecificGenes$Isolates, levels = data_IsolatesSpecificGenes$Isolates[order(data_IsolatesSpecificGenes$IsolatesSpecificGenes)])
+
+# Create the bar plot
+
+ggplot(data_IsolatesSpecificGenes, aes(x = Isolates, y = IsolatesSpecificGenes)) +
+  geom_bar(stat = "identity", fill = "black", position = "identity") +  # Set bars to black
+  theme_minimal() +
+  labs(title = "Number of Isolate-Specific Genes",
+       x = "", y = "") +
+  geom_hline(yintercept = 17, linetype = "dashed", color = "black", size = 0.2) +
+  geom_hline(yintercept = 2, linetype = "dashed", color = "black", size = 0.2) +
+  theme(
+    panel.grid = element_blank(),  # Remove grid lines
+    axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+    axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
+    axis.ticks = element_line(color = "black", linewidth = 0.5),
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
+    axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5, 
+                               size = 10, color = "black", family = "sans", 
+                               margin = margin(t = 2.5)),  # Darker and more spaced letters
+    axis.text.y = element_text(hjust = 0.5, vjust = 0.5, size = 10, color = "black", family = "sans", 
+                               margin = margin(t = 2.0)),
+    plot.margin = margin(10, 10, 1, 0.5),  # Add extra space around the plot
+    legend.position = "none"  # Remove the legend
+  ) +
+  scale_y_continuous(breaks = c(0, 2, 10, 17, 20)) +
+  coord_cartesian(expand = FALSE, ylim = c(0,20)) # Extend the x-axis
