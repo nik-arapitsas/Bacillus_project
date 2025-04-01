@@ -20,7 +20,7 @@ library(tidytree)
 # read the taxonomy
 # gawk -F"\t" '{taxon=$1; split($2,taxonomy, "; ") ; print "gtdb_id" "\t" "classification_full" "\t" "classification" "\t" "taxonname" ; for (i in taxonomy){split(taxonomy[i], classification,"__"); print taxon "\t" taxonomy[i] "\t" classification[1] "\t" classification[2]}}' gtdbtk.bac120.decorated.tree-taxonomy > gtdbtk.taxonomy_long.tsv
 
-taxonomy <- read_delim( "../bac3new_de_novo/infer/gtdbtk.taxonomy_long.tsv",
+taxonomy <- read_delim( "../gtdbtk_de_novo_all/infer/gtdbtk.taxonomy_long.tsv",
                        delim="\t",
                        col_names=T)
 # transform taxonomy to wide format
@@ -30,8 +30,8 @@ taxonomy_w <- taxonomy %>% group_by(gtdb_id, classification) %>%
     pivot_wider(names_from=classification, values_from=taxa)
 
 # load tree
-tree <- ape::read.tree(file = "../bac3new_de_novo/gtdbtk.bac120.decorated.tree")
-tree_table <- read_delim( "../bac3new_de_novo/gtdbtk.bac120.decorated.tree-table", delim="\t")
+tree <- ape::read.tree(file = "../gtdbtk_de_novo_all/gtdbtk.bac120.decorated.tree")
+tree_table <- read_delim( "../gtdbtk_de_novo_all/gtdbtk.bac120.decorated.tree-table", delim="\t")
 tree_taxonomy <- as_tibble(tree) %>%
     left_join(taxonomy_w, by=c("label"="gtdb_id")) %>%
     treeio::as.treedata()
@@ -43,10 +43,11 @@ tree_bacilli <- as_tibble(tree) %>% filter(grepl("Bacilli",label))
 # it doesn't have a node for Bacilli.
 # most recent common ancestor (MRCA)
 nodes_assemblies <- as_tibble(tree) %>%
-    filter(label %in% c("179_assembly", "543_assembly")) #"337_assembly"
+    filter(grepl("^SRL",label)) #"337_assembly"
 
 all_assemblies <- as_tibble(tree) %>%
-    filter(label %in% c("179_assembly", "543_assembly","337_assembly")) #"337_assembly"
+    filter(grepl("^SRL",label)) #"337_assembly"
+    #filter(label %in% c("179_assembly", "543_assembly","337_assembly")) #"337_assembly"
 
 all_assemblies_m <- MRCA(tree,all_assemblies$node ) 
 assemblies_mrca <- MRCA(tree,nodes_assemblies$node )

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 gtdbtk de_novo_wf \
-    --genome_dir 543_assembly \
-    --out_dir 543_de_novo \
-    --bacteria \
-    --cpus 20 \
-    --outgroup_taxon p__Bacillota
+	--batchfile data/bacillus_assembly_list.txt \
+	--out_dir gtdbtk_de_novo_all \
+	--bacteria \
+	--cpus 20 \
+	--outgroup_taxon p__Bacillota
 
 
