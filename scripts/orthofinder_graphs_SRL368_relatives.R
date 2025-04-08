@@ -1,4 +1,5 @@
 library(ggplot2)
+library(ggpubr)
 
 # 1 Number of Isolate-Specific Orthogroups per Isolate 
 
@@ -10,7 +11,7 @@ data_IsolatesSpecificOrthogroups$Isolates <- factor(data_IsolatesSpecificOrthogr
 
 # Create the bar plot
 
-ggplot(data_IsolatesSpecificOrthogroups, aes(x = Isolates, y = IsolatesSpecificOrthogroups)) +
+IsolateSpecificOgs_plot <- ggplot(data_IsolatesSpecificOrthogroups, aes(x = Isolates, y = IsolatesSpecificOrthogroups)) +
   geom_bar(stat = "identity", fill = "black", position = "identity") +  # Set bars to black
   theme_minimal() +
   labs(title = "Number of Isolate-Specific Orthogroups",
@@ -46,7 +47,7 @@ data_gene_perc$Isolates <- factor(data_gene_perc$Isolates, levels = data_Isolate
 
 #With legend in y axis
 
-ggplot(data_gene_perc, aes(x = Isolates, y = PercentageinOgs)) +
+PercOfOgs_plot <- ggplot(data_gene_perc, aes(x = Isolates, y = PercentageinOgs)) +
   geom_bar(stat = "identity", fill = "black", position = "identity") +  # Set bars to black
   geom_hline(yintercept = 100, linetype = "dashed", color = "black", size = 0.2) +  # Dashed line at 100%
   theme_minimal() +
@@ -87,7 +88,7 @@ data_combined <- rbind(data_any, data_all)
 data_combined$Category <- factor(data_combined$Category, 
                                  levels = c("Partially.Shared.Orthogroups", "Core.Orthogroups"))
 
-ggplot(data_combined, aes(x = Isolates, y = Count, fill = Category)) +
+SharedOgs_plot <- ggplot(data_combined, aes(x = Isolates, y = Count, fill = Category)) +
   geom_bar(stat = "identity", position = "identity") +  # Maintain layering
   scale_fill_manual(values = c("Partially.Shared.Orthogroups" = "blue", 
                                "Core.Orthogroups" = "green"),
@@ -123,7 +124,7 @@ data_IsolatesSpecificGenes$Isolates <- factor(data_IsolatesSpecificGenes$Isolate
 
 # Create the bar plot
 
-ggplot(data_IsolatesSpecificGenes, aes(x = Isolates, y = IsolatesSpecificGenes)) +
+IsolateSpecificGenes_plot <- ggplot(data_IsolatesSpecificGenes, aes(x = Isolates, y = IsolatesSpecificGenes)) +
   geom_bar(stat = "identity", fill = "black", position = "identity") +  # Set bars to black
   theme_minimal() +
   labs(title = "Number of Isolate-Specific Genes",
@@ -146,3 +147,10 @@ ggplot(data_IsolatesSpecificGenes, aes(x = Isolates, y = IsolatesSpecificGenes))
   ) +
   scale_y_continuous(breaks = c(0, 2, 10, 17, 20)) +
   coord_cartesian(expand = FALSE, ylim = c(0,20)) # Extend the x-axis
+
+SharedOgs_plot <- SharedOgs_plot + theme(legend.position = "bottom")
+
+ggarrange(IsolateSpecificOgs_plot, IsolateSpecificGenes_plot, PercOfOgs_plot, SharedOgs_plot, 
+          ncol = 1, 
+          nrow = 4, 
+          align = "v")  # Align vertically by x-axis
