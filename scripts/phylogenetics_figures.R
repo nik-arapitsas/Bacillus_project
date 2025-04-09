@@ -63,6 +63,10 @@ all_assemblies <- extract.clade(tree, all_assemblies_m) %>%
     mutate(species=ifelse(s=="NA",label,s)) %>%
     as.treedata()
 
+all_assemblies_taxonomy <- all_assemblies |>
+    as_tibble() |>
+    filter(grepl("^SRL",label))
+
 #claude_mrca <- groupClade(tree_taxonomy, assemblies_mrca) %>%
 #    filter(group==1) 
 
@@ -78,16 +82,31 @@ claude_f__DSM_18226 <- groupClade(as_tibble(tree), 82141) %>%
 
 # visualisation
 
+## default
 tree_plot_mrca <- ggtree(tree_assemblies) + 
-     geom_tiplab(size=2, aes(as_ylab=TRUE, color=g)) + 
+     geom_tree(aes(color=o, fill=o)) + 
+     geom_tiplab(aes(as_ylab=TRUE, color=o), size=0.7) + 
 #     geom_text(aes(label=branch.length, color=g)) + 
-     theme_tree2(legend.position = c(.1, .88))
+     theme_tree2(legend.position = "bottom")
     
 ggsave(plot=tree_plot_mrca,
        "../tree_plot_mrca_gtdb.pdf",
        device="pdf",
-       height = 80,
+       height = 300,
        width=40,
+       units="cm", limitsize = F)
+
+tree_plot_mrcaC <- ggtree(tree_assemblies, layout="inward_circular") + 
+     geom_tree(aes(color=o, fill=o)) + 
+     geom_tiplab(aes(as_ylab=TRUE, color=o), size=0.5) + 
+#     geom_text(aes(label=branch.length, color=g)) + 
+     theme_tree2(legend.position = "bottom")
+    
+ggsave(plot=tree_plot_mrcaC,
+       "../tree_plot_mrca_gtdb_c.pdf",
+       device="pdf",
+       height = 300,
+       width = 300,
        units="cm", limitsize = F)
 
 tree_plot_mrca2 <- ggtree(tree_assemblies) + 
