@@ -410,4 +410,49 @@ gtdbtk ani_rep --batchfile /home/nik_arapitsas/Documents/Bacillus_project/Result
 It ran in about 15 minutes.   
 
 
+```
+mkdir /home/nik_arapitsas/Documents/Bacillus_project/Results/FastANI_noresult_repeat
+```
+
+```
+gtdbtk ani_rep --batchfile /home/nik_arapitsas/Documents/Bacillus_project/Results/FastANI/genome_list_no_result_isolates.txt --out_dir . --cpus 20
+```
+
+# AntiSMASH output assessment and visualisation
+
+## Unzip all the .zip files containing the Antismash output
+
+In the directory "/home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash" I had all the "assembly_Antismash".zip files and they were named x__assembly_Antismash.zip where x is the three digit number of the isolate. I wanted to extract the content of each zip file in separate folders in this directory and the folder shoud have the name SRLx_assembly_Antismash (SRL followed by the three digit number of each name x) and the zip files should have been removed.I created a script to automate the procedure: 
+
+```
+cd scripts/
+touch unzip_antismash_files.sh
+```
+
+I put the code provided below to the script file:
+
+```
+for zipfile in *_assembly_Antismash.zip; do
+    num=$(echo "$zipfile" | grep -oE '^[0-9]+')
+    outdir="SRL${num}_assembly_Antismash"
+
+    mkdir -p "$outdir"
+    unzip "$zipfile" -d "$outdir"
+    rm "$zipfile"
+done
+```
+
+Made it executable by writing: 
+
+```
+chmod +x unzip_antismash_files.sh
+```
+
+I moved in the "/home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash" directory and run the script as shown below: 
+
+```
+cd /home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash
+
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/unzip_antismash_files.zip
+```
 
