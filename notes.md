@@ -456,3 +456,23 @@ cd /home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash
 /home/nik_arapitsas/Documents/Bacillus_project/scripts/unzip_antismash_files.zip
 ```
 
+# Run quast in every assembly
+
+I created a script named "quast_toeveryisolate.sh". 
+
+I activated the quast environment: 
+
+```
+conda activate quast
+```
+
+I went to the folder where the assemblies are saved:
+
+```
+cd /media/sarlab/DATA/Bacillus_project/Assemblies/
+```
+I ran the script:
+
+```
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/quast_toeveryisolate.sh
+```
