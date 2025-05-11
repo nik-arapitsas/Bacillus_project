@@ -476,3 +476,62 @@ I ran the script:
 ```
 /home/nik_arapitsas/Documents/Bacillus_project/scripts/quast_toeveryisolate.sh
 ```
+
+# Re-run unicycler in selected isolates with high contig number
+
+## Isolate SRL662
+
+```
+conda activate perfect_assembly
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/Assemblies/SRL662_assembly/SRL662_raw_data/A01_FDSW210370227-1r_HLG2FDSX2_L1_1.fq.gz -2 /media/sarlab/DATA/Bacillus_project/Assemblies/SRL662_assembly/SRL662_raw_data/A01_FDSW210370227-1r_HLG2FDSX2_L1_2.fq.gz -l /media/sarlab/DATA/Bacillus_project/Assemblies/SRL662_assembly/SRL662_raw_data/A01_long.fastq -o /media/sarlab/DATA/Bacillus_project/Assemblies/SRL662_assembly/SRL662_new_assembly
+--threads 8
+```    
+
+### Run quast for SRL662
+
+```
+conda activate quast
+```
+```
+quast SRL662_new_assembly/assembly.fasta -o SRL662_new_assembly/SRL662_new_assembly_quast
+``` 
+
+## Isolate SRL368
+
+```
+conda activate perfect_assembly
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/Assemblies/SRL368_assembly/SRL368_raw_data/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_1.fq.gz -2 /media/sarlab/DATA/Bacillus_project/Assemblies/SRL368_assembly/SRL368_raw_data/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_2.fq.gz -l /media/sarlab/DATA/Bacillus_project/Assemblies/SRL368_assembly/SRL368_raw_data/368_bam.fastq -o /media/sarlab/DATA/Bacillus_project/Assemblies/SRL368_assembly/SRL368_new_assembly --threads 8
+```    
+
+### Run quast for SRL368
+
+```
+conda activate quast
+```
+```
+quast SRL368_new_assembly/assembly.fasta -o SRL368_new_assembly/SRL368_new_assembly_quast
+``` 
+
+## Isolate SRL543
+
+```
+conda activate perfect_assembly
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/Assemblies/SRL543_assembly/SRL543_raw_data/A08_FDSW210370234-1r_HLG2FDSX2_L1_1.fq.gz -2 /media/sarlab/DATA/Bacillus_project/Assemblies/SRL543_assembly/SRL543_raw_data/A08_FDSW210370234-1r_HLG2FDSX2_L1_2.fq.gz -l /media/sarlab/DATA/Bacillus_project/Assemblies/SRL543_assembly/SRL543_raw_data/A08_long.fastq -o /media/sarlab/DATA/Bacillus_project/Assemblies/SRL543_assembly/SRL543_new_assembly --threads 8
+```    
+
+### Run quast for SRL368
+
+```
+conda activate quast
+```
+```
+quast SRL543_new_assembly/assembly.fasta -o SRL543_new_assembly/SRL543_new_assembly_quast
+``` 
+
+
