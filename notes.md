@@ -534,4 +534,76 @@ conda activate quast
 quast SRL543_new_assembly/assembly.fasta -o SRL543_new_assembly/SRL543_new_assembly_quast
 ``` 
 
+# Re-organization of the files
+
+In the directory "/media/sarlab/DATA/Bacillus_project" there were two directories called "" and "". I moved them to the "DATA" directory temporaly to finish the formating of the main isolate directories in the "Bacillus_project" directory. 
+
+Then I did the formating automatically: 
+
+```
+cd /media/sarlab/DATA/Bacillus_project
+```
+
+With the below code every folder will keep only the first six characters, which is the name of every isolate:
+
+```
+for d in */; do mv "$d" "${d:0:6}"; done
+```
+
+Then I used the code below to create a directory called "*Isolate code*_assembly" for every isolate and then move every assembly-associated file in it: 
+
+```
+for d in */; do 
+  mkdir "$d"/"${d:0:6}"_assembly
+  find "$d" -mindepth 1 -maxdepth 1 -type f -exec mv {} "$d"/"${d:0:6}"_assembly/ \;
+done
+```
+
+Move all the proteins files in the respect directory:
+
+```
+cd /home/nik_arapitsas/Desktop/Test/proteins_Bacillus_project
+
+for file in *; do
+  prefix="${file:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}/${prefix}_proteins"
+  if [ -d "$target_dir" ]; then
+    mv "$file" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for file '$file'"
+  fi
+done
+```
+
+```
+cd /home/nik_arapitsas/Downloads/Test
+
+for file in *; do
+  prefix="${file:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}/${prefix}_proteins"
+  if [ -d "$target_dir" ]; then
+    mv "$file" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for file '$file'"
+  fi
+done
+```
+
+## Transfer of antiSMASH files
+
+```
+cd /home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash/Antismash_Output
+
+for dir in */; do
+  dir="${dir%/}"
+  prefix="${dir:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}"
+  if [ -d "$target_dir" ]; then
+    mv "$dir" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for folder '$dir'"
+  fi
+done
+```
+
 
