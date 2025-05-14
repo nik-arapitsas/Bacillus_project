@@ -1,3 +1,49 @@
+# Organization of the isolates data
+
+Initially, the assemblies with their quast output were saved in the directory "/media/sarlab/DATA/Bacillus_project" in folders named "*Isolate code*_assembly (were Isolate code: the SRL followed by the number of each isolate), and the Results in the directory "/home/nik_arapitsas/Documents/Bacillus_project/Results". The changes in the directory "/media/sarlab/DATA/Bacillus_project" were made mostly automatically as presented below, while most of the rearrangements from the "/home/nik_arapitsas/Documents/Bacillus_project/Results" directory were done manually (except of the antiSMASH output).
+
+## Rearrangements in the "/media/sarlab/DATA/Bacillus_project" directory
+
+Then I did the formating automatically: 
+
+```
+cd /media/sarlab/DATA/Bacillus_project
+```
+
+With the below code every folder will keep only the first six characters, which is the name of every isolate:
+
+```
+for d in */; do mv "$d" "${d:0:6}"; done
+```
+
+Then I used the code below to create a directory called "*Isolate code*_assembly" for every isolate and then move every assembly-associated file in it: 
+
+```
+for d in */; do 
+  mkdir "$d"/"${d:0:6}"_assembly
+  find "$d" -mindepth 1 -maxdepth 1 -type f -exec mv {} "$d"/"${d:0:6}"_assembly/ \;
+done
+```
+
+## Transfer of antiSMASH files
+
+```
+cd /home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash/Antismash_Output
+
+for dir in */; do
+  dir="${dir%/}"
+  prefix="${dir:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}"
+  if [ -d "$target_dir" ]; then
+    mv "$dir" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for folder '$dir'"
+  fi
+done
+```
+
+* The rearrangement of the protein files is presented in the section **"Comparative genomics (All vs All) using Orthofinder"**.
+
 # Genome annotation using Prokka
 
 ## Prokka Installation
@@ -30,13 +76,11 @@ prokka --outdir /home/nik_arapitsas/Documents/Bacillus_project/Results/prokka_an
 art /home/nik_arapitsas/Documents/Bacillus_project/Results/prokka_annotation/SRL152_prokka_annotation.gff
 ```
 
+**Eventually, I did not use it.**
+
 # Comparative genomics (All vs All) using Orthofinder
 
 ## Unzip the IMG protein files from the zip files
-
-```
-mkdir -p /mnt/assemblies_repository/proteins_Bacillus_project  
-```
 
 The extract_proteins.sh script was created for the extraction of the protein files of the 25 Bacillus, from the zip files downloaded from the IMG database.
 
@@ -46,6 +90,36 @@ chmod +x extract_proteins.sh
 
 ```
 ./extract_proteins.sh
+```
+
+Move all the protein files in the respect directory:
+
+```
+cd /home/nik_arapitsas/Desktop/Test/proteins_Bacillus_project
+
+for file in *; do
+  prefix="${file:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}/${prefix}_proteins"
+  if [ -d "$target_dir" ]; then
+    mv "$file" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for file '$file'"
+  fi
+done
+```
+
+```
+cd /home/nik_arapitsas/Downloads/Test
+
+for file in *; do
+  prefix="${file:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}/${prefix}_proteins"
+  if [ -d "$target_dir" ]; then
+    mv "$file" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for file '$file'"
+  fi
+done
 ```
 
 ## Install Orthofinder
@@ -76,6 +150,8 @@ Diamond version was outdated and that made an issue in running Orthofinder. Thus
 ```
 conda update -c bioconda diamond
 ```
+
+**In order for Orthofinder to run, the protein sequence files must be in te same directory. So the orthofinder had been run when the protein sequences were all in the directory "/mnt/assemblies_repository/proteins_Bacillus_project". 
 
 ```
 orthofinder -f /mnt/assemblies_repository/proteins_Bacillus_project -t 20 -o /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder
@@ -536,7 +612,7 @@ quast SRL543_new_assembly/assembly.fasta -o SRL543_new_assembly/SRL543_new_assem
 
 # Re-organization of the files
 
-In the directory "/media/sarlab/DATA/Bacillus_project" there were two directories called "" and "". I moved them to the "DATA" directory temporaly to finish the formating of the main isolate directories in the "Bacillus_project" directory. 
+In the directory "/media/sarlab/DATA/Bacillus_project" there were two directories called "proteins_Bacillus_project" and "proteins_Bacillus_th_israel". I moved them to the "DATA" directory temporaly to finish the formating of the main isolate directories in the "Bacillus_project" directory. 
 
 Then I did the formating automatically: 
 
