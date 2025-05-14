@@ -1,5 +1,5 @@
 temp_base="/home/nik_arapitsas/Downloads/Test/temp_folders"  # Define temp folder base path
-output_folder="/mnt/assemblies_repository/proteins_Bacillus_project"  # Define where to save extracted files
+output_folder="/home/nik_arapitsas/Desktop/Test/proteins_Bacillus_project"  # Define where to save extracted files
 mkdir -p "$temp_base" "$output_folder"  # Ensure required directories exist
 
 for zipfile in /home/nik_arapitsas/Downloads/Test/SRL*.zip; do
