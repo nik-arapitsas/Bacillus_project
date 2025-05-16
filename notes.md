@@ -1,10 +1,10 @@
 # Organization of the isolates data
 
-Initially, the assemblies with their quast output were saved in the directory "/media/sarlab/DATA/Bacillus_project" in folders named "*Isolate code*_assembly (were Isolate code: the SRL followed by the number of each isolate), and the Results in the directory "/home/nik_arapitsas/Documents/Bacillus_project/Results". The changes in the directory "/media/sarlab/DATA/Bacillus_project" were made mostly automatically as presented below, while most of the rearrangements from the "/home/nik_arapitsas/Documents/Bacillus_project/Results" directory were done manually (except of the antiSMASH output).
+Initially, the assemblies with their quast output were saved in the directory "/media/sarlab/DATA/Bacillus_project" in folders named "*Isolate code*_assembly (were Isolate code: the SRL followed by the number of each isolate), and the Results in the directory "/home/nik_arapitsas/Documents/Bacillus_project/Results". The changes in the directory "/media/sarlab/DATA/Bacillus_project" were made mostly automatically as presented below, while most of the rearrangements from the "/home/nik_arapitsas/Documents/Bacillus_project/Results" directory were done manually (except of the antiSMASH output). The movement of the antiSMASH file and the protein files will be provided later.
 
 ## Rearrangements in the "/media/sarlab/DATA/Bacillus_project" directory
 
-Then I did the formating automatically: 
+Go to the "/media/sarlab/DATA/Bacillus_project" directory:  
 
 ```
 cd /media/sarlab/DATA/Bacillus_project
@@ -25,24 +25,7 @@ for d in */; do
 done
 ```
 
-## Transfer of antiSMASH files
-
-```
-cd /home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash/Antismash_Output
-
-for dir in */; do
-  dir="${dir%/}"
-  prefix="${dir:0:6}"
-  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}"
-  if [ -d "$target_dir" ]; then
-    mv "$dir" "$target_dir/"
-  else
-    echo "Warning: Target directory '$target_dir' not found for folder '$dir'"
-  fi
-done
-```
-
-* The rearrangement of the protein files is presented in the section **"Comparative genomics (All vs All) using Orthofinder"**.
+* The rearrangement of the protein files is presented in last part of the section **"Comparative genomics (All vs All) using Orthofinder"**.
 
 # Genome annotation using Prokka
 
@@ -90,36 +73,6 @@ chmod +x extract_proteins.sh
 
 ```
 ./extract_proteins.sh
-```
-
-Move all the protein files in the respect directory:
-
-```
-cd /home/nik_arapitsas/Desktop/Test/proteins_Bacillus_project
-
-for file in *; do
-  prefix="${file:0:6}"
-  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}/${prefix}_proteins"
-  if [ -d "$target_dir" ]; then
-    mv "$file" "$target_dir/"
-  else
-    echo "Warning: Target directory '$target_dir' not found for file '$file'"
-  fi
-done
-```
-
-```
-cd /home/nik_arapitsas/Downloads/Test
-
-for file in *; do
-  prefix="${file:0:6}"
-  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}/${prefix}_proteins"
-  if [ -d "$target_dir" ]; then
-    mv "$file" "$target_dir/"
-  else
-    echo "Warning: Target directory '$target_dir' not found for file '$file'"
-  fi
-done
 ```
 
 ## Install Orthofinder
@@ -455,6 +408,39 @@ blastp -query /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder
 ```
 blastp -db nr -query proteins.fasta -remote -out /home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/SRL368_specific_ogs_and_genes/result.txt 
 
+## Movement of the protein files to meet the new server directory architecture
+
+Move all the protein files in the respect directory:
+
+```
+cd /home/nik_arapitsas/Desktop/Test/proteins_Bacillus_project
+
+for file in *; do
+  prefix="${file:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}/${prefix}_proteins"
+  if [ -d "$target_dir" ]; then
+    mv "$file" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for file '$file'"
+  fi
+done
+```
+Move also the .zip files that had been downloaded from the IMG daabase and were saved in the /Downloads/Test directory.
+
+```
+cd /home/nik_arapitsas/Downloads/Test
+
+for file in *; do
+  prefix="${file:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}/${prefix}_proteins"
+  if [ -d "$target_dir" ]; then
+    mv "$file" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for file '$file'"
+  fi
+done
+```
+
 # FastANI for the 25 isolates
 
 First we need to activate the gtdb environment:
@@ -532,6 +518,35 @@ cd /home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash
 /home/nik_arapitsas/Documents/Bacillus_project/scripts/unzip_antismash_files.zip
 ```
 
+## Count the antiSMASH regions for every isolate
+
+I created the script count_antismash_regions.sh to go into every isolate folder and count the files that have the word "region" and are of .gbk type. Then, I went to the Antismash_Output directory and ran the script:  
+
+```
+cd Antismash_Output
+
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/count_antismash_regions.sh 
+```
+
+The next steps were performed in Rstudio for visualization. The file antismash_regions_graphs.R contains the code. 
+
+## Movement of the antiSMASH data to meet the new server directory architecture 
+
+```
+cd /home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash/Antismash_Output
+
+for dir in */; do
+  dir="${dir%/}"
+  prefix="${dir:0:6}"
+  target_dir="/media/sarlab/DATA/Bacillus_project/${prefix}"
+  if [ -d "$target_dir" ]; then
+    mv "$dir" "$target_dir/"
+  else
+    echo "Warning: Target directory '$target_dir' not found for folder '$dir'"
+  fi
+done
+```
+
 # Run quast in every assembly
 
 I created a script named "quast_toeveryisolate.sh". 
@@ -552,6 +567,8 @@ I ran the script:
 ```
 /home/nik_arapitsas/Documents/Bacillus_project/scripts/quast_toeveryisolate.sh
 ```
+
+The path of the quast directories changed after moving the assemblies to meet the new server directory architechture that is described on the first section of this file.  
 
 # Re-run unicycler in selected isolates with high contig number
 
