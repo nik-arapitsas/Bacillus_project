@@ -2,7 +2,7 @@ library(ggplot2)
 library(dplyr)
 
 # Read your data
-region_count_per_isolate <- read.table("/home/nik_arapitsas/Documents/Bacillus_project/Results/Antismash/Antismash_Output/region_counts.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+region_count_per_isolate <- read.table("/media/sarlab/DATA/Bacillus_project/region_counts.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 #Create the graph using ggplot
 ggplot(region_count_per_isolate, aes(x = reorder(isolate, -region_count), y = region_count, fill = isolate)) +
