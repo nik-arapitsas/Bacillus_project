@@ -4,7 +4,7 @@ library(ggpubr)
 # 1 Number of Isolate-Specific Orthogroups per Isolate 
 
 # Read the sorted data into R
-data_IsolatesSpecificOrthogroups <- read.table("/home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/species_specific_orthogroups.txt", header=FALSE, col.names=c("Isolates", "IsolatesSpecificOrthogroups"))
+data_IsolatesSpecificOrthogroups <- read.table("/media/sarlab/DATA/Bacillus_project/orthofinder_SRL368_relatives/Results_Feb12/Graphs/species_specific_orthogroups.txt", header=FALSE, col.names=c("Isolates", "IsolatesSpecificOrthogroups"))
 
 # Convert Species to factor to maintain sorting order
 data_IsolatesSpecificOrthogroups$Isolates <- factor(data_IsolatesSpecificOrthogroups$Isolates, levels = data_IsolatesSpecificOrthogroups$Isolates[order(data_IsolatesSpecificOrthogroups$IsolatesSpecificOrthogroups)])
@@ -38,7 +38,7 @@ IsolateSpecificOgs_plot <- ggplot(data_IsolatesSpecificOrthogroups, aes(x = Isol
 # 2 Prepare graph for percentage of genes from each isolate assigned to orthogroups
 
 # Read the sorted data into R
-data_gene_perc <- read.table("/home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/percofgenes_inogs_per_isolate_unsorted.txt", header=FALSE, col.names=c("Isolates", "PercentageinOgs"))
+data_gene_perc <- read.table("/media/sarlab/DATA/Bacillus_project/orthofinder_SRL368_relatives/Results_Feb12/Graphs/percofgenes_inogs_per_isolate_unsorted.txt", header=FALSE, col.names=c("Isolates", "PercentageinOgs"))
 
 # Convert Species to factor to maintain sorting order
 data_gene_perc$Isolates <- factor(data_gene_perc$Isolates, levels = data_IsolatesSpecificOrthogroups$Isolates)
@@ -72,7 +72,7 @@ PercOfOgs_plot <- ggplot(data_gene_perc, aes(x = Isolates, y = PercentageinOgs))
 library(reshape2)
 
 # Read the sorted data into R
-data_gene_all_any <- read.table("/home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/orthogroupcount_in_isolates.txt", header=TRUE, sep = "\t")
+data_gene_all_any <- read.table("/media/sarlab/DATA/Bacillus_project/orthofinder_SRL368_relatives/Results_Feb12/Graphs/orthogroupcount_in_isolates.txt", header=TRUE, sep = "\t")
 
 # Convert Species to factor to maintain sorting order
 data_gene_all_any$Isolates <- factor(data_gene_all_any$Isolates, levels = data_IsolatesSpecificOrthogroups$Isolates)
@@ -117,7 +117,7 @@ SharedOgs_plot <- ggplot(data_combined, aes(x = Isolates, y = Count, fill = Cate
 # 4 Number of Isolate-Specific Genes per Isolate 
 
 # Read the sorted data into R
-data_IsolatesSpecificGenes <- read.table("/home/nik_arapitsas/Documents/Bacillus_project/Results/orthofinder_SRL368_relatives/Results_Feb12/Graphs/species_specific_genes_number.txt", header=FALSE, col.names=c("Isolates", "IsolatesSpecificGenes"))
+data_IsolatesSpecificGenes <- read.table("/media/sarlab/DATA/Bacillus_project/orthofinder_SRL368_relatives/Results_Feb12/Graphs/species_specific_genes_number.txt", header=FALSE, col.names=c("Isolates", "IsolatesSpecificGenes"))
 
 # Convert Species to factor to maintain sorting order
 data_IsolatesSpecificGenes$Isolates <- factor(data_IsolatesSpecificGenes$Isolates, levels = data_IsolatesSpecificGenes$Isolates[order(data_IsolatesSpecificGenes$IsolatesSpecificGenes)])
