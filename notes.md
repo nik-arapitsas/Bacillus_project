@@ -627,7 +627,7 @@ conda activate quast
 quast SRL543_new_assembly/assembly.fasta -o SRL543_new_assembly/SRL543_new_assembly_quast
 ``` 
 
-# Re-organization of the files
+# Re-organization of the files (All the changes collected together)
 
 In the directory "/media/sarlab/DATA/Bacillus_project" there were two directories called "proteins_Bacillus_project" and "proteins_Bacillus_th_israel". I moved them to the "DATA" directory temporaly to finish the formating of the main isolate directories in the "Bacillus_project" directory. 
 
