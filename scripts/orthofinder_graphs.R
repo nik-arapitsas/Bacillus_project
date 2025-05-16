@@ -8,7 +8,7 @@ library(ggpubr)
 # 1 Number of Isolate-Specific Orthogroups per Isolate 
 
 # Read the sorted data into R
-data <- read.table("/media/sarlab/DATA/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/species_specific_orthogroups.txt", header=FALSE, col.names=c("Isolates", "IsolatesSpecificOrthogroups"))
+data <- read.table("/media/sarlab/DATA/Bacillus_project/orthofinder/Results_Feb03/Graphs/species_specific_orthogroups.txt", header=FALSE, col.names=c("Isolates", "IsolatesSpecificOrthogroups"))
 
 # Convert Species to factor to maintain sorting order
   data$Isolates <- factor(data$Isolates, levels = data$Isolates[order(data$IsolatesSpecificOrthogroups)])
@@ -78,7 +78,7 @@ ylim = c(0, max(data$IsolatesSpecificOrthogroups) * 1.1)
 # 2 Prepare graph for percentage of genes from each isolate assigned to orthogroups
 
 # Read the sorted data into R
-data_gene_perc <- read.table("/media/sarlab/DATA/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/percofgenes_inogs_per_isolate.txt", header=FALSE, col.names=c("Isolates", "PercentageinOgs"))
+data_gene_perc <- read.table("/media/sarlab/DATA/Bacillus_project/orthofinder/Results_Feb03/Graphs/percofgenes_inogs_per_isolate.txt", header=FALSE, col.names=c("Isolates", "PercentageinOgs"))
 
 # Convert Species to factor to maintain sorting order
 data_gene_perc$Isolates <- factor(data_gene_perc$Isolates, levels = data_gene_perc$Isolates)
@@ -115,7 +115,7 @@ PercOfOgs_plot <- ggplot(data_gene_perc, aes(x = Isolates, y = PercentageinOgs))
 library(reshape2)
 
 # Read the sorted data into R
-data_gene_all_any <- read.table("/media/sarlab/DATA/Bacillus_project/Results/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt", header=TRUE, sep = "\t")
+data_gene_all_any <- read.table("/media/sarlab/DATA/Bacillus_project/orthofinder/Results_Feb03/Graphs/orthogroupcount_in_isolates.txt", header=TRUE, sep = "\t")
 
 # Convert Species to factor to maintain sorting order
 data_gene_all_any$Isolates <- factor(data_gene_perc$Isolates, levels = data$Isolates)
