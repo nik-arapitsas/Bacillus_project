@@ -737,7 +737,17 @@ fastqc ../SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz ../SRL6
 ```
 cd ..
 conda activate perfect_assembly
-flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_output --threads 15
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_20250520 --threads 15
+```
+
+#### Run quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/
+quast assembly.fasta -o ./SRL662_flye_assembly_20250520_quast
 ```
 
 ### Use the Flye assembly to the Unicycler
@@ -749,3 +759,65 @@ conda activate perfect_assembly
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520 --threads 16
 ```  
 
+#### Run quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/
+quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_20250520_quast
+```
+
+## Isolate SRL368
+
+Unicycler number of contigs: 15 (Christos), 18 (Nikos)
+
+### Fastp on the raw short reads
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL368/
+mkdir SRL368_fastp
+cd SRL368_fastp
+```
+```
+fastp -i /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_raw_data/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_1.fq.gz -I /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_raw_data/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_2.fq.gz -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -O /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_2_trimmed.fq.gz --report_title "SRL368 fastp report" --unpaired1 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_1_unpaired.fq.gz --unpaired2 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_2_unpaired.fq.gz
+```
+
+### Run Flye on the long reads
+
+```
+cd ..
+conda activate perfect_assembly
+flye --pacbio-raw ./SRL368_raw_data/368_bam.fastq --out-dir ./SRL368_flye_assembly_20250520 --threads 15
+```
+
+#### Run quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/
+quast assembly.fasta -o ./SRL662_flye_assembly_20250520_quast
+```
+
+### Use the Flye assembly to the Unicycler
+
+```
+conda activate perfect_assembly
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520 --threads 16
+```  
+
+#### Run quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/
+quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_20250520_quast
+```
