@@ -799,8 +799,8 @@ flye --pacbio-raw ./SRL368_raw_data/368_bam.fastq --out-dir ./SRL368_flye_assemb
 conda activate quast 
 ```
 ```
-cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/
-quast assembly.fasta -o ./SRL662_flye_assembly_20250520_quast
+cd /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_assembly_20250520/
+quast assembly.fasta -o ./SRL368_flye_assembly_20250520_quast
 ```
 
 ### Use the Flye assembly to the Unicycler
@@ -809,7 +809,7 @@ quast assembly.fasta -o ./SRL662_flye_assembly_20250520_quast
 conda activate perfect_assembly
 ```
 ```
-unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520 --threads 16
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_raw_data/368_bam.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_hybrid_assembly_20250520 --threads 16
 ```  
 
 #### Run quast on the assembly
@@ -818,6 +818,6 @@ unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210
 conda activate quast 
 ```
 ```
-cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/
-quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_20250520_quast
+cd /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_hybrid_assembly_20250520/
+quast assembly.fasta -o ./SRL368_flye_hybrid_assembly_20250520_quast
 ```
