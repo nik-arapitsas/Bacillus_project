@@ -699,4 +699,44 @@ for dir in */; do
 done
 ```
 
+# Trying a different assembly approach with flye and then Unicycler
+
+## Isolate SRL662
+
+Unicycler number of contigs: 35
+
+### FastQC on the raw short reads
+
+```
+conda activate fastqc
+cd /media/sarlab/DATA/Bacillus_project/SRL662/
+mkdir SRL662_fastqc
+fastqc ../SRL662_raw_data/A01_FDSW210370227-1r_HLG2FDSX2_L1_1.fq.gz ../SRL662_raw_data/A01_FDSW210370227-1r_HLG2FDSX2_L1_2.fq.gz -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastqc
+```
+
+### Fastp on the raw short reads
+
+```
+conda activate perfect_assembly
+```
+```
+fastp -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_FDSW210370227-1r_HLG2FDSX2_L1_1.fq.gz -I /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_FDSW210370227-1r_HLG2FDSX2_L1_2.fq.gz -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -O /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --report_title "SRL662 fastp report" --unpaired1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_unpaired.fq.gz --unpaired2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_unpaired.fq.gz
+```
+### FastQC on the trimmed short reads
+
+```
+cd ..
+mkdir SRL662_fastqc_trimmed
+cd SRL662_fastqc_trimmed/
+conda activate fastqc
+fastqc ../SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz ../SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastqc_trimmed
+```
+
+### Run Flye on the long reads
+
+```
+cd ..
+conda activate perfect_assembly
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_output --threads 15
+```
 
