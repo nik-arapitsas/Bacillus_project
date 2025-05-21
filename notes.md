@@ -821,3 +821,64 @@ conda activate quast
 cd /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_hybrid_assembly_20250520/
 quast assembly.fasta -o ./SRL368_flye_hybrid_assembly_20250520_quast
 ```
+
+## Isolate SRL543
+
+Unicycler number of contigs: 6 (Christos), 9 (Nikos)
+
+### Fastp on the raw short reads
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL543/
+mkdir SRL543_fastp
+cd SRL543_fastp
+```
+```
+fastp -i /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_FDSW210370234-1r_HLG2FDSX2_L1_1.fq.gz -I /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_FDSW210370234-1r_HLG2FDSX2_L1_2.fq.gz -o /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -O /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --report_title "SRL543 fastp report" --unpaired1 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_1_unpaired.fq.gz --unpaired2 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_2_unpaired.fq.gz
+```
+
+### Run Flye on the long reads
+
+```
+cd ..
+conda activate perfect_assembly
+flye --pacbio-raw ./SRL543_raw_data/A08_long.fastq --out-dir ./SRL543_flye_assembly_20250521 --threads 20
+```
+```
+flye --pacbio-raw ./SRL543_raw_data/A08_long.fastq --out-dir ./SRL543_flye_assembly_20250521 --genome-size 5m --threads 20
+```
+
+```
+grep -c "^>" /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250521/assembly.fasta 
+```
+
+#### Run quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250521/
+quast assembly.fasta -o ./SRL543_flye_assembly_20250521_quast
+```
+
+### Use the Flye assembly to the Unicycler
+
+```
+conda activate perfect_assembly
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_hybrid_assembly_20250520 --threads 16
+```  
+
+#### Run quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250521
+quast assembly.fasta -o ./SRL543_flye_hybrid_assembly_20250521_quast
+```
+
