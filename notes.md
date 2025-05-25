@@ -769,6 +769,14 @@ cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_202505
 quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_20250520_quast
 ```
 
+### Try Flye with the --asm-coverage 50 parameter
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL662/
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_20250526 --genome-size 4.3m --asm-coverage 50 --threads 20
+```
+
 ## Isolate SRL368
 
 Unicycler number of contigs: 15 (Christos), 18 (Nikos)
@@ -849,9 +857,20 @@ flye --pacbio-raw ./SRL543_raw_data/A08_long.fastq --out-dir ./SRL543_flye_assem
 flye --pacbio-raw ./SRL543_raw_data/A08_long.fastq --out-dir ./SRL543_flye_assembly_20250521 --genome-size 5m --threads 20
 ```
 
+There were no assembly on the previous cases and a message saying "ERROR: No disjointigs were assembled - please check if the read type and genome size parameters are correct
+[2025-05-21 18:07:33] ERROR: Pipeline aborted".
+
+I searched and found that the parameter **--asm-coverage 50** could help.
+
 ```
-grep -c "^>" /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250521/assembly.fasta 
+flye --pacbio-raw ./SRL543_raw_data/A08_long.fastq --out-dir ./SRL543_flye_assembly_20250525 --genome-size 5m --asm-coverage 50 --threads 20
 ```
+**It worked!**
+
+```
+grep -c "^>" /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250525/assembly.fasta 
+```
+**It gave 4 contigs!**
 
 #### Run quast on the assembly
 
@@ -859,8 +878,8 @@ grep -c "^>" /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_202
 conda activate quast 
 ```
 ```
-cd /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250521/
-quast assembly.fasta -o ./SRL543_flye_assembly_20250521_quast
+cd /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250525/
+quast assembly.fasta -o ./SRL543_flye_assembly_20250525_quast
 ```
 
 ### Use the Flye assembly to the Unicycler
@@ -869,8 +888,12 @@ quast assembly.fasta -o ./SRL543_flye_assembly_20250521_quast
 conda activate perfect_assembly
 ```
 ```
-unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_hybrid_assembly_20250520 --threads 16
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250525/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_hybrid_assembly_20250525 --threads 20
 ```  
+
+```
+grep -c "^>" /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_hybrid_assembly_20250525/assembly.fasta 
+```
 
 #### Run quast on the assembly
 
@@ -878,7 +901,7 @@ unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210
 conda activate quast 
 ```
 ```
-cd /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_assembly_20250521
-quast assembly.fasta -o ./SRL543_flye_hybrid_assembly_20250521_quast
+cd /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_hybrid_assembly_20250525/
+quast assembly.fasta -o ./SRL543_flye_hybrid_assembly_20250525_quast
 ```
 
