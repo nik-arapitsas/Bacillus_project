@@ -806,6 +806,8 @@ I will check if the 22 contigs will get reduced by using unicycler.
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_meta_20250526/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_meta_hybrid_assembly_20250526 --threads 23
 ```  
 
+No! I got again 30 contigs as in the first case. So **for SRL662, flye with the default settings is the best option until now**. 
+
 ## Isolate SRL368
 
 Unicycler number of contigs: 15 (Christos), 18 (Nikos)
@@ -941,5 +943,37 @@ conda activate quast
 ```
 cd /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_hybrid_assembly_20250525/
 quast assembly.fasta -o ./SRL543_flye_hybrid_assembly_20250525_quast
+```
+
+**It has 1 contig and now is ok**
+
+## Isolate SRL389
+
+Unicycler number of contigs: 15 (Christos),  (Nikos)
+
+### Fastp on the raw short reads
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL389/
+mkdir SRL389_fastp
+cd SRL389_fastp
+```
+```
+fastp -i /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1.fq.gz -I /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2.fq.gz -o /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -O /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2_trimmed.fq.gz --report_title "SRL389 fastp report" --unpaired1 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1_unpaired.fq.gz --unpaired2 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2_unpaired.fq.gz
+```
+
+### Re-run unicycler
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/389_bam.fastq -o /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_assembly_20250527 --threads 23
+```
+
+### Run Flye on the long reads
+
+```
+cd ..
+conda activate perfect_assembly
+flye --pacbio-raw ./SRL389_raw_data/389_bam.fastq --out-dir ./SRL389_flye_assembly_20250527 --threads 23
 ```
 
