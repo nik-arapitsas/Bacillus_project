@@ -740,6 +740,8 @@ conda activate perfect_assembly
 flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_20250520 --threads 15
 ```
 
+I got 14 contigs.
+
 #### Run quast on the assembly
 
 ```
@@ -769,13 +771,40 @@ cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_202505
 quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_20250520_quast
 ```
 
-### Try Flye with the --asm-coverage 50 parameter
+### Try Flye with the --asm-coverage 50 parameter and --meta parameter
 
 ```
 conda activate perfect_assembly
 cd /media/sarlab/DATA/Bacillus_project/SRL662/
 flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_20250526 --genome-size 4.3m --asm-coverage 50 --threads 20
 ```
+
+I got 204 contigs so I need to try a different command:
+
+```
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_meta_20250526 --genome-size 4.3m --meta --threads 20
+```
+
+I got 22 contigs.
+
+```
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_coverage40_20250526 --genome-size 4.3m --asm-coverage 40   --threads 20
+```
+
+I got 128 contigs.
+
+```
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_meta_nogenomesize_20250526 --meta --threads 23
+```
+I got 22 contigs.
+
+### Use the Flye assembly to the Unicycler
+
+I will check if the 22 contigs will get reduced by using unicycler.
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_meta_20250526/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_meta_hybrid_assembly_20250526 --threads 23
+```  
 
 ## Isolate SRL368
 
@@ -829,6 +858,15 @@ conda activate quast
 cd /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_hybrid_assembly_20250520/
 quast assembly.fasta -o ./SRL368_flye_hybrid_assembly_20250520_quast
 ```
+
+### Try Flye with the --asm-coverage 50 parameter
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL368/
+flye --pacbio-raw ./SRL368_raw_data/368_bam.fastq --out-dir ./SRL368_flye_assembly_20250526 --genome-size 7m --asm-coverage 50 --threads 20
+```
+
 
 ## Isolate SRL543
 
