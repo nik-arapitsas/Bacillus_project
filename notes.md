@@ -949,7 +949,7 @@ quast assembly.fasta -o ./SRL543_flye_hybrid_assembly_20250525_quast
 
 ## Isolate SRL389
 
-Unicycler number of contigs: 15 (Christos),  (Nikos)
+Unicycler number of contigs: 15 (Christos), 14 (Nikos)
 
 ### Fastp on the raw short reads
 
@@ -969,11 +969,21 @@ fastp -i /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/sample_389_F
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/389_bam.fastq -o /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_assembly_20250527 --threads 23
 ```
 
+I got 14 contigs.
+
 ### Run Flye on the long reads
 
 ```
 cd ..
 conda activate perfect_assembly
 flye --pacbio-raw ./SRL389_raw_data/389_bam.fastq --out-dir ./SRL389_flye_assembly_20250527 --threads 23
+```
+
+I got 3 contigs! 
+
+Now I will do the unicycler using the Flye assembly:
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/389_bam.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_assembly_20250527/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_hybrid_assembly_20250527 --threads 23
 ```
 
