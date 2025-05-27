@@ -981,9 +981,91 @@ flye --pacbio-raw ./SRL389_raw_data/389_bam.fastq --out-dir ./SRL389_flye_assemb
 
 I got 3 contigs! 
 
+### Run unicycler using the Flye assembly
+
 Now I will do the unicycler using the Flye assembly:
 
 ```
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/389_bam.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_assembly_20250527/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_hybrid_assembly_20250527 --threads 23
 ```
+
+I got 8 contigs.
+
+### Run quast
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_hybrid_assembly_20250527/
+quast assembly.fasta -o ./SRL389_flye_hybrid_assembly_20250527_quast
+```
+
+```
+rfplasmid --species Bacillus --input /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_hybrid_assembly_20250527/ --threads 23 --out /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_hybrid_assembly_20250527/SRL389_flye_hybrid_assembly_20250527_rfplasmid
+```
+
+## Isolate SRL340
+
+Unicycler number of contigs: 5 (Christos), 6 (Nikos)
+
+### Fastp on the raw short reads
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL340/
+mkdir SRL340_raw_data
+mkdir SRL340_fastp
+cd SRL340_fastp
+```
+```
+fastp -i /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_raw_data/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_1.fq.gz -I /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_raw_data/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_2.fq.gz -o /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -O /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_2_trimmed.fq.gz --report_title "SRL340 fastp report" --unpaired1 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_1_unpaired.fq.gz --unpaired2 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_2_unpaired.fq.gz
+```
+
+### Re-run unicycler
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_raw_data/340_bam.fastq -o /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_assembly_20250527 --threads 23
+```
+
+I got 6 contigs.
+
+### Run Flye on the long reads
+
+```
+cd ..
+conda activate perfect_assembly
+flye --pacbio-raw ./SRL340_raw_data/340_bam.fastq --out-dir ./SRL340_flye_assembly_20250527 --threads 23
+```
+
+I got 11 contigs.
+
+### Try Flye with different minimum overlap
+
+```
+flye --pacbio-raw ./SRL340_raw_data/340_bam.fastq --out-dir ./SRL340_flye_assembly_minoverlap_10k_20250527 --threads 23 --min-overlap 10000
+```
+
+It gave 90 contigs. So I will proceed with the default. 
+
+### Run unicycler using the Flye assembly
+
+Now I will do the unicycler using the Flye assembly:
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_raw_data/340_bam.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_flye_assembly_20250527/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_flye_hybrid_assembly_20250527 --threads 23
+```
+
+I got 6 contigs.
+
+### Run quast
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_flye_hybrid_assembly_20250527/
+quast assembly.fasta -o ./SRL340_flye_hybrid_assembly_20250527_quast
+```
+
 
