@@ -1068,4 +1068,61 @@ cd /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_flye_hybrid_assembly_202505
 quast assembly.fasta -o ./SRL340_flye_hybrid_assembly_20250527_quast
 ```
 
+# Search for plasmids
+
+## Install rfplasmid
+
+```
+conda create --name plasmid_search
+conda activate plasmid_search
+conda install bioconda::rfplasmid
+rfplasmid --initialize
+```
+
+## Install plasmidfinder
+
+```
+conda activate plasmid_search
+conda install bioconda::plasmidfinder
+download-db.sh
+```
+
+Upon its installation, plasmidfinder had the not "Please run download-db.sh to download the PlasmidFinder database to /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database.
+If you have a database in custom path, please use plasmidfinder.py with the option -p." in the end. So that is why I ran the command download-db.sh. 
+
+**SOS** The database to run plasmidfinder is located to this path: 
+
+```
+/opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/
+```
+
+Remember to create the output folder as well before running the plasmdifinder or it will print "Input Error: Output dirctory does not exist!".
+
+## Use rfplasmid and plasmidfinder for the isolates
+
+### SRL368 
+
+```
+rfplasmid --species Bacillus --input /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/ --threads 23 --out /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly_20230327_rfplasmid
+```
+
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly_20230327_plasmidfinder 
+plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly_20230327_plasmidfinder -p /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/ 
+```
+
+### SRL662
+
+```
+rfplasmid --species Bacillus --input /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/ --threads 23 --out /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_rfplasmid
+```
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_plasmidfinder 
+plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_plasmidfinder -p /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/ 
+```
+
+
+
 
