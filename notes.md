@@ -1186,4 +1186,13 @@ No change on the contig number!
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_unicycleroutput_hybrid_assembly_20250528 --threads 23
 ```
 
+## Try to use racon on the flye assembly before feeding it in the unicycler
 
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon/
+minimap2 -ax map-pb -t 23 assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662_flye_assembly_20250520_pacbio_aligned.sam
+racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_assembly_20250520_pacbio_aligned.sam assembly.fasta > SRL662_flye_assembly_20250520_racon1.fasta
+```
+
+racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam assembly.fasta > SRL662_flye_hybrid_assembly_20250520_racon_polished_1st_round.fasta
