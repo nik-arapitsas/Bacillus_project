@@ -1246,5 +1246,7 @@ pilon -Xmx200G --genome /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_a
 ```
 wc -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/SRL662_flye_assembly_20250520_pilon1.changes
 ```
-There were no changes.
+There were no changes. I stoped trying to reduce the contigs more. 
+
+
 
