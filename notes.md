@@ -808,6 +808,7 @@ unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210
 
 No! I got again 30 contigs as in the first case. So **for SRL662, flye with the default settings is the best option until now**. 
 
+
 ## Isolate SRL368
 
 Unicycler number of contigs: 15 (Christos), 18 (Nikos)
@@ -1123,6 +1124,66 @@ mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_202
 plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_plasmidfinder -p /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/ 
 ```
 
+## Try polishing SRL662 with pilon 
 
+```
+bwa index /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta
+```
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/
+```
+``` 
+bwa mem -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz | samtools sort -o SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam
+```
+
+```
+samtools index SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam
+```
+
+```
+pilon -Xmx200G --genome /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta --frags SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam --changes --output SRL662_flye_hybrid_assembly_20250520_polished_first_round --outdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/
+```
+
+```
+wc -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/SRL662_flye_hybrid_assembly_20250520_polished_first_round.changes
+```
+
+No changes have happened! I will try also racon.
+
+## Try polishing SRL662 with racon
+
+Racon uses the long reads for polishing, while pilon uses the short reads.
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
+cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
+```
+
+```
+minimap2 -ax map-pb -t 23 assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq | samtools sort -o SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam
+```
+```
+samtools view -S -b SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam > SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam
+```
+```
+samtools index SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam
+```
+```
+samtools view -h SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam > SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam
+```
+
+```
+racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam assembly.fasta > SRL662_flye_hybrid_assembly_20250520_racon_polished_1st_round.fasta
+```
+
+No change on the contig number! 
+
+## Try unicycler on SRL662 with the first unicycler assembly as input
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_unicycleroutput_hybrid_assembly_20250528 --threads 23
+```
 
 
