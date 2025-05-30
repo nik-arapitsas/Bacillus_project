@@ -1361,9 +1361,58 @@ flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assem
 
 I got 14 contigs.
 
-You can try --plasmids + You can filter reads to achieve certain coverage! 
+You can try --plasmids + You can filter reads to achieve certain coverage!
+
+# Try reducing min overlap value
+
+
+```
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_estgenomesize_minoverlap2000_20250530 --min-overlap 2000 --genome-size 4224919 --threads 23
+```
+
+I got 15 contigs. 
+
+
+
+
+# Try to subsample long reads
+
+
+```
+mkdir ./SRL662_subsampled_100x
+cd ./SRL662_subsampled_100x/  
+```
+
+## For 100x coverage
+
+```
+seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.073 > SRL662_long_subsampled_100x.fastq
+```
+```
+flye --pacbio-raw SRL662_long_subsampled_100x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_100x_20250530 --genome-size 4224919 --threads 23
+```
 
 
 
 
 
+```
+awk 'END {print NR/4}' SRL662_long_subsampled_100x.fastq
+```
+```
+awk 'END {print NR/4}' ../SRL662_raw_data/A01_long.fastq
+```
+
+
+
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_coverage40_20250526/
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_coverage40_assembly_20250530 --threads 23
+```
+
+# Canu
+
+```
+canu -p SRL662 -d /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_canu_assembly genomeSize=4224919 -pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq
+```
