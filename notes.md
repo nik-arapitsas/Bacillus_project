@@ -1248,5 +1248,70 @@ wc -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/S
 ```
 There were no changes. I stoped trying to reduce the contigs more. 
 
+# Try jellyfish
+
+## SRL662
+
+Activate the environment where jellyfish is located:
+
+```
+conda activate genome_estimation
+```
+
+Create a directory where the jellyfish output will be located:
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_jellyfish
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_jellyfish
+```
+
+Move the Illumina short read raw data in this folder for making the code easier:
+
+```
+cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz .
+cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz .
+```
+
+Combine the Illumina reads in one fq.gz file:
+
+```
+cat A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz > SRL662_illumina_reads_combined.fq.gz
+```
+
+Unzip the fq.gz file to obtain an .fq file:
+
+```
+gunzip -c SRL662_illumina_reads_combined.fq.gz > SRL662_illumina_reads_combined.fq
+```
+
+Run jellyfish for different k sizes:
+
+**k = 15**
+
+```
+jellyfish count -C -m 15 -s 100000000000 -t 20 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k15.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k15.jf > SRL662_k15_reads.histo
+```
+
+**k = 17**
+
+```
+jellyfish count -C -m 17 -s 100000000000 -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k17.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k17.jf > SRL662_k17_reads.histo
+```
+
+**k = 19**
+
+```
+jellyfish count -C -m 19 -s 100000000 -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k19.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k19.jf > SRL662_k19_reads.histo
+```
+
 
 
