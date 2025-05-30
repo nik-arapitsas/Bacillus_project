@@ -1298,7 +1298,7 @@ jellyfish histo -t 20 SRL662_mer_counts_k15.jf > SRL662_k15_reads.histo
 **k = 17**
 
 ```
-jellyfish count -C -m 17 -s 100000000000 -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k17.jf
+jellyfish count -C -m 17 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k17.jf
 ```
 ```
 jellyfish histo -t 20 SRL662_mer_counts_k17.jf > SRL662_k17_reads.histo
@@ -1312,6 +1312,27 @@ jellyfish count -C -m 19 -s 100000000 -t 23 SRL662_illumina_reads_combined.fq -o
 ```
 jellyfish histo -t 20 SRL662_mer_counts_k19.jf > SRL662_k19_reads.histo
 ```
+
+**k = 21**
+
+```
+jellyfish count -C -m 21 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k21.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k21.jf > SRL662_k21_reads.histo
+```
+
+**k = 23**
+
+```
+jellyfish count -C -m 23 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k23.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k23.jf > SRL662_k23_reads.histo
+```
+
+
+
 
 
 
