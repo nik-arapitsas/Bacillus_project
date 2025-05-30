@@ -1331,6 +1331,37 @@ jellyfish count -C -m 23 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL6
 jellyfish histo -t 20 SRL662_mer_counts_k23.jf > SRL662_k23_reads.histo
 ```
 
+**k = 15**
+
+```
+jellyfish count -C -m 15 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k15_lower_s.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k15_lower_s.jf > SRL662_k15_reads_lower_s.histo
+```
+
+**k = 13**
+
+```
+jellyfish count -C -m 13 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k13.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k13.jf > SRL662_k13_reads.histo
+```
+
+The k = 15 gave the best model fit and the estimated genome was 4,224,919 bp. 
+
+# Flye with the estimated genome length
+
+```
+cd ..
+conda activate perfect_assembly
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_estgenomesize_20250530 --genome-size 4224919 --threads 23
+```
+
+I got 14 contigs.
+
+You can try --plasmids + You can filter reads to achieve certain coverage! 
 
 
 
