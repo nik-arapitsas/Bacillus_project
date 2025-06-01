@@ -1083,6 +1083,8 @@ seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.073 > SRL662_long_subsamp
 flye --pacbio-raw SRL662_long_subsampled_100x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_100x_20250530 --genome-size 4224919 --threads 23
 ```
 
+**I got 58 contigs**
+
 #### For 860x coverage
 
 ```
@@ -1096,6 +1098,79 @@ seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.6278 > SRL662_long_subsam
 ```
 flye --pacbio-raw SRL662_long_subsampled_860x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_860x_20250601 --genome-size 4224919 --threads 23
 ```
+
+**I got 12 contigs** 
+
+#### For ~1000x coverage
+
+```
+mkdir ./SRL662_subsampled_1000x
+cd ./SRL662_subsampled_1000x/  
+```
+
+```
+seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.7447 > SRL662_long_subsampled_1000x.fastq
+```
+```
+flye --pacbio-raw SRL662_long_subsampled_1000x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601 --genome-size 4224919 --threads 23
+```
+
+I got 12 contigs
+
+#### For ~600x coverage
+
+```
+mkdir ./SRL662_subsampled_600x
+cd ./SRL662_subsampled_600x/  
+```
+
+```
+seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.44682 > SRL662_long_subsampled_600x.fastq
+```
+```
+flye --pacbio-raw SRL662_long_subsampled_600x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_600x_20250601 --genome-size 4224919 --threads 23
+```
+
+I got 17 contigs
+
+#### For ~400x coverage
+
+```
+mkdir ./SRL662_subsampled_400x
+cd ./SRL662_subsampled_400x/  
+```
+
+```
+seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.29788 > SRL662_long_subsampled_400x.fastq
+```
+```
+flye --pacbio-raw SRL662_long_subsampled_400x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_400x_20250601 --genome-size 4224919 --threads 23
+```
+
+I got 16 contigs
+
+**The best is the x100 coverage asssembly (created using the x1000 coverage reads subsample). I will try this for unicycler**
+
+#### Unicycler with the 100x coverage assembly
+
+```
+cd ..
+mkdir ./SRL662_flye_hybrid_assembly_100xcoverage_20250601
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_20250601 --threads 23
+```
+
+#### Quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_20250601/
+quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_100xcoverage_20250601_quast
+```
+
 
 ### Try canu as an alternative long-read assembler to flye
 
