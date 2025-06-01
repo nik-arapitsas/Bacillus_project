@@ -1378,13 +1378,12 @@ I got 15 contigs.
 # Try to subsample long reads
 
 
+## For 100x coverage
+
 ```
 mkdir ./SRL662_subsampled_100x
 cd ./SRL662_subsampled_100x/  
 ```
-
-## For 100x coverage
-
 ```
 seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.073 > SRL662_long_subsampled_100x.fastq
 ```
@@ -1392,19 +1391,23 @@ seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.073 > SRL662_long_subsamp
 flye --pacbio-raw SRL662_long_subsampled_100x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_100x_20250530 --genome-size 4224919 --threads 23
 ```
 
-
-
-
+## For 860x coverage
 
 ```
-awk 'END {print NR/4}' SRL662_long_subsampled_100x.fastq
+mkdir ./SRL662_subsampled_860x
+cd ./SRL662_subsampled_860x/  
+```
+
+```
+seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.6278 > SRL662_long_subsampled_860x.fastq
 ```
 ```
-awk 'END {print NR/4}' ../SRL662_raw_data/A01_long.fastq
+flye --pacbio-raw SRL662_long_subsampled_860x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_860x_20250601 --genome-size 4224919 --threads 23
 ```
 
 
 
+## Try unicycler on flye assembly with --asm-coverage 40
 
 ```
 cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_coverage40_20250526/
@@ -1416,3 +1419,6 @@ unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210
 ```
 canu -p SRL662 -d /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_canu_assembly genomeSize=4224919 -pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq
 ```
+
+I got 464 contigs
+
