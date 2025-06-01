@@ -1220,6 +1220,18 @@ I got 26 contigs from the 30!
 
 ### Try bbnorm for the short reads to achieve uniform coverage of 30x of every region
 
+```
+cd ../SRL662_norm_illumina_reads
+bbnorm.sh in1=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz in2=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz out1=./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm30.fq.gz out2=./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm30.fq.gz target=30 mindepth=5 threads=23
+```
+
+#### Run unicycler with the subsampled long-read assembly and using the normalized short reads x50
+
+```
+unicycler -1 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm30.fq.gz -2 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm30.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_subsampled_1000x/SRL662_long_subsampled_1000x.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_normIlluminareads30_20250602 --threads 23
+```
+
+I got 26 contigs from the 30! 
 
 
 ### Try canu as an alternative long-read assembler to flye
