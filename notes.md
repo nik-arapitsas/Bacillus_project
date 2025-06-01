@@ -1181,7 +1181,7 @@ unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210
 
 **Again 30 contigs**
 
-### Try bbnorm for the short reads to achieve uniform coverage of every region
+### Try bbnorm for the short reads to achieve uniform coverage of 100x of every region
 
 ```
 mkdir ../SRL662_norm_illumina_reads
@@ -1193,6 +1193,34 @@ bbnorm.sh in1=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW21
 ```
 unicycler -1 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm.fq.gz -2 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_subsampled_1000x/SRL662_long_subsampled_1000x.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_normIlluminareads_20250602 --threads 23
 ```
+
+### Try bbnorm for the short reads to achieve uniform coverage of 150x of every region
+
+```
+cd ../SRL662_norm_illumina_reads
+bbnorm.sh in1=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz in2=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz out1=./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm150.fq.gz out2=./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm150.fq.gz target=150 mindepth=5 threads=23
+```
+
+I have not used them yet. I think maybe I need to use smaller coverage.
+
+### Try bbnorm for the short reads to achieve uniform coverage of 50x of every region
+
+```
+cd ../SRL662_norm_illumina_reads
+bbnorm.sh in1=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz in2=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz out1=./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm50.fq.gz out2=./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm50.fq.gz target=50 mindepth=5 threads=23
+```
+
+#### Run unicycler with the subsampled long-read assembly and using the normalized short reads x50
+
+```
+unicycler -1 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm50.fq.gz -2 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm50.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_subsampled_1000x/SRL662_long_subsampled_1000x.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_normIlluminareads50_20250602 --threads 23
+```
+
+I got 26 contigs from the 30! 
+
+### Try bbnorm for the short reads to achieve uniform coverage of 30x of every region
+
+
 
 ### Try canu as an alternative long-read assembler to flye
 
