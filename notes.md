@@ -732,7 +732,7 @@ conda activate fastqc
 fastqc ../SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz ../SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastqc_trimmed
 ```
 
-### Run Flye on the long reads
+### Run Flye on the long reads with the default parameters
 
 ```
 cd ..
@@ -752,7 +752,7 @@ cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/
 quast assembly.fasta -o ./SRL662_flye_assembly_20250520_quast
 ```
 
-### Use the Flye assembly to the Unicycler
+### Feed the Flye assembly with default parameters, to the Unicycler 
 
 ```
 conda activate perfect_assembly
@@ -771,7 +771,9 @@ cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_202505
 quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_20250520_quast
 ```
 
-### Try Flye with the --asm-coverage 50 parameter and --meta parameter
+### Try Flye with the --asm-coverage parameter and --meta parameter
+
+**1) "--asm-coverage 50"**
 
 ```
 conda activate perfect_assembly
@@ -781,11 +783,15 @@ flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assem
 
 I got 204 contigs so I need to try a different command:
 
+**2) "--meta"**
+
 ```
 flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_meta_20250526 --genome-size 4.3m --meta --threads 20
 ```
 
 I got 22 contigs.
+
+**3) "--asm-coverage 40"**
 
 ```
 flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_coverage40_20250526 --genome-size 4.3m --asm-coverage 40   --threads 20
@@ -793,12 +799,21 @@ flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assem
 
 I got 128 contigs.
 
+**4) "--meta" without setting an estimated genome size**
+
 ```
 flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_meta_nogenomesize_20250526 --meta --threads 23
 ```
 I got 22 contigs.
 
-### Use the Flye assembly to the Unicycler
+### Try unicycler on flye assembly with --asm-coverage 40
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_coverage40_20250526/
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_coverage40_assembly_20250530 --threads 23
+```
+
+### Use the Flye assembly that was produced with the "meta" parameter (case 2 from above) to the Unicycler
 
 I will check if the 22 contigs will get reduced by using unicycler.
 
@@ -806,7 +821,289 @@ I will check if the 22 contigs will get reduced by using unicycler.
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_meta_20250526/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_meta_hybrid_assembly_20250526 --threads 23
 ```  
 
-No! I got again 30 contigs as in the first case. So **for SRL662, flye with the default settings is the best option until now**. 
+No! I got again 30 contigs as in the first case. So **for SRL662, flye with the default settings is the best option until now**.
+
+### Try to run a second unicycler on SRL662 using the first unicycler assembly as input
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_unicycleroutput_hybrid_assembly_20250528 --threads 23
+```
+
+### Try polishing SRL662 with pilon 
+
+```
+bwa index /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta
+```
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/
+```
+``` 
+bwa mem -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz | samtools sort -o SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam
+```
+
+```
+samtools index SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam
+```
+
+```
+pilon -Xmx200G --genome /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta --frags SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam --changes --output SRL662_flye_hybrid_assembly_20250520_polished_first_round --outdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/
+```
+
+```
+wc -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/SRL662_flye_hybrid_assembly_20250520_polished_first_round.changes
+```
+
+No changes have happened! I will try also racon.
+
+### Try polishing SRL662 with racon
+
+Racon uses the long reads for polishing, while pilon uses the short reads.
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
+cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
+```
+
+```
+minimap2 -ax map-pb -t 23 assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq | samtools sort -o SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam
+```
+```
+samtools view -S -b SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam > SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam
+```
+```
+samtools index SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam
+```
+```
+samtools view -h SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam > SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam
+```
+
+```
+racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam assembly.fasta > SRL662_flye_hybrid_assembly_20250520_racon_polished_1st_round.fasta
+```
+
+No change on the contig number! 
+
+### Try to use racon on the flye assembly before feeding it in the unicycler
+
+#### 1st round
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon/
+minimap2 -ax map-pb -t 23 assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662_flye_assembly_20250520_pacbio_aligned.sam
+racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_assembly_20250520_pacbio_aligned.sam assembly.fasta > SRL662_flye_assembly_20250520_racon1.fasta
+```
+
+#### 2nd round
+
+```
+minimap2 -ax map-pb -t 23 SRL662_flye_assembly_20250520_racon1.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662_flye_assembly_20250520_racon1_pacbio_aligned.sam
+racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_assembly_20250520_racon1_pacbio_aligned.sam SRL662_flye_assembly_20250520_racon1.fasta > SRL662_flye_assembly_20250520_racon2.fasta
+```
+
+#### 3rd round
+
+```
+minimap2 -ax map-pb -t 23 SRL662_flye_assembly_20250520_racon2.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662_flye_assembly_20250520_racon2_pacbio_aligned.sam
+racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_assembly_20250520_racon2_pacbio_aligned.sam SRL662_flye_assembly_20250520_racon2.fasta > SRL662_flye_assembly_20250520_racon3.fasta
+```
+
+### Run unicycler using the racon polished flye assembly
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_3xracon_hybrid_assembly_20250528
+```
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly SRL662_flye_assembly_20250520_racon3.fasta  -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_3xracon_hybrid_assembly_20250528 --threads 23
+```
+
+### Try polishing the flye assembly using pilon before using it in the unicycler
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/
+cp ../assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/  
+```
+
+```
+bwa index /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/assembly.fasta
+```
+``` 
+bwa mem -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz | samtools sort -o SRL662_flye_assembly_20250520_illumina_aligned.bam
+```
+
+```
+samtools index SRL662_flye_assembly_20250520_illumina_aligned.bam
+```
+
+```
+pilon -Xmx200G --genome /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/assembly.fasta --frags SRL662_flye_assembly_20250520_illumina_aligned.bam --changes --output SRL662_flye_assembly_20250520_pilon1 --outdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/
+```
+```
+wc -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/SRL662_flye_assembly_20250520_pilon1.changes
+```
+There were no changes. I stoped trying to reduce the contigs more. 
+
+### Try to estimate genome size of SRL662 with jellyfish
+
+Activate the environment where jellyfish is located:
+
+```
+conda activate genome_estimation
+```
+
+Create a directory where the jellyfish output will be located:
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_jellyfish
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_jellyfish
+```
+
+Move the Illumina short read raw data in this folder for making the code easier:
+
+```
+cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz .
+cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz .
+```
+
+Combine the Illumina reads in one fq.gz file:
+
+```
+cat A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz > SRL662_illumina_reads_combined.fq.gz
+```
+
+Unzip the fq.gz file to obtain an .fq file:
+
+```
+gunzip -c SRL662_illumina_reads_combined.fq.gz > SRL662_illumina_reads_combined.fq
+```
+
+Run jellyfish for different k sizes:
+
+**k = 15**
+
+```
+jellyfish count -C -m 15 -s 100000000000 -t 20 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k15.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k15.jf > SRL662_k15_reads.histo
+```
+
+**k = 17**
+
+```
+jellyfish count -C -m 17 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k17.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k17.jf > SRL662_k17_reads.histo
+```
+
+**k = 19**
+
+```
+jellyfish count -C -m 19 -s 100000000 -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k19.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k19.jf > SRL662_k19_reads.histo
+```
+
+**k = 21**
+
+```
+jellyfish count -C -m 21 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k21.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k21.jf > SRL662_k21_reads.histo
+```
+
+**k = 23**
+
+```
+jellyfish count -C -m 23 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k23.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k23.jf > SRL662_k23_reads.histo
+```
+
+**k = 15**
+
+```
+jellyfish count -C -m 15 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k15_lower_s.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k15_lower_s.jf > SRL662_k15_reads_lower_s.histo
+```
+
+**k = 13**
+
+```
+jellyfish count -C -m 13 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k13.jf
+```
+```
+jellyfish histo -t 20 SRL662_mer_counts_k13.jf > SRL662_k13_reads.histo
+```
+
+The k = 15 gave the best model fit and the estimated genome was 4,224,919 bp. 
+
+### Run flye using in the parameters the estimated genome length for SRL662
+
+```
+cd ..
+conda activate perfect_assembly
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_estgenomesize_20250530 --genome-size 4224919 --threads 23
+```
+
+I got 14 contigs.
+
+You can try --plasmids + You can filter reads to achieve certain coverage!
+
+### Try reducing min overlap value
+
+```
+flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_estgenomesize_minoverlap2000_20250530 --min-overlap 2000 --genome-size 4224919 --threads 23
+```
+
+I got 15 contigs. 
+
+### Try to subsample long reads
+
+#### For 100x coverage
+
+```
+mkdir ./SRL662_subsampled_100x
+cd ./SRL662_subsampled_100x/  
+```
+```
+seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.073 > SRL662_long_subsampled_100x.fastq
+```
+```
+flye --pacbio-raw SRL662_long_subsampled_100x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_100x_20250530 --genome-size 4224919 --threads 23
+```
+
+#### For 860x coverage
+
+```
+mkdir ./SRL662_subsampled_860x
+cd ./SRL662_subsampled_860x/  
+```
+
+```
+seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.6278 > SRL662_long_subsampled_860x.fastq
+```
+```
+flye --pacbio-raw SRL662_long_subsampled_860x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_860x_20250601 --genome-size 4224919 --threads 23
+```
+
+### Try canu as an alternative long-read assembler to flye
+
+```
+canu -p SRL662 -d /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_canu_assembly genomeSize=4224919 -pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq
+```
+
+I got 464 contigs
 
 
 ## Isolate SRL368
@@ -1124,301 +1421,5 @@ mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_202
 plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_plasmidfinder -p /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/ 
 ```
 
-## Try polishing SRL662 with pilon 
 
-```
-bwa index /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta
-```
-
-```
-cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/
-```
-``` 
-bwa mem -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz | samtools sort -o SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam
-```
-
-```
-samtools index SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam
-```
-
-```
-pilon -Xmx200G --genome /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/assembly.fasta --frags SRL662_flye_hybrid_assembly_20250520_illumina_aligned.bam --changes --output SRL662_flye_hybrid_assembly_20250520_polished_first_round --outdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/
-```
-
-```
-wc -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_pilon/SRL662_flye_hybrid_assembly_20250520_polished_first_round.changes
-```
-
-No changes have happened! I will try also racon.
-
-## Try polishing SRL662 with racon
-
-Racon uses the long reads for polishing, while pilon uses the short reads.
-
-```
-mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
-cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
-cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_racon
-```
-
-```
-minimap2 -ax map-pb -t 23 assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq | samtools sort -o SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam
-```
-```
-samtools view -S -b SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam > SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam
-```
-```
-samtools index SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam
-```
-```
-samtools view -h SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.bam > SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam
-```
-
-```
-racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_hybrid_assembly_20250520_pacbio_aligned.sam assembly.fasta > SRL662_flye_hybrid_assembly_20250520_racon_polished_1st_round.fasta
-```
-
-No change on the contig number! 
-
-## Try unicycler on SRL662 with the first unicycler assembly as input
-
-```
-unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_unicycleroutput_hybrid_assembly_20250528 --threads 23
-```
-
-## Try to use racon on the flye assembly before feeding it in the unicycler
-
-### 1st round
-
-```
-mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon
-cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon/
-minimap2 -ax map-pb -t 23 assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662_flye_assembly_20250520_pacbio_aligned.sam
-racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_assembly_20250520_pacbio_aligned.sam assembly.fasta > SRL662_flye_assembly_20250520_racon1.fasta
-```
-
-### 2nd round
-
-```
-minimap2 -ax map-pb -t 23 SRL662_flye_assembly_20250520_racon1.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662_flye_assembly_20250520_racon1_pacbio_aligned.sam
-racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_assembly_20250520_racon1_pacbio_aligned.sam SRL662_flye_assembly_20250520_racon1.fasta > SRL662_flye_assembly_20250520_racon2.fasta
-```
-
-### 3rd round
-
-```
-minimap2 -ax map-pb -t 23 SRL662_flye_assembly_20250520_racon2.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662_flye_assembly_20250520_racon2_pacbio_aligned.sam
-racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_assembly_20250520_racon2_pacbio_aligned.sam SRL662_flye_assembly_20250520_racon2.fasta > SRL662_flye_assembly_20250520_racon3.fasta
-```
-
-## Run unicycler using the racon polished flye assembly
-
-```
-mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_3xracon_hybrid_assembly_20250528
-```
-
-```
-unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly SRL662_flye_assembly_20250520_racon3.fasta  -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_3xracon_hybrid_assembly_20250528 --threads 23
-```
-
-## Try polishing the flye assembly using pilon before using it in the unicycler
-
-```
-mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon
-cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/
-cp ../assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/  
-```
-
-```
-bwa index /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/assembly.fasta
-```
-``` 
-bwa mem -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz | samtools sort -o SRL662_flye_assembly_20250520_illumina_aligned.bam
-```
-
-```
-samtools index SRL662_flye_assembly_20250520_illumina_aligned.bam
-```
-
-```
-pilon -Xmx200G --genome /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/assembly.fasta --frags SRL662_flye_assembly_20250520_illumina_aligned.bam --changes --output SRL662_flye_assembly_20250520_pilon1 --outdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/
-```
-```
-wc -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_pilon/SRL662_flye_assembly_20250520_pilon1.changes
-```
-There were no changes. I stoped trying to reduce the contigs more. 
-
-# Try jellyfish
-
-## SRL662
-
-Activate the environment where jellyfish is located:
-
-```
-conda activate genome_estimation
-```
-
-Create a directory where the jellyfish output will be located:
-
-```
-mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_jellyfish
-cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_jellyfish
-```
-
-Move the Illumina short read raw data in this folder for making the code easier:
-
-```
-cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz .
-cp /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz .
-```
-
-Combine the Illumina reads in one fq.gz file:
-
-```
-cat A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz > SRL662_illumina_reads_combined.fq.gz
-```
-
-Unzip the fq.gz file to obtain an .fq file:
-
-```
-gunzip -c SRL662_illumina_reads_combined.fq.gz > SRL662_illumina_reads_combined.fq
-```
-
-Run jellyfish for different k sizes:
-
-**k = 15**
-
-```
-jellyfish count -C -m 15 -s 100000000000 -t 20 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k15.jf
-```
-```
-jellyfish histo -t 20 SRL662_mer_counts_k15.jf > SRL662_k15_reads.histo
-```
-
-**k = 17**
-
-```
-jellyfish count -C -m 17 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k17.jf
-```
-```
-jellyfish histo -t 20 SRL662_mer_counts_k17.jf > SRL662_k17_reads.histo
-```
-
-**k = 19**
-
-```
-jellyfish count -C -m 19 -s 100000000 -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k19.jf
-```
-```
-jellyfish histo -t 20 SRL662_mer_counts_k19.jf > SRL662_k19_reads.histo
-```
-
-**k = 21**
-
-```
-jellyfish count -C -m 21 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k21.jf
-```
-```
-jellyfish histo -t 20 SRL662_mer_counts_k21.jf > SRL662_k21_reads.histo
-```
-
-**k = 23**
-
-```
-jellyfish count -C -m 23 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k23.jf
-```
-```
-jellyfish histo -t 20 SRL662_mer_counts_k23.jf > SRL662_k23_reads.histo
-```
-
-**k = 15**
-
-```
-jellyfish count -C -m 15 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k15_lower_s.jf
-```
-```
-jellyfish histo -t 20 SRL662_mer_counts_k15_lower_s.jf > SRL662_k15_reads_lower_s.histo
-```
-
-**k = 13**
-
-```
-jellyfish count -C -m 13 -s 100M -t 23 SRL662_illumina_reads_combined.fq -o SRL662_mer_counts_k13.jf
-```
-```
-jellyfish histo -t 20 SRL662_mer_counts_k13.jf > SRL662_k13_reads.histo
-```
-
-The k = 15 gave the best model fit and the estimated genome was 4,224,919 bp. 
-
-# Flye with the estimated genome length
-
-```
-cd ..
-conda activate perfect_assembly
-flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_estgenomesize_20250530 --genome-size 4224919 --threads 23
-```
-
-I got 14 contigs.
-
-You can try --plasmids + You can filter reads to achieve certain coverage!
-
-# Try reducing min overlap value
-
-
-```
-flye --pacbio-raw ./SRL662_raw_data/A01_long.fastq --out-dir ./SRL662_flye_assembly_estgenomesize_minoverlap2000_20250530 --min-overlap 2000 --genome-size 4224919 --threads 23
-```
-
-I got 15 contigs. 
-
-
-
-
-# Try to subsample long reads
-
-
-## For 100x coverage
-
-```
-mkdir ./SRL662_subsampled_100x
-cd ./SRL662_subsampled_100x/  
-```
-```
-seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.073 > SRL662_long_subsampled_100x.fastq
-```
-```
-flye --pacbio-raw SRL662_long_subsampled_100x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_100x_20250530 --genome-size 4224919 --threads 23
-```
-
-## For 860x coverage
-
-```
-mkdir ./SRL662_subsampled_860x
-cd ./SRL662_subsampled_860x/  
-```
-
-```
-seqtk sample -s100 ../SRL662_raw_data/A01_long.fastq 0.6278 > SRL662_long_subsampled_860x.fastq
-```
-```
-flye --pacbio-raw SRL662_long_subsampled_860x.fastq --out-dir ../SRL662_flye_assembly_estgenomesize_subsampled_860x_20250601 --genome-size 4224919 --threads 23
-```
-
-
-
-## Try unicycler on flye assembly with --asm-coverage 40
-
-```
-cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_coverage40_20250526/
-unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_coverage40_assembly_20250530 --threads 23
-```
-
-# Canu
-
-```
-canu -p SRL662 -d /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_canu_assembly genomeSize=4224919 -pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq
-```
-
-I got 464 contigs
 
