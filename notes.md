@@ -1158,7 +1158,7 @@ cd ..
 mkdir ./SRL662_flye_hybrid_assembly_100xcoverage_20250601
 ```
 ```
-unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_20250601 --threads 23
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_subsampled_1000x/SRL662_long_subsampled_1000x.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_20250601 --threads 23
 ```
 
 #### Quast on the assembly
@@ -1171,6 +1171,28 @@ cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xco
 quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_100xcoverage_20250601_quast
 ```
 
+**It is wrong to use the whole long reads in the unicycler**
+
+**I will run it again and use the subsampled reads.**
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_subsampled_1000x/SRL662_long_subsampled_1000x.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_20250601 --threads 23
+```
+
+**Again 30 contigs**
+
+### Try bbnorm for the short reads to achieve uniform coverage of every region
+
+```
+mkdir ../SRL662_norm_illumina_reads
+cd ../SRL662_norm_illumina_reads
+bbnorm.sh in1=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz in2=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz out1=./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm.fq.gz out2=./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm.fq.gz target=100 min=5 threads=23 
+```
+#### Run unicycler with the subsampled long-read assembly and using the normalized short reads
+
+```
+unicycler -1 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm.fq.gz -2 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_subsampled_1000x/SRL662_long_subsampled_1000x.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_normIlluminareads_20250602 --threads 23
+```
 
 ### Try canu as an alternative long-read assembler to flye
 
