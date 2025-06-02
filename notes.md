@@ -771,6 +771,15 @@ cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_202505
 quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_20250520_quast
 ```
 
+### Feed the Flye assembly with default parameters, to the Unicycler using --mode bold
+
+```
+conda activate perfect_assembly
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_bold_20250520 --threads 23 --mode bold
+```  
+
 ### Try Flye with the --asm-coverage parameter and --meta parameter
 
 **1) "--asm-coverage 50"**
