@@ -777,8 +777,23 @@ quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_20250520_quast
 conda activate perfect_assembly
 ```
 ```
-unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_bold_20250520 --threads 23 --mode bold
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227
+-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW21037
+0227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_lo
+ng.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20
+250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_bold_2025
+0602 --threads 23 --mode bold
 ```  
+
+#### Run quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_bold_20250602
+quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_bold_20250520_quast
+```
 
 ### Try Flye with the --asm-coverage parameter and --meta parameter
 
@@ -1286,6 +1301,16 @@ canu -p SRL662 -d /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_canu_assembl
 ```
 
 I got 464 contigs
+
+### Try autocycler
+
+#### Install autocycler
+
+```
+conda create --name autocycler
+conda activate autocycler
+conda install bioconda::autocycler 
+```
 
 
 ## Isolate SRL368
