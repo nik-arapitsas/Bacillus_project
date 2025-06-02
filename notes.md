@@ -1307,9 +1307,29 @@ I got 464 contigs
 #### Install autocycler
 
 ```
-conda create --name autocycler
-conda activate autocycler
+conda activate perfect_assembly
 conda install bioconda::autocycler 
+```
+
+#### Run autocycler
+
+**1) Subsample** 
+
+```
+autocycler subsample --reads /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --out_dir ./SRL662_autocycler/SRL662_subsampled_reads --genome_size 4224919
+```
+
+**2) Run assemblers for each subset**
+
+i) Flye
+
+```
+mkdir SRL662_assemblies
+```
+```
+for i in 01 02 03 04; do
+        /home/nik_arapitsas/Documents/Bacillus_project/scripts/flye.sh SRL662_subsampled_reads/sample_"$i".fastq SRL662_assemblies/flye_"$i" 23 4224919 
+done
 ```
 
 
