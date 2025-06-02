@@ -1117,6 +1117,16 @@ flye --pacbio-raw SRL662_long_subsampled_1000x.fastq --out-dir ../SRL662_flye_as
 
 I got 12 contigs
 
+##### Quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601
+quast assembly.fasta -o ./SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601_quast
+```
+
 #### For ~600x coverage
 
 ```
@@ -1203,6 +1213,15 @@ bbnorm.sh in1=/media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW21
 
 I have not used them yet. I think maybe I need to use smaller coverage.
 
+#### Run unicycler with the subsampled long-read assembly and using the normalized short reads x150
+
+```
+unicycler -1 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm150.fq.gz -2 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm150.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_subsampled_1000x/SRL662_long_subsampled_1000x.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly_graph.gfa -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_150xcoverage_normIlluminareads50_20250602 --threads 23
+```
+
+I got 26 contigs from the 30! 
+
+
 ### Try bbnorm for the short reads to achieve uniform coverage of 50x of every region
 
 ```
@@ -1217,6 +1236,23 @@ unicycler -1 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm50.fq.gz -2 ./A01
 ```
 
 I got 26 contigs from the 30! 
+
+#### Quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_normIlluminareads50_20250602
+quast assembly.fasta -o ./SRL662_flye_hybrid_assembly_100xcoverage_normIlluminareads50_20250602_quast
+```
+
+#### Run unicycler with the subsampled long-read assembly and using the normalized short reads x50
+
+```
+unicycler -1 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm50.fq.gz -2 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed_norm50.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_subsampled_1000x/SRL662_long_subsampled_1000x.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_1000x_20250601/assembly_graph.gfa -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_100xcoverage_normIlluminareads50gfa_20250602 --threads 23
+```
+
 
 ### Try bbnorm for the short reads to achieve uniform coverage of 30x of every region
 
