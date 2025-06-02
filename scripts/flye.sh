@@ -62,7 +62,7 @@ cleanup() {
 trap cleanup EXIT
 
 # Run Flye.
-flye --nano-hq "$reads" --threads "$threads" --out-dir "$temp_dir"
+flye --pacbio-raw "$reads" --threads "$threads" --out-dir "$temp_dir"
 
 # Check if Flye ran successfully.
 if [[ ! -s "$temp_dir"/assembly.fasta ]]; then
