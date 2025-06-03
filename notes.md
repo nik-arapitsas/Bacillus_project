@@ -1293,7 +1293,6 @@ unicycler -1 ./A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed_norm30.fq.gz -2 ./A01
 
 I got 43 contigs. 
 
-
 ### Try canu as an alternative long-read assembler to flye
 
 ```
@@ -1301,6 +1300,16 @@ canu -p SRL662 -d /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_canu_assembl
 ```
 
 I got 464 contigs
+
+### Try raven as an alternative assembler
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_assembly_20250603 
+```
+
+```
+raven -t 18 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_assembly_20250603/SRL662_raven_assembly.fasta
+```
 
 ### Try autocycler
 
