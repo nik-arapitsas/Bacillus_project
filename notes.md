@@ -1329,6 +1329,15 @@ quast SRL662_raven_assembly.fasta -o ./SRL662_raven_assembly_20250603_quast
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_assembly_20250603/SRL662_raven_assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_hybrid_assembly_20250603 --threads 23
 ```
 
+Again 30 contigs :(
+
+### Try hybrid SPAdes
+
+```
+spades.py -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --pacbio /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_hybrid_spades_assembly_20250604 -t 23
+```
+
+
 ### Try autocycler
 
 #### Install autocycler
