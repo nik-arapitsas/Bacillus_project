@@ -934,6 +934,12 @@ minimap2 -ax map-pb -t 23 SRL662_flye_assembly_20250520_racon2.fasta /media/sarl
 racon -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_flye_assembly_20250520_racon2_pacbio_aligned.sam SRL662_flye_assembly_20250520_racon2.fasta > SRL662_flye_assembly_20250520_racon3.fasta
 ```
 
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon/
+conda activate quast
+quast SRL662_flye_assembly_20250520_racon3.fasta -o ./SRL662_flye_assembly_20250520_racon3_quast
+```
+
 ### Run unicycler using the racon polished flye assembly
 
 ```
@@ -1335,6 +1341,18 @@ Again 30 contigs :(
 
 ```
 spades.py -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --pacbio /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_hybrid_spades_assembly_20250604 -t 23
+```
+
+Try the isolate mode:
+
+```
+spades.py -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --pacbio /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --isolate -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_hybrid_spades_isolate_assembly_20250604 -t 23
+```
+
+trusted assembly
+
+```
+spades.py -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --pacbio /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --isolate --trusted-contigs /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon/SRL662_flye_assembly_20250520_racon3.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_hybrid_spades_isolate_trc_assembly_20250604 -t 23
 ```
 
 
