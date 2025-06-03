@@ -43,7 +43,7 @@ if [[ ! -f "$reads" ]]; then
 fi
 
 # Ensure the requirements are met.
-for cmd in canu canu_trim.py; do
+for cmd in canu /home/nik_arapitsas/Documents/Bacillus_project/scripts/canu_trim.py; do
     if ! command -v "$cmd" &> /dev/null; then
         >&2 echo "Error: $cmd not found in PATH"
         exit 1
