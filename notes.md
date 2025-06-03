@@ -1311,6 +1311,24 @@ mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_assembly_20250603
 raven -t 18 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_assembly_20250603/SRL662_raven_assembly.fasta
 ```
 
+**I got 9 contigs!**
+
+#### Quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_assembly_20250603/
+quast SRL662_raven_assembly.fasta -o ./SRL662_raven_assembly_20250603_quast
+```
+
+#### Try unicycler on the raven assembly
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_assembly_20250603/SRL662_raven_assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raven_hybrid_assembly_20250603 --threads 23
+```
+
 ### Try autocycler
 
 #### Install autocycler
