@@ -1115,6 +1115,16 @@ flye --pacbio-raw SRL662_long_subsampled_100x.fastq --out-dir ../SRL662_flye_ass
 
 **I got 58 contigs**
 
+##### Quast on the assembly
+
+```
+conda activate quast 
+```
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_estgenomesize_subsampled_100x_20250530
+quast assembly.fasta -o ./SRL662_flye_assembly_estgenomesize_subsampled_100x_20250530_quast
+```
+
 #### For 860x coverage
 
 ```
@@ -1353,6 +1363,54 @@ trusted assembly
 
 ```
 spades.py -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --pacbio /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --isolate --trusted-contigs /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_20250520_racon/SRL662_flye_assembly_20250520_racon3.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_hybrid_spades_isolate_trc_assembly_20250604 -t 23
+```
+
+### Install inspector
+
+```
+conda create -n inspector \
+  python=3.8 \
+  pysam \
+  statsmodels=0.10.1 \
+  minimap2=2.15 \
+  samtools=1.9 \
+  flye=2.8.3 \
+  -c bioconda -c conda-forge
+conda activate inspector
+```
+```
+conda install pandas=1.0.5
+conda install numpy=1.21
+```
+
+```
+git clone https://github.com/ChongLab/Inspector.git
+```
+
+#### Try inspector for SRL662
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_inspector_20250604
+```
+
+```
+inspector.py -c /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -r /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_inspector_20250604 -t 23 --datatype clr
+```
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_inspector_20250604
+```
+
+```
+inspector.py -c /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/assembly.fasta -r /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_inspector_20250604 -t 23 --datatype clr
+```
+
+```
+inspector-correct.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_assembly_20250520/SRL662_flye_assembly_inspector_20250604/ --datatype pacbio-raw -t 23
+```
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly contig_corrected.fa -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_inspcorrected_20250604 --threads 23 
 ```
 
 
