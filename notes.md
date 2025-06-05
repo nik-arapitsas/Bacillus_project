@@ -1488,7 +1488,20 @@ smartdenovo.pl -p SRL662 -t 20 -c 1 /media/sarlab/DATA/Bacillus_project/SRL662/S
 make -f SRL662.mak
 ```
 
+I got 21 contigs
 
+### Try WTDBG2
+
+```
+conda activate perfect_assembly
+conda install bioconda::wtdbg
+```
+
+```
+mkdir SRL662_wtdbg2
+cd SRL662_wtdbg2
+wtdbg2 -x sq -g 4.2m -t 20 -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq -fo SRL662  
+```
 
 
 ### Try autocycler
