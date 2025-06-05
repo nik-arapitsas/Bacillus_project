@@ -1501,8 +1501,30 @@ conda install bioconda::wtdbg
 mkdir SRL662_wtdbg2
 cd SRL662_wtdbg2
 wtdbg2 -x sq -g 4.2m -t 20 -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq -fo SRL662  
+wtpoa-cns -t 20 -i SRL662.ctg.lay.gz -fo SRL662.ctg.fa
 ```
 
+#### Quast 
+
+```
+conda activate quast
+quast SRL662.ctg.fa -o ./SRL662_wtdbg2_quast
+cd SRL662_wtdbg2_quast/
+vim report.txt
+```
+
+**225 contigs but the only long-read assembler that gave a good length: 4591404 bp**
+
+#### Feed the WTDBG2 output in unicycler
+
+```
+mkdir SRL662_wtdbg2_unicycler
+cd SRL662_wtdbg2_unicycler
+```
+```
+conda activate perfect_assembly
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly ../SRL662_wtdbg2/SRL662.ctg.fa -o ./ --threads 23 
+```
 
 ### Try autocycler
 
