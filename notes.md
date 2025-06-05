@@ -1413,6 +1413,69 @@ inspector-correct.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_a
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq --existing_long_read_assembly contig_corrected.fa -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_inspcorrected_20250604 --threads 23 
 ```
 
+### Try minimap2/miniasm
+
+```
+ mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_minimap2_miniasm
+```
+```
+minimap2 -x ava-pb -t 23 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq | gzip -1 > /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_minimap2_miniasm/SRL662_minimap2_overlaps.paf.gz
+```
+
+```
+miniasm -f /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_minimap2_miniasm/SRL662_minimap2_overlaps.paf.gz > /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_minimap2_miniasm/SRL662_assembly.gfa
+```
+
+```
+awk '/^S/{print ">" $2 "\n" $3}' SRL662_assembly.gfa | fold > SRL662_miniasm_contigs.fasta
+```
+
+#### Try the less strict miniasm
+
+```
+miniasm -c 2 -e 2 -f /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq SRL662_minimap2_overlaps.paf.gz > SRL662_assembly_less_strict.gfa
+```
+```
+awk '/^S/{print ">" $2 "\n" $3}' SRL662_assembly_less_strict.gfa | fold > SRL662_miniasm_less_strict_contigs.fasta
+```
+
+```
+conda activate quast
+quast SRL662_miniasm_contigs.fasta -o ./quast
+quast SRL662_miniasm_less_strict_contigs.fasta -o ./quast_less_strict
+```
+
+### Try nextdenovo
+
+```
+conda activate perfect_assembly
+conda install bioconda::nextdenovo
+mkdir SRL662_nextdenovo
+cd SRL662_nextdenovo
+```
+
+NextDenovo needs the path of the reads' file to a .fofn file. We create that with the following command:
+
+```
+ls /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662_input.fofn
+```
+
+Then we need to create a .cfg file to feed it in the nexdenovo assembler. I got the code from this webpage: https://nextdenovo.readthedocs.io/en/latest/TEST1.html, and created the SRL662_nextdenovo_run.cfg script file. I changed the following parameters: 
+
+* job_type = local  (from sge)
+
+* read_type = clr (from ont)
+
+* workdir = ./ (to have the output in my current directory)
+
+* genome_size = 4m  
+
+Then, I run the nextdenovo assembler with the following command:
+
+```
+nextDenovo SRL662_nextdenovo_run.cfg
+```
+
 
 ### Try autocycler
 
