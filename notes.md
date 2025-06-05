@@ -1476,6 +1476,20 @@ Then, I run the nextdenovo assembler with the following command:
 nextDenovo SRL662_nextdenovo_run.cfg
 ```
 
+### Try smartdenovo
+
+```
+conda install bioconda::smartdenovo
+```
+```
+mkdir SRL662_smartdenovo
+cd SRL662_smartdenovo 
+smartdenovo.pl -p SRL662 -t 20 -c 1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long.fastq > SRL662.mak 
+make -f SRL662.mak
+```
+
+
+
 
 ### Try autocycler
 
