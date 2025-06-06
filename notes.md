@@ -1647,6 +1647,17 @@ conda activate perfect_assembly
 flye --pacbio-raw ./SRL368_raw_data/368_bam.fastq --out-dir ./SRL368_flye_assembly_20250520 --threads 15
 ```
 
+#### Filtering (again)
+
+Convert bam to fq: 
+
+```
+samtools fastq ./SRL662_raw_data/output.bc1011_1--bc1011_1.subreads.bam > ./SRL662_raw_data/A01_long_unfiltered.fastq
+```
+```
+filtlong --min_length 1000 --keep_percent 95 ./SRL662_raw_data/A01_long_unfiltered.fastq > ./SRL662_raw_data/A01_long_filtered.fastq
+```
+
 #### Run quast on the assembly
 
 ```
