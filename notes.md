@@ -738,6 +738,12 @@ samtools fastq ./SRL662_raw_data/output.bc1011_1--bc1011_1.subreads.bam > ./SRL6
 filtlong --min_length 1000 --keep_percent 95 ./SRL662_raw_data/A01_long_unfiltered.fastq > ./SRL662_raw_data/A01_long_filtered.fastq
 ```
 
+##### Try filtering with the help of Illumina reads
+
+```
+filtlong -1 ./SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 ./SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --min_length 1000 --keep_percent 90 --target_bases 300000000 --trim --split 500 ./SRL662_raw_data/A01_long_unfiltered.fastq > ./SRL662_raw_data/A01_long_illumina_filtered.fastq
+```
+
 **Installation of the seqkit tool in the perfect_assembly environment**
 
 ```
@@ -756,6 +762,13 @@ unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long_unfiltered.fastq -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_unicycler_unfiltered --threads 20
 flye --pacbio-raw ./SRL662_raw_data/A01_long_filtered.fastq --out-dir ./SRL662_flye_filtered_reads --genome-size 4.2m --threads 20
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l ./SRL662_raw_data/A01_long_filtered.fastq --existing_long_read_assembly ./SRL662_flye_filtered_reads/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler --threads 20
+```
+
+Flye with the Illumina filtered long reads 
+
+```
+flye --pacbio-raw ./SRL662_raw_data/A01_long_illumina_filtered.fastq --out-dir ./SRL662_flye_illumina_filtered_reads --genome-size 4.2m --threads 20
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l ./SRL662_raw_data/A01_long_illumina_filtered.fastq --existing_long_read_assembly ./SRL662_flye_illumina_filtered_reads/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_illumina_filtered_reads_unicycler --threads 20
 ```
 
 ### FastQC on the raw short reads
