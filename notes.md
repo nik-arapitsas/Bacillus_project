@@ -1773,6 +1773,34 @@ quast assembly.fasta -o ./SRL543_flye_hybrid_assembly_20250525_quast
 
 **It has 1 contig and now is ok**
 
+### Filter the PacBio raw reads
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data
+```
+
+Convert bam to fq: 
+
+```
+samtools fastq output.1069_1--1069_1.subreads.bam > A08_long_unfiltered.fastq
+```
+
+Run filtlong:
+
+```
+filtlong --min_length 1000 --keep_percent 95 A08_long_unfiltered.fastq > ./A08_long_filtered.fastq
+```
+
+### Run flye and unicycler with the filtered long-reads
+
+```
+flye --pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_long_filtered.fastq --out-dir /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads --threads 23
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_long_filtered.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads_unicycler --threads 23
+```
+
 ## Isolate SRL389
 
 Unicycler number of contigs: 15 (Christos), 14 (Nikos)
@@ -1829,6 +1857,34 @@ quast assembly.fasta -o ./SRL389_flye_hybrid_assembly_20250527_quast
 
 ```
 rfplasmid --species Bacillus --input /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_hybrid_assembly_20250527/ --threads 23 --out /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_hybrid_assembly_20250527/SRL389_flye_hybrid_assembly_20250527_rfplasmid
+```
+
+### Filter the PacBio raw reads
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data
+```
+
+Convert bam to fq: 
+
+```
+samtools fastq sample_389_m64270e_230219_013217.subreads.bam > SRL389_long_unfiltered.fastq
+```
+
+Run filtlong:
+
+```
+filtlong --min_length 1000 --keep_percent 95 SRL389_long_unfiltered.fastq > ./SRL389_long_filtered.fastq
+```
+
+### Run flye and unicycler with the filtered long-reads
+
+```
+flye --pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/SRL389_long_filtered.fastq --out-dir /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads --threads 23
+```
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/SRL389_long_filtered.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads_unicycler --threads 23
 ```
 
 ## Isolate SRL340
@@ -1892,6 +1948,32 @@ conda activate quast
 ```
 cd /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_flye_hybrid_assembly_20250527/
 quast assembly.fasta -o ./SRL340_flye_hybrid_assembly_20250527_quast
+```
+
+### Filter the PacBio raw reads
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_raw_data
+```
+
+Convert bam to fq: 
+
+```
+samtools fastq sample_340_m64270e_230219_013217.subreads.bam > SRL340_long_unfiltered.fastq
+```
+
+Run filtlong:
+
+```
+filtlong --min_length 1000 --keep_percent 95 SRL340_long_unfiltered.fastq > ./SRL340_long_filtered.fastq
+```
+
+### Run flye and unicycler with the filtered long-reads
+
+```
+flye --pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_raw_data/SRL340_long_filtered.fastq --out-dir /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_flye_filtered_reads --threads 23
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_fastp/sample_340_FKDN230011111-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_raw_data/SRL340_long_filtered.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_flye_filtered_reads/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_flye_filtered_reads_unicycler --threads 23
 ```
 
 # Search for plasmids
