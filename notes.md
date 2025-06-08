@@ -1795,8 +1795,11 @@ filtlong --min_length 1000 --keep_percent 95 A08_long_unfiltered.fastq > ./A08_l
 ### Run flye and unicycler with the filtered long-reads
 
 ```
-flye --pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_long_filtered.fastq --out-dir /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads --threads 23
+flye --pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_long_filtered.fastq --genome-size 5m --asm-coverage 50 --out-dir /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads --threads 23
 ```
+
+**I got 1 contig only by flye this time.**
+
 ```
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_fastp/A08_FDSW210370234-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_raw_data/A08_long_filtered.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads_unicycler --threads 23
 ```
@@ -1883,6 +1886,7 @@ filtlong --min_length 1000 --keep_percent 95 SRL389_long_unfiltered.fastq > ./SR
 ```
 flye --pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/SRL389_long_filtered.fastq --out-dir /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads --threads 23
 ```
+
 ```
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_fastp/sample_389_FKDN230011106-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_raw_data/SRL389_long_filtered.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads_unicycler --threads 23
 ```
