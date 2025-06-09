@@ -2049,12 +2049,54 @@ plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybri
 
 ## Use ragtag
 
+Install ragtag:
+
+```
+conda install -c bioconda ragtag
+```
+
+Run ragtag correct: 
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662 
+mkdir SRL662_ragtag
+cd SRL662_ragtag
+mkdir SRL662_ragtag_correct
+cd SRL662_ragtag_correct
+```
 ```
 ragtag.py correct /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta 
 ```
 
+Run ragtag scaffold:
+
+```
+cd ../..
+mkdir SRL662_ragtag_scaffold
+cd SRL662_ragtag_scaffold
+```
 ```
 ragtag.py scaffold /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta 
+```
+
+Run ragtag patch:
+
+```
+cd ../..
+mkdir SRL662_ragtag_patch
+cd SRL662_ragtag_patch
+```
+
+```
+ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta
+```
+
+I did not run this command. **I preffered to use the ragtag correct output for ragtag scaffold and then run ragtag patch**: 
+
+```
+cd ..
+mkdir SRL662_ragtag_correct_scaffold
+cd SRL662_ragtag_correct_scaffold
 ```
 
 Use the corrected assembly for the scaffold command: 
@@ -2063,14 +2105,46 @@ Use the corrected assembly for the scaffold command:
 ragtag.py scaffold /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct/ragtag_output/ragtag.correct.fasta 
 ```
 
+Then run ragtag patch using the ragtag correct output:
 
 ```
-ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta
+cd ..
+mkdir SRL662_ragtag_patch_usingcorrected
+cd SRL662_ragtag_patch_usingcorrected
 ```
 
 ```
 ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct/ragtag_output/ragtag.correct.fasta /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta  
 ```
+
+Try inverting the position of SRL658 and SRL662 assemblies in the command:
+
+```
+ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct/ragtag_output/ragtag.correct.fasta
+```
+
+Quast to compare SRL658 with SRL662 assembly:
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_invert/ragtag_output/SRL662vsSRL658_quast
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_invert/ragtag_output/SRL662vsSRL658_quast
+```
+```
+quast /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_invert/ragtag_output/ragtag.patch.fasta -r /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta -o ./
+```
+
+Try unicycler using the ragtag.patch.fasta file as "existing long-read assembly":
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag
+mkdir SRL662_ragtag_patch_usingcorrected_invert_unicycler
+cd SRL662_ragtag_patch_usingcorrected_invert_unicycler
+```
+
+```
+unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long_filtered.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_invert/ragtag_output/ragtag.patch.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_invert_unicycler --threads 20
+```
+
 
 ## Run TGS-Gapcloser
 
@@ -2085,8 +2159,30 @@ Convert the long-reads from .fastq to .fasta:
 seqtk seq -a /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long_filtered.fastq > A01_long_filtered.fasta
 ```
 
-Run tgsgapcloser:
+Run tgsgapcloser with racon error correction:
 
 ```
-tgsgapcloser --scaff /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct_scaffold/ragtag_output/ragtag.scaffold.fasta --reads A01_long_filtered.fasta --output /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_tgsgapcloser --racon /opt/miniconda3/envs/perfect_assembly/bin/racon --thread 20 
+tgsgapcloser --scaff /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct_scaffold/ragtag_output/ragtag.scaffold.fasta --tgstype pb --reads A01_long_filtered.fasta --output /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_tgsgapcloser --racon /opt/miniconda3/envs/perfect_assembly/bin/racon --thread 20 
+```
+
+Run tgsgapcloser without error correction:
+
+```
+mkdir SRL662_tgsgapcloser_noerrorcorr
+cd SRL662_tgsgapcloser_noerrorcorr
+```
+
+```
+tgsgapcloser --scaff /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct_scaffold/ragtag_output/ragtag.scaffold.fasta --tgstype pb --reads ../A01_long_filtered.fasta --output . --ne --thread 20 >pipe.log 2>pipe.err
+```
+
+## Try using GapCloser
+
+```
+conda activate perfect_assembly
+conda install bioconda::soapdenovo2-gapcloser
+```
+
+```
+GapCloser -a /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct_scaffold/ragtag_output/ragtag.scaffold.fasta -b /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta -o SRL662_ragtag_correct_scaffold_gapcloser -t 20
 ```
