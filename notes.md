@@ -2047,4 +2047,46 @@ plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybri
 ```
 
 
+## Use ragtag
 
+```
+ragtag.py correct /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta 
+```
+
+```
+ragtag.py scaffold /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta 
+```
+
+Use the corrected assembly for the scaffold command: 
+
+```
+ragtag.py scaffold /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct/ragtag_output/ragtag.correct.fasta 
+```
+
+
+```
+ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta
+```
+
+```
+ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct/ragtag_output/ragtag.correct.fasta /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta  
+```
+
+## Run TGS-Gapcloser
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_tgsgapcloser
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_tgsgapcloser
+```
+
+Convert the long-reads from .fastq to .fasta:
+
+```
+seqtk seq -a /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long_filtered.fastq > A01_long_filtered.fasta
+```
+
+Run tgsgapcloser:
+
+```
+tgsgapcloser --scaff /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct_scaffold/ragtag_output/ragtag.scaffold.fasta --reads A01_long_filtered.fasta --output /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_tgsgapcloser --racon /opt/miniconda3/envs/perfect_assembly/bin/racon --thread 20 
+```
