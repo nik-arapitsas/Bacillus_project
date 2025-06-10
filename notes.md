@@ -2231,3 +2231,19 @@ conda install bioconda::soapdenovo2-gapcloser
 ```
 GapCloser -a /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct_scaffold/ragtag_output/ragtag.scaffold.fasta -b /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta -o SRL662_ragtag_correct_scaffold_gapcloser -t 20
 ```
+
+# Antismash
+
+## Install antiSMASH
+
+```
+conda create -n antismash -c conda-forge -c bioconda antismash
+conda activate antismash
+download-antismash-databases
+```
+
+## Run antiSMASH
+
+```
+antismash --genefinding-tool prodigal --taxon bacteria --cpus 18 --output-dir ./ /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta
+```
