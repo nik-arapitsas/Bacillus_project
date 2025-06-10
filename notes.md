@@ -2145,6 +2145,51 @@ cd SRL662_ragtag_patch_usingcorrected_invert_unicycler
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_fastp/A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_raw_data/A01_long_filtered.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_invert/ragtag_output/ragtag.patch.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_invert_unicycler --threads 20
 ```
 
+Using scaffold as input for target in ragtap patch:
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag
+mkdir SRL662_ragtag_patch_usingcorrected_scaffold
+cd SRL662_ragtag_patch_usingcorrected_scaffold
+```
+
+```
+ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct_scaffold/ragtag_output/ragtag.scaffold.fasta /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta
+```
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_scaffold/ragtag_output/SRL662_ragtag_patch_usingcorrected_scaffold_patch2
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_scaffold/ragtag_output/SRL662_ragtag_patch_usingcorrected_scaffold_patch2
+ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_scaffold/ragtag_output/ragtag.patch.fasta /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta
+```
+
+Try inverted
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag
+mkdir SRL662_ragtag_patch_usingcorrected_scaffold_inverted
+cd SRL662_ragtag_patch_usingcorrected_scaffold_inverted
+```
+
+```
+ragtag.py patch /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_correct_scaffold/ragtag_output/ragtag.scaffold.fasta
+```
+
+```
+nucmer -p SRL662_asm_comparison /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_ragtag/SRL662_ragtag_patch_usingcorrected_scaffold_inverted/ragtag_output/ragtag.patch.fasta /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta
+dnadiff -p SRL662_dnadiff_out -d SRL662_asm_comparison.delta
+```
+
+```
+nucmer -p SRL658vsSRL656_asm_comparison /media/sarlab/DATA/Bacillus_project/SRL656/SRL656_assembly/SRL656_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta
+dnadiff -p SRL658vsSRL656_dnadiff_out -d SRL658vsSRL656_asm_comparison.delta
+```
+```
+nucmer -p SRL662last_asm_comparison /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL658/SRL658_assembly/SRL658_assembly.fasta
+dnadiff -p SRL662last_dnadiff_out -d SRL662last_asm_comparison.delta
+```
+
+**The SRL662, SRL658 and SRL656 are probably the same isolate. In the case of SRL662 the final assembly is more fragmented and the total length appears smaller, maybe due to repeats that interfered with the complete assembly of SRL662** 
+
 
 ## Run TGS-Gapcloser
 
