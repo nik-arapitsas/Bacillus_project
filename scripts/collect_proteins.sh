@@ -13,13 +13,13 @@ for srl_dir in "${source_base}"/SRL[0-9][0-9][0-9]; do
     srl_number=$(basename "$srl_dir" | grep -o '[0-9]\{3\}$')
     
     # Define file paths
-    source_file="${srl_dir}/SRL${srl_number}_proteins/SRL${srl_number}_proteins.faa"
-    target_file="${target_dir}/SRL${srl_number}_proteins.faa"
+    source_file="${srl_dir}/SRL${srl_number}_proteins/SRL${srl_number}*_proteins.faa"
+    target_file="${target_dir}/SRL${srl_number}*_proteins.faa"
     
     # Verify and copy
     if [[ -f "$source_file" ]]; then
         cp -v "$source_file" "$target_file" && \
-        echo "Copied: SRL${srl_number}_proteins.faa"
+        echo "Copied: SRL${srl_number}*_proteins.faa"
     else
         echo "Warning: Not found - ${srl_dir}/SRL${srl_number}_proteins/SRL${srl_number}_proteins.faa"
     fi
