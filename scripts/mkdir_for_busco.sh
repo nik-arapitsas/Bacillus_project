@@ -32,7 +32,6 @@ for dir in "${base_dir}"/SRL*/; do
     
     busco -i "$assembly_file" \
           -o "$(basename "$busco_dir")" \  
-          --out_path "$(dirname "$busco_dir")" \
           -l firmicutes_odb10 \
           -m genome \
           -c 18 \
