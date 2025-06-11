@@ -1,10 +1,18 @@
 
 for dir in /home/nik_arapitsas/Desktop/test/SRL*/; do
-    if [ -d "$dir" ]; then
-        shortname=$(basename "$dir")
-        mkdir /home/nik_arapitsas/Desktop/test/SRL*/"$shortname"
-        echo "Directory /home/nik_arapitsas/Desktop/test/SRL*/$shortname is created"
-    fi
+    
+    shortname=$(basename "$dir")
+
+    # Enter the directory
+    cd "$dir" || { echo "Failed to enter $dir"; continue; }
+    
+    # Create the busco folder
+    busco_dir="${shortname}_busco"
+    mkdir -p "$busco_dir" && echo "Created $busco_dir in $dir"
+    
+    # Return to original directory (optional, but good practice)
+    cd - >/dev/null
+
 done
 
 
