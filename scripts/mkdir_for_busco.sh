@@ -17,12 +17,9 @@ for dir in "${base_dir}"/SRL*/; do
         continue
     fi
     
-    assembly_file="${assembly_dir}/*assembly.fasta"
+    assembly_file=$(ls "${assembly_dir}"/*assembly.fasta 2>/dev/null | head -1)
     
-    if [[ ! -f "$assembly_file" ]]; then
-        echo "Warning: assembly.fasta not found in $assembly_dir"
-        continue
-    fi
+    [[ -f "$assembly_file" ]] || { echo "Error: No assembly file in $assembly_dir"; continue; }
     
     # Create BUSCO directory
     busco_dir="${dir}${shortname}_busco"
