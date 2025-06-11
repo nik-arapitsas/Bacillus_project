@@ -8,7 +8,7 @@ target_dir="${base_dir}/Bacillus_project_proteins"
 mkdir -p "$target_dir"
 
 # Process each SRL directory
-for srl_dir in "${base_dir}"/SRL[0-9][0-9][0-9]/; do
+for srl_dir in "${base_dir}"/SRL*/; do
     # Extract SRL number
     srl_number=$(basename "$srl_dir" | sed 's/SRL//')
     
