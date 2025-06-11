@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set directories
-source_base="/home/nik_arapitsas/Desktop/test"
-target_dir="/home/nik_arapitsas/Desktop/test/Bacillus_project_proteins"
+source_base="/media/sarlab/DATA/Bacillus_project"
+target_dir="/media/sarlab/DATA/Bacillus_project/Bacillus_project_proteins"
 
 # Create target directory
 mkdir -p "$target_dir"
