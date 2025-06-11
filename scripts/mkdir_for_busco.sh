@@ -17,7 +17,7 @@ for dir in "${base_dir}"/SRL*/; do
         continue
     fi
     
-    assembly_file="${assembly_dir}/assembly.fasta"
+    assembly_file="${assembly_dir}/*assembly.fasta"
     
     if [[ ! -f "$assembly_file" ]]; then
         echo "Warning: assembly.fasta not found in $assembly_dir"
@@ -31,8 +31,5 @@ for dir in "${base_dir}"/SRL*/; do
     echo "Found assembly: $assembly_file"
     echo "Created BUSCO dir: $busco_dir"
     
-    # Run busco
-    
-    busco -i "$assembly_file" -o "$busco_dir" -l bacteria_odb10 -m genome -c 8
-
 done
+
