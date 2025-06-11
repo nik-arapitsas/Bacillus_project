@@ -1,6 +1,6 @@
-project_bacillus = "/media/sarlab/DATA/Bacillus_project/SRL*/"
+project_bacillus = "/media/sarlab/DATA/Bacillus_project/"
 
-for dir in project_bacillus; do
+for dir in project_bacillus/SRL*/; do
     if [ -d "$dir" ]; then
         shortname=$(basename "$dir")
         mkdir "$shortname"
