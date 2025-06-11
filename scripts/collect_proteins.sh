@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set directories
-source_base="/home/nik_arapitsas/Desktop/test/SRL368"
+source_base="/home/nik_arapitsas/Desktop/test"
 target_dir="/home/nik_arapitsas/Desktop/test/Bacillus_project_proteins"
 
 # Create target directory
