@@ -22,7 +22,7 @@ for dir in "${base_dir}"/SRL*/; do
     [[ -f "$assembly_file" ]] || { echo "Error: No assembly file in $assembly_dir"; continue; }
     
     # Create BUSCO directory
-    busco_dir="${dir}${shortname}_busco"
+    busco_dir="${shortname}_busco"
     mkdir -p "$busco_dir"
     
     echo "Found assembly: $assembly_file"
@@ -30,10 +30,12 @@ for dir in "${base_dir}"/SRL*/; do
 
     # Run BUSCO
     busco -i "$assembly_file" \
-          -o "${dir}${shortname}_busco" \
+          -o "${shortname}_busco" \
           -l firmicutes_odb10 \
           -m genome \
           -c 20 \
-    
+
+    cd - >/dev/null
+
 done
 
