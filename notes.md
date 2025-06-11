@@ -2264,4 +2264,56 @@ download-antismash-databases
 antismash --genefinding-tool prodigal --taxon bacteria --cpus 18 --output-dir ./ /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta
 ```
 
+```
+antismash --genefinding-tool prodigal --taxon bacteria --cpus 18 --output-dir ./SRL662_antismash_test /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta --fullhmmer --clusterhmmer --tigrfam --asf --cb-general --cc-mibig --cb-subclusters --cb-knownclusters --pfam2go --rre --smcog-trees            
+```
+
+**I used the webpage to upload each assembly and download the online output: https://antismash.secondarymetabolites.org/#!/start** 
+
+
+# BUSCO on the assemblies
+
+I created the script *mkdir_for_busco.sh* to create a directory for the busco output in each isolate folder, and to run busco for every assembly. 
+
+
+# Run prodigal for isolates SRL389, SRL543 and SRL662
+
+## SRL389
+
+```
+conda activate perfect_assembly
+cd /media/sarlab/DATA/Bacillus_project/SRL389
+mkdir SRL389_proteins
+cd SRL389_proteins
+prodigal -i /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads_unicycler/assembly.fasta -o SRL389_gene_coordinates.gff -a SRL389_proteins.faa -d SRL389_genes.fna
+```
+
+## SRL543
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL543
+mkdir SRL543_proteins
+cd SRL543_proteins
+prodigal -i /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads_unicycler/assembly.fasta -o SRL543_gene_coordinates.gff -a SRL543_proteins.faa -d SRL543_genes.fna
+```
+
+## SRL662
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662
+mkdir SRL662_proteins
+cd SRL662_proteins
+prodigal -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta -o SRL662_gene_coordinates.gff -a SRL662_proteins.faa -d SRL662_genes.fna
+```
+
+# Orthogroup with the new assemblieas and adjustments
+
+
+
+```
+
+```
+
+
+
 
