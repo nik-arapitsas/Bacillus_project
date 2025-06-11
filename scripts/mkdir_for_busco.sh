@@ -27,6 +27,15 @@ for dir in "${base_dir}"/SRL*/; do
     
     echo "Found assembly: $assembly_file"
     echo "Created BUSCO dir: $busco_dir"
+
+    # Run busco
+    
+    busco -i "$assembly_file" \
+          -o "$(basename "$busco_dir")" \  
+          --out_path "$(dirname "$busco_dir")" \
+          -l firmicutes_odb10 \
+          -m genome \
+          -c 18 \
     
 done
 
