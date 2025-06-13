@@ -2306,12 +2306,194 @@ cd SRL662_proteins
 prodigal -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta -o SRL662_gene_coordinates.gff -a SRL662_proteins.faa -d SRL662_genes.fna
 ```
 
-# Orthogroup with the new assemblieas and adjustments
+# Orthofinder with the new assemblieas and adjustments
 
-
+## Re-run Orthofinder with every isolate
 
 ```
+conda activate orthofinder
+orthofinder -f /media/sarlab/DATA/Bacillus_project/Bacillus_project_proteins -t 20 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder
+```
 
+It took about 15 minutes to complete. It produced 741.5 Mb of output files. 
+
+## Run Orthofinder while keeping out isolates that are the same species and are isolated from the exact same sample
+
+**Groups of same species from the same sample:**
+
+Sample MIES02:	SRL215,  SRL218,  SRL224  
+
+Sample MIES03:	SRL221,  SRL244
+
+Sample S10:	SRL398,   SRL342
+
+Sample MTR:	SRL656,    SRL658,    SRL662
+
+* MIES02:
+
+grep -c "^>" SRL215_proteins.faa 
+6135
+
+grep -c "^>" SRL218_proteins.faa 
+6097
+
+grep -c "^>" SRL224_proteins.faa 
+6097
+
+**I selected SRL215**
+
+* MIES03:
+
+grep -c "^>" SRL221_proteins.faa 
+3813
+
+grep -c "^>" SRL244_proteins.faa 
+3813
+
+**I selected SRL244**
+
+
+* S10:
+
+grep -c "^>" SRL342_proteins.faa 
+6619
+
+grep -c "^>" SRL398_proteins.faa 
+6591
+
+**I selected BOTH (pretty interesting)**
+
+SRL342 (S10c1 -> NA1/2) and SRL398 (S10a5b1 -> NA) both belong to the same species. The only difference is that they were cultivated in different media for their consecutive isolations and re-inoculations. That could indicate media-associated diversification that can have an impact in the genome. 
+
+* MTR:
+
+grep -c "^>" SRL656_proteins.faa 
+4260
+
+grep -c "^>" SRL658_proteins.faa 
+4260
+
+grep -c "^>" SRL662_proteins.faa 
+3811
+
+As these all are probably the same, and as SRL662 has lower number of proteins and its assembly is fragmented, I decided to select one from the other two. **I just picked SRL656.**
+
+So, I got rid of SRL221, SRL662, SRL658, SRL218 and SRL224 protein files from the "Bacillus_project_proteins" directory and moved them in a directory called "Bacillus_project_redundant_proteins". 
+
+```
+orthofinder -f /media/sarlab/DATA/Bacillus_project/Bacillus_project_proteins -t 20 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder_filtered
+```
+
+## Create Graphs
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs
+```
+
+1) **Number of Isolate-Specific Orthogroups per Isolate - Genetic Novelty**
+
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==9 {for(i=2; i<=NF; i++) print species[i], $i}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/species_specific_orthogroups.txt  
+```
+
+The graph was designed in Rstudio. The script is located in the following path:
+
+```
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/orthofinder_graphs.R
+```
+
+2) **Percentage of genes from each isolate assigned to orthogroups**
+
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==5 {for(i=2; i<=NF; i++) print species[i], $i}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/percofgenes_inogs_per_isolate_unsorted.txt  
+```
+
+The same sorting with the list above will be used to provide plots that could be easily comparable:
+
+First, extract the species order from the previous output file with species-specific orthogroups:
+
+```
+awk '{print $1}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/species_specific_orthogroups.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/isolates.txt 
+```
+
+Then use it to assign the percentage of genes in orthofroups in the desirable order: 
+
+```
+awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1, a[$1]}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/percofgenes_inogs_per_isolate_unsorted.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/isolates.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/percofgenes_inogs_per_isolate.txt
+```
+
+3) **Genes with orthogroups in all or any isolates**
+
+With the code below when counting the partially shared orthogroups we do not count the core orthogroups.
+
+```
+awk '
+NR==1 {
+  for (i=2; i<=NF-1; i++) {
+    species[i] = substr($i, 1, 6); # Keep only first 6 letters
+    core_count[i] = 0;
+    shared[i] = 0;
+  }
+  next
+}
+{
+  core=1;
+  for (i=2; i<=NF-1; i++) if ($i==0) core=0; # Check if this is a core orthogroup
+
+  if (core) {
+    for (i=2; i<=NF-1; i++) core_count[i]++; # Count core orthogroups for each species
+    next; # Skip counting this orthogroup in the shared category
+  }
+
+  for (i=2; i<=NF-1; i++) {
+    if ($i > 0) {
+      for (j=2; j<=NF-1; j++) {
+        if (j != i && $j > 0) {shared[i]++; break}
+      }
+    }
+  }
+}
+END {
+  print "Isolates" "\t" "Core Orthogroups" "\t" "Partially Shared Orthogroups";
+  for (i in species) {
+    print species[i] "\t" core_count[i] "\t" shared[i];
+  }
+}
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/orthogroupcount_in_isolates.txt
+```
+
+With the code below when counting the partially shared orthogroups we count the core orthogroups as well. This is better for creating a bar plot where the bars of all and any orthogroups will be overlapping. 
+
+```
+awk '
+NR==1 {
+  for (i=2; i<=NF-1; i++) {
+    species[i] = substr($i, 1, 6); # Keep only first 6 letters of species name
+    core_count[i] = 0;
+    shared[i] = 0;
+  }
+  next
+}
+{
+  core=1;
+  for (i=2; i<=NF-1; i++) if ($i==0) core=0; # Check if this is a core orthogroup
+
+  for (i=2; i<=NF-1; i++) {
+    if ($i > 0) {
+      if (core) core_count[i]++;  # Count genes in core orthogroups
+      for (j=2; j<=NF-1; j++) {
+        if (j != i && $j > 0) {shared[i]++; break} # Count genes in shared orthogroups, including core
+      }
+    }
+  }
+}
+END {
+  print "Isolates" "\t" "Core Orthogroups" "\t" "Partially Shared Orthogroups";
+  for (i in species) {
+    print species[i] "\t" core_count[i] "\t" shared[i];
+  }
+}
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/orthogroupcount_in_isolates.txt
 ```
 
 
