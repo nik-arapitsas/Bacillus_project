@@ -2046,6 +2046,18 @@ mkdir /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_202
 plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybrid_assembly_20250520/SRL662_flye_hybrid_assembly_20250520_plasmidfinder -p /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/ 
 ```
 
+### SRL224
+
+```
+rfplasmid --species Bacillus --input /media/sarlab/DATA/Bacillus_project/SRL224/SRL224_assembly --threads 23 --out /media/sarlab/DATA/Bacillus_project/SRL224/SRL224_assembly_rfplasmid
+```
+
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly_20230327_plasmidfinder 
+plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly_20230327_plasmidfinder -p /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/ 
+```
+
 
 ## Use ragtag
 
