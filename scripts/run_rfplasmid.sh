@@ -2,7 +2,7 @@
 
 conda activate plasmid_search
 
-base_dir="/media/sarlab/DATA/Bacillus_project"
+base_dir="/home/nik_arapitsas/Desktop/test/"
 
 for dir in "${base_dir}"/SRL*/; do
     shortname=$(basename "$dir")
