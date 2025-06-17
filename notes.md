@@ -1706,6 +1706,22 @@ flye --pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_raw_data/SRL
 unicycler -1 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_2_trimmed.fq.gz -l /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_raw_data/SRL368_long_filtered.fastq --existing_long_read_assembly /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_filtered_reads/assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_filtered_reads_unicycler --threads 23
 ```
 
+### Try running flye with --plasmids parameter
+
+```
+flye --pacbio-raw /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_raw_data/SRL368_long_filtered.fastq --out-dir /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_flye_filtered_reads_plasmids --plasmids --threads 18
+```
+
+### Try hybrid SPAdes
+
+```
+spades.py -1 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_2_trimmed.fq.gz --pacbio /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_raw_data/SRL368_long_filtered.fastq -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_hybrid_spades_assembly -t 18
+```
+
+```
+spades.py -1 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_1_trimmed.fq.gz -2 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_fastp/sample_368_FKDN230011102-1A_HYVFYDSX3_L3_2_trimmed.fq.gz --pacbio /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_raw_data/SRL368_long_filtered.fastq --plasmid -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_hybrid_plasmid_spades_assembly -t 18
+```
+
 
 ## Isolate SRL543
 
@@ -2052,10 +2068,9 @@ plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_hybri
 rfplasmid --species Bacillus --input /media/sarlab/DATA/Bacillus_project/SRL224/SRL224_assembly --threads 23 --out /media/sarlab/DATA/Bacillus_project/SRL224/SRL224_assembly_rfplasmid
 ```
 
-
 ```
-mkdir /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly_20230327_plasmidfinder 
-plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly_20230327/SRL368_assembly_20230327_plasmidfinder -p /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/ 
+mkdir /media/sarlab/DATA/Bacillus_project/SRL224/SRL224_assembly_plasmidfinder 
+plasmidfinder.py -i /media/sarlab/DATA/Bacillus_project/SRL224/SRL224_assembly/SRL224_assembly.fasta -o /media/sarlab/DATA/Bacillus_project/SRL224/SRL224_assembly_plasmidfinder -p /opt/miniconda3/envs/plasmid_search/share/plasmidfinder-2.1.6/database/ 
 ```
 
 
