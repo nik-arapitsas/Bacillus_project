@@ -1,6 +1,6 @@
 #!/bin/bash
 
-base_dir="/home/nik_arapitsas/Desktop/test/"
+base_dir="/home/nik_arapitsas/Desktop/test"
 
 for dir in "${base_dir}"/SRL*/; do
     shortname=$(basename "$dir")
