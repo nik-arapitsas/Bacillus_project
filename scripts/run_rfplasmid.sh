@@ -1,7 +1,5 @@
 #!/bin/bash
 
-conda activate plasmid_search
-
 base_dir="/home/nik_arapitsas/Desktop/test/"
 
 for dir in "${base_dir}"/SRL*/; do
