@@ -27,7 +27,7 @@ for dir in "${base_dir}"/SRL*/; do
 
     # Run rfplasmid
     
-    rfplasmid --species Bacillus --input "$assembly_dir" --threads 23 --out "$(dirname "$rfplasmid_dir")"
+    rfplasmid --species Bacillus --input "$assembly_dir" --threads 23 --out "$(basename "$rfplasmid_dir")"
     
 done
 
