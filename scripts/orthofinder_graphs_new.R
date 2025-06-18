@@ -173,17 +173,18 @@ SharedOgs_plot <- ggplot(data_combined, aes(x = Isolates, y = Count, fill = Cate
                     labels = c("Partially.Shared.Orthogroups" = "in any isolate", 
                                "Core.Orthogroups" = "in all isolates")) +
   labs(title = "Number of Genes with Orthogroups", y = "", x = "", fill = "Category") +
-  guides(fill = guide_legend(title = NULL)) +
+  guides(fill = guide_legend(title = NULL, byrow = TRUE)) +
   theme_minimal() +
   theme(panel.grid = element_blank(),
         axis.line = element_line(color = "black", size = 0.2),
         axis.ticks.length = unit(0.1, "cm"),
         axis.ticks = element_line(color = "black", linewidth = 0.5),
-        legend.position = "right",
-        legend.text = element_text(size = 9),  # Reduce font size of legend
+        legend.position = c(0.89, 0.89),
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.text = element_text(size = 10),  # Reduce font size of legend
+        legend.spacing.y = unit(0.2, 'cm'),
         legend.key.size = unit(0.5, "cm"),  # Adjust size of legend keys (squares)
-        legend.margin = margin(1, 1, 1, 0.1),  # Reduce legend margins
-        legend.spacing.x = unit(2.5, 'cm'), # space between items
+        legend.margin = margin(-2, 15, 4, 1.2),  # Reduce legend margins
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
         axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5, size = 10, color = "black", family = "sans", 
                                    margin = margin(t = 2.5)),
@@ -202,15 +203,16 @@ ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/
 
 SharedOgs_plot <- SharedOgs_plot + theme(legend.position = "bottom", legend.margin = margin(t = -18, unit = "pt"))
   
-collective_orthofinder_graph <- ggarrange(IsolateSpecificOgs_plot, PercOfOgs_plot, SharedOgs_plot, 
+collective_orthofinder_graph <- ggarrange(IsolateSpecificOgs_plot, PercOfOgs_plot, SharedOgs_plot,
+          labels = c("A", "B", "C"),                                
           ncol = 1, 
           nrow = 3, 
           align = "v")  # Align vertically by x-axis
 
 ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/collective_orthofinder_graph",".png"),
        plot=collective_orthofinder_graph, 
-       height = 50, 
-       width = 50,
+       height = 30, 
+       width = 30,
        dpi = 300, 
        units="cm",
        device="png")
