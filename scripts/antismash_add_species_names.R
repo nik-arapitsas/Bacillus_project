@@ -30,7 +30,7 @@ column_names <- colnames(bgc_typecount_similarity_perisolate)
 new_order <- c("IsolateID", "Species", setdiff(column_names, c("IsolateID", "Species")))
 bgc_typecount_similarity_perisolate <- bgc_typecount_similarity_perisolate[, new_order]
 
-# Remove underscores and trailing single-letter suffixes
+# Remove underscores and trailing single-letter suffixes from the end
 bgc_typecount_similarity_perisolate$Species <- gsub("_[A-Z]$", "", bgc_typecount_similarity_perisolate$Species)  # Remove "_A", "_S", etc. at end
 
 # Remove internal GTDB-style suffixes like "_A", "_AB", etc.
