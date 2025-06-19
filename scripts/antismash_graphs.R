@@ -52,7 +52,6 @@ antiSMASH_regions_similarity_count_plot <- ggplot(df_long, aes(x = IsolateID, y 
         legend.key.size = unit(0.5, "cm"),  # Adjust size of legend keys (squares)
         plot.margin = margin(10, 10, 10, 10)) +  # Add extra space around the plot
           coord_cartesian(ylim = c(0,20))
-        
 
 ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/antiSMASH_regions_similarity_count_plot",".png"),
        plot=antiSMASH_regions_similarity_count_plot, 
