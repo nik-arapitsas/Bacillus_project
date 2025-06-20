@@ -41,3 +41,7 @@ bgc_typecount_similarity_perisolate$Species <- gsub("_[A-Z]+ ", " ", bgc_typecou
 # Replace any remaining underscores with spaces (just in case)
 bgc_typecount_similarity_perisolate$Species <- gsub("_", " ", bgc_typecount_similarity_perisolate$Species)
 
+# Save the table in a file
+write.csv(bgc_typecount_similarity_perisolate, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_similarity_with_species.csv", 
+          row.names = FALSE)
