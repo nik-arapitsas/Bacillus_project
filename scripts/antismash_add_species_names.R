@@ -11,6 +11,8 @@
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/antismash_add_species_names.R
 ######################################################################################################
 
+# Load the tidyverse library
+library(tidyverse)
 
 # Read the CSV file that contains the Isolate ID, BGC type, BGC count and Similarity Confidence without the species name 
 bgc_typecount_similarity_perisolate <- read_csv("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/antismash_bgc_groups_per_isolate_similarity_added.csv")
@@ -38,3 +40,4 @@ bgc_typecount_similarity_perisolate$Species <- gsub("_[A-Z]+ ", " ", bgc_typecou
 
 # Replace any remaining underscores with spaces (just in case)
 bgc_typecount_similarity_perisolate$Species <- gsub("_", " ", bgc_typecount_similarity_perisolate$Species)
+
