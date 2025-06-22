@@ -33,7 +33,8 @@ bgcs_perisolate_bgc <- bgcs_perisolate |>
                     "NRP-metallophore.NRPS", 
                     "NRPS.RRE-containing",
                     "NRPS.terpene",
-                    "NRPS.betalactone") ~ "NRPS-other hybrids",
+                    "NRPS.betalactone",
+                    "CDPS.NRPS") ~ "NRPS-other hybrids",
         TRUE ~ "others"
         )) 
 
@@ -153,7 +154,7 @@ ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/low_bgc_type
        units="cm",
        device="png")
 
-# C) Depict only the BGCs with Low similarity
+# C) Depict only the BGCs with Medium similarity
 
 # Select the regions with Medium similarity
 
