@@ -50,7 +50,8 @@ bgcs_percent <- bgcs_perisolate %>%
                     "NRP-metallophore.NRPS", 
                     "NRPS.RRE-containing",
                     "NRPS.terpene",
-                    "NRPS.betalactone") ~ "NRPS-other hybrids",
+                    "NRPS.betalactone",
+                    "CDPS.NRPS") ~ "NRPS-other hybrids",
         TRUE ~ "others"
   )) %>%
   group_by(IsolateID, Category) %>%
@@ -117,7 +118,7 @@ bgcs_perisolate_pies <- plot_grid(
   rel_heights = c(1, 0.2)
 )
 
-ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgcs_perisolate_pies_nocomplex",".png"),
+ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgcs_perisolate_pies",".png"),
        plot= bgcs_perisolate_pies, 
        height = 30, 
        width = 25,
