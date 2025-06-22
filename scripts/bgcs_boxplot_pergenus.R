@@ -15,6 +15,7 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 library(stringr)
+library(forcats)
 
 # Read the CSV file that contains the Isolate ID, BGC type, BGC count and Similarity Confidence without the species name 
 bgcs_perisolate <- read_csv("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_similarity_with_species.csv")
@@ -45,9 +46,9 @@ genus_colors <- c(
   "Rossellomorea" = "#f8d48c"     
 )
 
-# Create the graph
+# A) Create a boxplot
 
-bgc_perisolate_genera_grouped_graph <- ggplot(bgc_perisolate_genera_grouped, aes(x = bgc_count, y = reorder(genus, bgc_count, median), fill = genus)) +
+bgc_perisolate_genera_grouped_boxplot <- ggplot(bgc_perisolate_genera_grouped, aes(x = bgc_count, y = reorder(genus, bgc_count, median), fill = genus)) +
   geom_boxplot(outlier.shape = 18) +
   scale_fill_manual(values = genus_colors) +
   geom_text(data = genus_sample_sizes,
@@ -77,8 +78,69 @@ bgc_perisolate_genera_grouped_graph <- ggplot(bgc_perisolate_genera_grouped, aes
 
 # Save the graph 
 
-ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_perisolate_genera_grouped_graph",".png"),
-       plot= bgc_perisolate_genera_grouped_graph, 
+ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_perisolate_genera_grouped_boxplot",".png"),
+       plot= bgc_perisolate_genera_grouped_boxplot, 
+       height = 20, 
+       width = 50,
+       dpi = 300, 
+       units="cm",
+       device="png")
+
+# B) Create a barplot
+
+# Summarize BGCs per genus
+bgc_per_genus <- bgcs_perisolate_genera %>%
+  group_by(genus) %>%
+  summarise(total_bgcs = sum(BGC_Count), .groups = "drop") %>%
+  mutate(genus = fct_reorder(genus, total_bgcs))  # order by BGCs
+
+# Summarize mean and SE per genus
+bgc_stats <- bgc_perisolate_genera_grouped %>%
+  group_by(genus) %>%
+  summarise(
+    mean_bgc = mean(bgc_count),
+    se_bgc = sd(bgc_count) / sqrt(n()),
+    n = n(),
+    .groups = "drop"
+  ) %>%
+  mutate(genus = fct_reorder(genus, mean_bgc))  # order for plotting
+
+# Create the barplot
+bgc_perisolate_genera_grouped_barplot <- ggplot(bgc_stats, aes(x = genus, y = mean_bgc, fill = genus)) +
+  geom_col(width = 0.7) +
+  geom_errorbar(
+    aes(ymin = mean_bgc - se_bgc, ymax = mean_bgc + se_bgc),
+    width = 0.2
+  ) +
+  scale_fill_manual(values = genus_colors) +  # your custom palette
+  labs(
+    title = "Average number of antiSMASH regions per genus",
+    x = "Genus",
+    y = "Mean antiSMASH region count ± SE"
+  ) +
+  theme_minimal() +
+  theme(axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+        axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
+        axis.ticks = element_line(color = "black", linewidth = 0.5),
+        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
+        axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5, 
+                                   size = 10, color = "black", family = "sans", 
+                                   margin = margin(t = 2.5), face = "italic"),
+        axis.text.y = element_text(hjust = 0.5, vjust = 0.5, size = 10, color = "black", family = "sans", 
+                                   margin = margin(t = 2.0)),
+        legend.text = element_text(size = 10),  # Reduce font size of legend
+        legend.spacing.y = unit(0.2, 'cm'),
+        legend.key.size = unit(0.5, "cm"),  # Adjust size of legend keys (squares)
+        plot.margin = margin(10, 10, 10, 10),
+        legend.position = "none"
+  ) +  
+  scale_y_continuous(breaks = 0:16, expand = expansion(mult = c(0, 0.01))) +
+  coord_cartesian(ylim = c(0, 16))
+
+# Save the graph 
+
+ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_perisolate_genera_grouped_barplot",".png"),
+       plot= bgc_perisolate_genera_grouped_barplot, 
        height = 20, 
        width = 50,
        dpi = 300, 
