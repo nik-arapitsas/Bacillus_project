@@ -22,10 +22,10 @@ df_long$Similarity <- factor(df_long$Similarity, levels = c("Undefined", "Low", 
 
 # Define custom colors
 similarity_colors <- c(
-  "High" = "#58d45c",
-  "Medium" = "#f8d48c",
+  "High" = "#f8d48c",
+  "Medium" = "#d4c63a",
   "Low" = "#ff94b4",
-  "Undefined" = "#ff545c"
+  "Undefined" = "#7171be"
 )
 
 # Plot
