@@ -15,7 +15,9 @@ library(readr)
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
+install.packages("gtable")
 install.packages("patchwork")
+library(gtable)
 library(patchwork)
 library(cowplot)
 
@@ -31,7 +33,7 @@ bgc_group_colors <- c(
   "NI-siderophore" = "#a26324",
   "NRPS-PKS hybrids" = "#8f9ed7",
   "RiPPs" = "#c18563",
-  "complex" = "#c47ece",
+  "NRPS-other hybrids" = "#c47ece",
   "others" = "#f8d48c"
 )
 
@@ -39,17 +41,17 @@ bgc_group_colors <- c(
 bgcs_percent <- bgcs_perisolate %>%
   mutate(Category = case_when(
     BGC_Type %in% c("NRPS", "NRPS-like") ~ "NRPS",
-    BGC_Type %in% c("terpene", "terpene-precursor") ~ "terpene",
-    BGC_Type %in% c("T3PKS", "transAT-PKS", "PKS-like", "HR-T2PKS") ~ "PKS",
-    BGC_Type == "NI-siderophore" ~ "NI-siderophore",
-    grepl("NRPS.*PKS|PKS.*NRPS", BGC_Type) ~ "NRPS-PKS hybrids",
-    BGC_Type %in% c("RiPP-like", "azole-containing-RiPP") ~ "RiPPs",
-    BGC_Type %in% c("NRP-metallophore.NRPS.RiPP-like.terpene-precursor",
+        BGC_Type %in% c("terpene", "terpene-precursor") ~ "terpene",
+        BGC_Type %in% c("T3PKS", "transAT-PKS", "PKS-like", "HR-T2PKS") ~ "PKS",
+        BGC_Type == "NI-siderophore" ~ "NI-siderophore",
+        grepl("NRPS.*PKS|PKS.*NRPS", BGC_Type) ~ "NRPS-PKS hybrids",
+        BGC_Type %in% c("RiPP-like", "azole-containing-RiPP") ~ "RiPPs",
+        BGC_Type %in% c("NRP-metallophore.NRPS.RiPP-like.terpene-precursor",
                     "NRP-metallophore.NRPS", 
                     "NRPS.RRE-containing",
                     "NRPS.terpene",
-                    "NI-siderophore.terpene") ~ "complex",
-    TRUE ~ "others"
+                    "NRPS.betalactone") ~ "NRPS-other hybrids",
+        TRUE ~ "others"
   )) %>%
   group_by(IsolateID, Category) %>%
   summarise(Count = n(), .groups = "drop") %>%
@@ -115,7 +117,7 @@ bgcs_perisolate_pies <- plot_grid(
   rel_heights = c(1, 0.2)
 )
 
-ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgcs_perisolate_pies",".png"),
+ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgcs_perisolate_pies_nocomplex",".png"),
        plot= bgcs_perisolate_pies, 
        height = 30, 
        width = 25,
