@@ -38,6 +38,19 @@ bgcs_perisolate_bgc <- bgcs_perisolate |>
         TRUE ~ "others"
         )) 
 
+# Define custom colors
+
+bgc_group_colors <- c(
+  "NRPS" = "#7171be",
+  "terpene" = "#d4c63a",
+  "PKS" = "#ff94b4",
+  "NI-siderophore" = "#a26324",
+  "NRPS-PKS hybrids" = "#8f9ed7",
+  "RiPPs" = "#c18563",
+  "complex" = "#c47ece",
+  "others" = "#f8d48c"
+)
+
 # A) Depict only the BGCs with Undefined similarity
 
 # Select the regions with Undefined similarity
@@ -52,19 +65,6 @@ bgcs_undefined <- bgcs_perisolate_bgc %>%
 bgcs_summary <- bgcs_undefined %>%
   group_by(IsolateID, Category) %>%
   summarise(Count = n(), .groups = 'drop')
-
-# Define custom colors
-
-bgc_group_colors <- c(
-  "NRPS" = "#7171be",
-  "terpene" = "#d4c63a",
-  "PKS" = "#ff94b4",
-  "NI-siderophore" = "#a26324",
-  "NRPS-PKS hybrids" = "#8f9ed7",
-  "RiPPs" = "#c18563",
-  "complex" = "#c47ece",
-  "others" = "#f8d48c"
-)
 
 # Plot stacked bar graph
 
@@ -257,7 +257,7 @@ ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/high_bgc_typ
        units="cm",
        device="png")
 
-# D) Connect all the similarity categories in a common graph
+# E) Connect all the similarity categories in a common graph
 
 bgcs_perisolate_summary <- bgcs_perisolate_bgc |>
     group_by(IsolateID,Similarity,Category) |>
