@@ -49,10 +49,19 @@ bgcs_summary_undefined <- bgcs_undefined %>%
   summarise(Count = n(), .groups = 'drop') %>%
   arrange(desc(Count))
 
+write.csv(bgcs_summary_undefined, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/undefined_bgcs_summary.csv", 
+          row.names = FALSE)
+
 bgcs_perisolate_bgc_summary_undefined <- bgcs_undefined %>%
   group_by(Category) %>%
   summarise(Count = n(), .groups = 'drop') %>%
+  mutate(Percentage = 100 * Count / sum(Count)) %>%
   arrange(desc(Count)) 
+
+write.csv(bgcs_perisolate_bgc_summary_undefined, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/undefined_bgcs_groups_summary.csv", 
+          row.names = FALSE)
 
 # Select the regions with Undefined similarity
 
@@ -66,28 +75,42 @@ bgcs_summary_low <- bgcs_low %>%
   summarise(Count = n(), .groups = 'drop') %>%
   arrange(desc(Count))
 
+write.csv(bgcs_summary_low, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/low_bgcs_summary.csv", 
+          row.names = FALSE)
+
 bgcs_perisolate_bgc_summary_low <- bgcs_low %>%
   group_by(Category) %>%
   summarise(Count = n(), .groups = 'drop') %>%
+  mutate(Percentage = 100 * Count / sum(Count)) %>%
   arrange(desc(Count)) 
 
-# Total BGCs
+write.csv(bgcs_perisolate_bgc_summary_low, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/low_bgcs_groups_summary.csv", 
+          row.names = FALSE)
 
-bgcs_undefined <- bgcs_perisolate_bgc %>%
-  filter(Similarity == "Undefined")
+## Total BGCs
 
-# Summarize Undefined BGCs and categories
+# Summarize all BGCs and categories
 
 bgcs_summary <- bgcs_perisolate %>%
   group_by(BGC_Type) %>%
   summarise(Count = n(), .groups = 'drop') %>%
   arrange(desc(Count))
 
+write.csv(bgcs_summary, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/all_bgcs_summary.csv", 
+          row.names = FALSE)
+
 bgcs_perisolate_bgc_summary <- bgcs_perisolate_bgc %>%
   group_by(Category) %>%
   summarise(Count = n(), .groups = 'drop') %>%
   mutate(Percentage = 100 * Count / sum(Count)) %>%
   arrange(desc(Count)) 
+
+write.csv(bgcs_perisolate_bgc_summary, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/all_bgcs_groups_summary.csv", 
+          row.names = FALSE)
 
 # Summarize High BGCs and categories
 
@@ -99,11 +122,19 @@ bgcs_summary_high <- bgcs_high %>%
   summarise(Count = n(), .groups = 'drop') %>%
   arrange(desc(Count))
 
+write.csv(bgcs_summary_high, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/high_bgcs_summary.csv", 
+          row.names = FALSE)
+
 bgcs_perisolate_bgc_summary_high <- bgcs_high %>%
   group_by(Category) %>%
   summarise(Count = n(), .groups = 'drop') %>%
   mutate(Percentage = 100 * Count / sum(Count)) %>%
   arrange(desc(Count)) 
+
+write.csv(bgcs_perisolate_bgc_summary_high, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/high_bgcs_groupd_summary.csv", 
+          row.names = FALSE)
 
 # Summarize Medium BGCs and categories
 
@@ -115,11 +146,19 @@ bgcs_summary_medium <- bgcs_medium %>%
   summarise(Count = n(), .groups = 'drop') %>%
   arrange(desc(Count))
 
+write.csv(bgcs_summary_medium, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/medium_bgcs_summary.csv", 
+          row.names = FALSE)
+
 bgcs_perisolate_bgc_summary_medium <- bgcs_medium %>%
   group_by(Category) %>%
   summarise(Count = n(), .groups = 'drop') %>%
   mutate(Percentage = 100 * Count / sum(Count)) %>%
   arrange(desc(Count)) 
+
+write.csv(bgcs_perisolate_bgc_summary_medium, 
+          "/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/Stats/medium_bgcs_groups_summary.csv", 
+          row.names = FALSE)
 
 # Create a wide table
 
