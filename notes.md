@@ -2523,6 +2523,34 @@ END {
 ' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Graphs/orthogroupcount_in_isolates.txt
 ```
 
+# Orthofinder between isolates of the same species that are originated from the same samples
+
+## Run Orthofinder for SRL215 SRL218 SRL224
+
+```
+orthofinder -f /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/B_thurigiensis -t 20 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/B_thurigiensis_orthofinder
+```
+
+## Run Orthofinder for SRL342 and SRL398
+
+```
+orthofinder -f /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp -t 20 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder
+```
+
+nucmer -p SRL342_vs_SRL398_comparison /media/sarlab/DATA/Bacillus_project/SRL342/SRL342_assembly/SRL342_assembly.fasta /media/sarlab/DATA/Bacillus_project/SRL398/SRL398_assembly/SRL398_assembly.fasta
+
+dnadiff -p SRL342_vs_SRL398_comparison_dnadiff_out -d SRL342_vs_SRL398_comparison.delta
 
 
+# Use roary to make pangenome comparisons between isolates
+
+```
+conda create -n roary
+conda activate roary
+conda install -c conda-forge -c bioconda roary
+```
+
+```
+roary -e -n -v -f ./SRL342_vs_SRL398_roary *.gff -p 20
+```
 
