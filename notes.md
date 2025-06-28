@@ -2554,7 +2554,7 @@ conda install -c conda-forge -c bioconda roary
 roary -e -n -v -f ./SRL342_vs_SRL398_roary *.gff -p 20
 ```
 
-### 1) Get the species-specific Orthogroups for SRL398
+### 1) Get the species-specific Orthogroups for SRL398 from the Orthofinder of 25 isolates
 
 ```
 awk -F'\t' '
@@ -2618,6 +2618,132 @@ NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_398_species_sp
     }
 }
 ' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jun11/SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt
+```
+
+Extract the protein sequence of each isolate specific gene: 
+
+```
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/SRL398_extract_isolate_specific_genes.sh
+```
+
+### 1) Get the species-specific Orthogroups for SRL398 from the Orthofinder of just SRL342 and SRL398 
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes
+```
+
+```
+awk -F'\t' '
+NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignoring last column
+{
+  target = 3;  # Column for SRL398 (third column)
+  if ($target > 0) {  # Ensure SRL398 has genes
+    is_species_specific = 1;
+
+    # Check all other species columns except target
+    for (i=2; i<=NF-1; i++) {  # NF-1 to skip "Total" column
+      if (i != target && $i > 0) {
+        is_species_specific = 0;
+        break;
+      }
+    }
+
+    if (is_species_specific) {
+      print $1, species[target];  # Print orthogroup ID & species name
+    }
+  }
+}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups.txt
+```
+```
+awk -F'\t' '
+NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignore last column
+{
+  target = 2;  # Column for SRL342
+  if ($target > 0) {  # Check target has genes
+    is_species_specific = 1;
+
+    # Check other species columns except target
+    for (i=2; i<=NF-1; i++) {  # NF-1 because last column is "Total"
+      if (i != target && $i > 0) {
+        is_species_specific = 0;
+        break;
+      }
+    }
+
+    if (is_species_specific) {
+      print $1, species[target];  # Print orthogroup ID & species name
+    }
+  }
+}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_orthogroups.txt
+```
+
+### 2) Get the species-specific Genes for SRL398 and SRL340 by searching using species-specific Orthogroups
+
+First I need to use tab as delimiter in the txt file: 
+
+```
+sed 's/ \+/	/g' SRL398_species_specific_orthogroups.txt > SRL398_species_specific_orthogroups_with_tabs.txt
+sed 's/ \+/	/g' SRL340_species_specific_orthogroups.txt > SRL340_species_specific_orthogroups_with_tabs.txt
+```
+
+In order to get the isolate-specific genes I used the following command:
+
+```
+awk -F'\t' '
+NR==FNR {species_specific[$1]; next}  # Read orthogroups from species_specific_orthogroups.txt into an array
+{
+    orthogroup = $1;  # Get orthogroup name from the first column of Orthogroups.tsv
+    if (orthogroup in species_specific) {  # If orthogroup exists in species-specific list
+        genes = $3;  # Extract the gene names from the fifth column
+        print orthogroup, genes;  # Print orthogroup name and corresponding gene names
+    }
+}
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt
+```
+```
+awk -F'\t' '
+NR==FNR {species_specific[$1]; next}  # Read orthogroups from species_specific_orthogroups.txt into an array
+{
+    orthogroup = $1;  # Get orthogroup name from the first column of Orthogroups.tsv
+    if (orthogroup in species_specific) {  # If orthogroup exists in species-specific list
+        genes = $2;  # Extract the gene names from the fifth column
+        print orthogroup, genes;  # Print orthogroup name and corresponding gene names
+    }
+}
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_genes.txt
+```
+
+Get as output the genes in a list:
+
+```
+awk -F'\t' '
+NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_398_species_specific_orthogroups_with_tabs.txt into an array
+{
+    orthogroup = $1;  # Get orthogroup name from the first column of Orthogroups.tsv
+    if (orthogroup in species_specific) {  # If orthogroup exists in species-specific list
+        genes = $3;  # Extract the gene names from the fifth column
+        split(genes, gene_array, ",");  # Split the gene names into an array
+        for (i in gene_array) {
+            print orthogroup, gene_array[i];  # Print orthogroup and gene in two columns
+        }
+    }
+}
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt
+```
+```
+awk -F'\t' '
+NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_398_species_specific_orthogroups_with_tabs.txt into an array
+{
+    orthogroup = $1;  # Get orthogroup name from the first column of Orthogroups.tsv
+    if (orthogroup in species_specific) {  # If orthogroup exists in species-specific list
+        genes = $2;  # Extract the gene names from the fifth column
+        split(genes, gene_array, ",");  # Split the gene names into an array
+        for (i in gene_array) {
+            print orthogroup, gene_array[i];  # Print orthogroup and gene in two columns
+        }
+    }
+}
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_genes.txt
 ```
 
 Extract the protein sequence of each isolate specific gene: 
