@@ -2732,7 +2732,7 @@ NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_398_species_sp
 ```
 ```
 awk -F'\t' '
-NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_398_species_specific_orthogroups_with_tabs.txt into an array
+NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_340_species_specific_orthogroups_with_tabs.txt into an array
 {
     orthogroup = $1;  # Get orthogroup name from the first column of Orthogroups.tsv
     if (orthogroup in species_specific) {  # If orthogroup exists in species-specific list
@@ -2749,5 +2749,6 @@ NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_398_species_sp
 Extract the protein sequence of each isolate specific gene: 
 
 ```
-/home/nik_arapitsas/Documents/Bacillus_project/scripts/SRL398_extract_isolate_specific_genes.sh
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/SRL398_pair_extract_isolate_specific_genes.sh
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/SRL340_pair_extract_isolate_specific_genes.sh
 ```
