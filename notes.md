@@ -2629,7 +2629,7 @@ Extract the protein sequence of each isolate specific gene:
 ### 1) Get the species-specific Orthogroups for SRL398 from the Orthofinder of just SRL342 and SRL398 
 
 ```
-mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes
 ```
 
 ```
@@ -2652,7 +2652,7 @@ NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignor
       print $1, species[target];  # Print orthogroup ID & species name
     }
   }
-}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups.txt
+}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups.txt
 ```
 ```
 awk -F'\t' '
@@ -2674,16 +2674,16 @@ NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignor
       print $1, species[target];  # Print orthogroup ID & species name
     }
   }
-}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_orthogroups.txt
+}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL342_species_specific_orthogroups.txt
 ```
 
-### 2) Get the species-specific Genes for SRL398 and SRL340 by searching using species-specific Orthogroups
+### 2) Get the species-specific Genes for SRL398 and SRL342 by searching using species-specific Orthogroups
 
 First I need to use tab as delimiter in the txt file: 
 
 ```
 sed 's/ \+/	/g' SRL398_species_specific_orthogroups.txt > SRL398_species_specific_orthogroups_with_tabs.txt
-sed 's/ \+/	/g' SRL340_species_specific_orthogroups.txt > SRL340_species_specific_orthogroups_with_tabs.txt
+sed 's/ \+/	/g' SRL342_species_specific_orthogroups.txt > SRL342_species_specific_orthogroups_with_tabs.txt
 ```
 
 In order to get the isolate-specific genes I used the following command:
@@ -2698,7 +2698,7 @@ NR==FNR {species_specific[$1]; next}  # Read orthogroups from species_specific_o
         print orthogroup, genes;  # Print orthogroup name and corresponding gene names
     }
 }
-' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt
 ```
 ```
 awk -F'\t' '
@@ -2710,7 +2710,7 @@ NR==FNR {species_specific[$1]; next}  # Read orthogroups from species_specific_o
         print orthogroup, genes;  # Print orthogroup name and corresponding gene names
     }
 }
-' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_genes.txt
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL342_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL342_species_specific_genes.txt
 ```
 
 Get as output the genes in a list:
@@ -2728,7 +2728,7 @@ NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_398_species_sp
         }
     }
 }
-' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt
 ```
 ```
 awk -F'\t' '
@@ -2743,12 +2743,12 @@ NR==FNR {species_specific[$1]; next}  # Read orthogroups from SRL_340_species_sp
         }
     }
 }
-' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL340_species_specific_genes.txt
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL342_species_specific_orthogroups_with_tabs.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/Orthogroups/Orthogroups.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL342_species_specific_genes.txt
 ```
 
 Extract the protein sequence of each isolate specific gene: 
 
 ```
 /home/nik_arapitsas/Documents/Bacillus_project/scripts/SRL398_pair_extract_isolate_specific_genes.sh
-/home/nik_arapitsas/Documents/Bacillus_project/scripts/SRL340_pair_extract_isolate_specific_genes.sh
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/SRL342_pair_extract_isolate_specific_genes.sh
 ```
