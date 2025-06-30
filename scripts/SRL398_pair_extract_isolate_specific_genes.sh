@@ -2,8 +2,8 @@
 
 # Input files
 fasta_file="/media/sarlab/DATA/Bacillus_project/Bacillus_project_proteins/SRL398_proteins.faa"
-genes_list="/media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt"
-output_file="/media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL340_SRL398_specific_ogs_and_genes/SRL398_filtered_protein_sequences.txt"
+genes_list="/media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_genes.txt"
+output_file="/media/sarlab/DATA/Bacillus_project/Bacillus_project_redundant_proteins/Paenibacillus_sp_orthofinder/Results_Jun26/SRL342_SRL398_specific_ogs_and_genes/SRL398_filtered_protein_sequences.txt"
 
 # Create an empty output file
 > "$output_file"
