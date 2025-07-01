@@ -29,7 +29,7 @@ for dir in "${base_dir}"/SRL662/; do
 
     # Run prodigal
     
-    prodigal -i "$assembly_file" -o "${dir}${shortname}"_gene_coordinates.gff -a "${dir}${shortname}"_proteins.faa -d "${dir}${shortname}"_genes.fna
+    prodigal -i "$assembly_file" -o "$prodigal_dir"/"${dir}${shortname}"_gene_coordinates.gff -a "$prodigal_dir"/"${dir}${shortname}"_proteins.faa -d "$prodigal_dir"/"${dir}${shortname}"_genes.fna
 
 done
 
