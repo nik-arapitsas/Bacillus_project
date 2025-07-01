@@ -1,4 +1,16 @@
 #!/bin/bash
+######################################################################################################
+# script name: run_bakta.sh
+# developed by: Nikolaos P. Arapitsas
+# framework: SarrisLab
+######################################################################################################
+# GOAL:
+# Aim of this script is to run the bakta annotation pipeline for every isolate in the 
+# /media/sarlab/DATA/Bacillus_project directory
+######################################################################################################
+# usage:./run_bakta.sh
+# complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/run_bakta.sh
+######################################################################################################
 
 conda activate bakta
 
