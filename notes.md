@@ -2866,3 +2866,54 @@ END {
 }
 ' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/orthogroupcount_in_isolates.txt
 ```
+
+## Find the unique orthogroups for SRL342 and SRL398
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/SRL342_SRL398_specific_ogs_and_genes
+```
+
+```
+awk -F'\t' '
+NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignoring last column
+{
+  target = 14;  # Column for SRL342 (fourteenth column)
+  if ($target > 0) {  # Ensure SRL398 has genes
+    is_species_specific = 1;
+
+    # Check all other species columns except target
+    for (i=2; i<=NF-1; i++) {  # NF-1 to skip "Total" column
+      if (i != target && $i > 0) {
+        is_species_specific = 0;
+        break;
+      }
+    }
+
+    if (is_species_specific) {
+      print $1, species[target];  # Print orthogroup ID & species name
+    }
+  }
+}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups.txt
+```
+```
+awk -F'\t' '
+NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignore last column
+{
+  target = 20;  # Column for SRL342
+  if ($target > 0) {  # Check target has genes
+    is_species_specific = 1;
+
+    # Check other species columns except target
+    for (i=2; i<=NF-1; i++) {  # NF-1 because last column is "Total"
+      if (i != target && $i > 0) {
+        is_species_specific = 0;
+        break;
+      }
+    }
+
+    if (is_species_specific) {
+      print $1, species[target];  # Print orthogroup ID & species name
+    }
+  }
+}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups.txt
+```
