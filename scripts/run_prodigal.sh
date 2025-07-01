@@ -25,11 +25,9 @@ for dir in "${base_dir}"/SRL662/; do
     mkdir -p "$prodigal_dir"
     
     echo "Found assembly: $assembly_file"
-    echo "Created BUSCO dir: $prodigal_dir"
+    echo "Created prodigal dir: $prodigal_dir"
 
-    # Run busco
-    
-    busco -i "$assembly_file" -o "$(basename "$prodigal_dir")" --out_path "$(dirname "$prodigal_dir")" -l firmicutes_odb10 -m genome -c 18 -f
+    # Run prodigal
     
     prodigal -i "$assembly_file" -o "${dir}${shortname}_gene_coordinates.gff" -a "${dir}${shortname}_proteins.faa" -d "${dir}${shortname}_genes.fna"
 
