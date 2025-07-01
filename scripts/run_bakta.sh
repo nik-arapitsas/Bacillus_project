@@ -12,6 +12,8 @@
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/run_bakta.sh
 ######################################################################################################
 
+conda init
+
 conda activate bakta
 
 base_dir="/media/sarlab/DATA/Bacillus_project"
