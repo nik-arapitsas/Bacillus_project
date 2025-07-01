@@ -1,0 +1,35 @@
+#!/bin/bash
+
+conda activate bakta
+
+base_dir="/media/sarlab/DATA/Bacillus_project"
+
+for dir in "${base_dir}"/SRL368/; do
+    shortname=$(basename "$dir")
+    echo "Processing $shortname"
+    
+    # Find the assembly directory (ending with either assembly or unicycler)
+    assembly_dir=$(find "$dir" -maxdepth 1 -type d \( -name "*assembly" -o -name "*unicycler" \) -print -quit)
+    
+    if [[ -z "$assembly_dir" ]]; then
+        echo "Warning: No assembly folder found in $shortname"
+        continue
+    fi
+    
+    assembly_file=$(ls "${assembly_dir}"/*assembly.fasta 2>/dev/null | head -1)
+    
+    [[ -f "$assembly_file" ]] || { echo "Error: No assembly file in $assembly_dir"; continue; }
+    
+    # Create prodigal directory
+    bakta_dir="${dir}${shortname}_bakta"
+    mkdir -p "$bakta_dir"
+    
+    echo "Found assembly: $assembly_file"
+    echo "Created prodigal dir: $bakta_dir"
+
+    # Run prodigal
+    
+    bakta --db /media/sarlab/DATA/Bacillus_project/SRL662/db --prefix "$bakta_dir" --output "$(dirname "$busco_dir")" --threads 20 "$assembly_file"
+
+done
+
