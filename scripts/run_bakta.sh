@@ -32,16 +32,13 @@ for dir in "${base_dir}"/SRL368/; do
     
     [[ -f "$assembly_file" ]] || { echo "Error: No assembly file in $assembly_dir"; continue; }
     
-    # Create prodigal directory
     bakta_dir="${dir}${shortname}_bakta"
-    mkdir -p "$bakta_dir"
     
     echo "Found assembly: $assembly_file"
-    echo "Created prodigal dir: $bakta_dir"
 
-    # Run prodigal
+    # Run Bakta
     
-    bakta --db /media/sarlab/DATA/Bacillus_project/SRL662/db --prefix "$bakta_dir" --output "$(dirname "$busco_dir")" --threads 20 "$assembly_file"
+    bakta --db /media/sarlab/DATA/Bacillus_project/SRL662/db --prefix "$bakta_dir" --output "$bakta_dir" --threads 20 "$assembly_file"
 
 done
 
