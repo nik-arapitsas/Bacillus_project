@@ -5,7 +5,7 @@ protein_dir="${base_dir}/Bacillus_project_proteins"
 mkdir -p "$protein_dir"
 
 # Loop through the isolates (assuming they are in SRL662 or other folders directly inside base_dir)
-for prodigal_dir in "${base_dir}"/SRL368/*_prodigal; do
+for prodigal_dir in "${base_dir}"/SRL*/*_prodigal; do
     if [[ -d "$prodigal_dir" ]]; then
         shortname=$(basename "$prodigal_dir" _prodigal)
         protein_file="${prodigal_dir}/${shortname}_proteins.faa"
