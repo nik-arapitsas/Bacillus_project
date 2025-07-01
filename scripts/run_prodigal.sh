@@ -4,7 +4,7 @@ conda activate perfect_assembly
 
 base_dir="/media/sarlab/DATA/Bacillus_project"
 
-for dir in "${base_dir}"/SRL368/; do
+for dir in "${base_dir}"/SRL*/; do
     shortname=$(basename "$dir")
     echo "Processing $shortname"
     
