@@ -8,13 +8,10 @@
 # Aim of this script is to run the bakta annotation pipeline for every isolate in the 
 # /media/sarlab/DATA/Bacillus_project directory
 ######################################################################################################
+# !!! MAKE SURE TO USE: conda activate bakta BEFORE RUNNING THE SCRIPT !!!
 # usage:./run_bakta.sh
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/run_bakta.sh
 ######################################################################################################
-
-conda init
-
-conda activate bakta
 
 base_dir="/media/sarlab/DATA/Bacillus_project"
 
