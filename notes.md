@@ -2935,4 +2935,58 @@ bakta_db download --output  --type full
 ```
 /home/nik_arapitsas/Documents/Bacillus_project/scripts/run_bakta.sh
 ```
+```
+bakta --db /media/sarlab/DATA/Bacillus_project/SRL662/db --prefix SRL662_bakta --output /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_bakta --threads 20 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/assembly.fasta
+```
 
+# Copy for the assemblies SRL340, SRL368, SRL389 and SRL662 the contigs larger than 1000 bp in separate files
+
+## SRL340 
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_assembly
+seqkit seq -m 1000 -g SRL340_assembly.fasta > SRL340_assembly_filtered.fasta 
+seqkit stats SRL340_assembly_filtered.fasta 
+```
+
+## SRL368 
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly
+seqkit seq -m 1000 -g SRL368_assembly.fasta > SRL368_assembly_filtered.fasta 
+seqkit stats SRL368_assembly_filtered.fasta 
+```
+
+## SRL389
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads_unicycler
+seqkit seq -m 1000 -g assembly.fasta > SRL389_assembly_filtered.fasta 
+seqkit stats SRL389_assembly_filtered.fasta 
+```
+
+## SRL662 
+
+```
+cd /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler
+seqkit seq -m 1000 -g assembly.fasta > SRL662_assembly_filtered.fasta 
+seqkit stats SRL662_assembly_filtered.fasta 
+```
+
+# Run Bakta on the selected contigs for these four isolates
+
+## SRL662
+
+```
+bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix SRL662_bakta --output /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_filtered_bakta --threads 20 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/SRL662_assembly_filtered.fasta
+```
+
+## The rest of isolates 
+
+```
+bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix SRL340_bakta --output /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_filtered_bakta --threads 20 /media/sarlab/DATA/Bacillus_project/SRL340/SRL340_assembly/SRL340_assembly_filtered.fasta
+
+bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix SRL368_bakta --output /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_filtered_bakta --threads 20 /media/sarlab/DATA/Bacillus_project/SRL368/SRL368_assembly/SRL368_assembly_filtered.fasta
+
+bakta --db /media/sarlab/DATA/Bacillus_project/SRL662/db --prefix SRL389_bakta --output /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_filtered_bakta --threads 20 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads_unicycler/SRL389_assembly_filtered.fasta
+```
