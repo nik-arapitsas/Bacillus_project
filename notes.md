@@ -3005,7 +3005,169 @@ conda activate orthofinder
 orthofinder -f /media/sarlab/DATA/Bacillus_project/Bacillus_project_proteins -t 20 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder
 ```
 
+## Create Graphs
 
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs
+```
+
+1) **Number of Isolate-Specific Orthogroups per Isolate - Genetic Novelty**
+
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==9 {for(i=2; i<=NF; i++) print species[i], $i}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/species_specific_orthogroups.txt  
+```
+
+The graph was designed in Rstudio. The script is located in the following path:
+
+```
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/orthofinder_graphs.R
+```
+
+2) **Percentage of genes from each isolate assigned to orthogroups**
+
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==5 {for(i=2; i<=NF; i++) print species[i], $i}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/percofgenes_inogs_per_isolate_unsorted.txt  
+```
+
+The same sorting with the list above will be used to provide plots that could be easily comparable:
+
+First, extract the species order from the previous output file with species-specific orthogroups:
+
+```
+awk '{print $1}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/species_specific_orthogroups.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/isolates.txt 
+```
+
+Then use it to assign the percentage of genes in orthofroups in the desirable order: 
+
+```
+awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1, a[$1]}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/percofgenes_inogs_per_isolate_unsorted.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/isolates.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/percofgenes_inogs_per_isolate.txt
+```
+
+3) **Genes with orthogroups in all or any isolates**
+
+With the code below when counting the partially shared orthogroups we do not count the core orthogroups.
+
+```
+awk '
+NR==1 {
+  for (i=2; i<=NF-1; i++) {
+    species[i] = substr($i, 1, 6); # Keep only first 6 letters
+    core_count[i] = 0;
+    shared[i] = 0;
+  }
+  next
+}
+{
+  core=1;
+  for (i=2; i<=NF-1; i++) if ($i==0) core=0; # Check if this is a core orthogroup
+
+  if (core) {
+    for (i=2; i<=NF-1; i++) core_count[i]++; # Count core orthogroups for each species
+    next; # Skip counting this orthogroup in the shared category
+  }
+
+  for (i=2; i<=NF-1; i++) {
+    if ($i > 0) {
+      for (j=2; j<=NF-1; j++) {
+        if (j != i && $j > 0) {shared[i]++; break}
+      }
+    }
+  }
+}
+END {
+  print "Isolates" "\t" "Core Orthogroups" "\t" "Partially Shared Orthogroups";
+  for (i in species) {
+    print species[i] "\t" core_count[i] "\t" shared[i];
+  }
+}
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/orthogroupcount_in_isolates.txt
+```
+
+With the code below when counting the partially shared orthogroups we count the core orthogroups as well. This is better for creating a bar plot where the bars of all and any orthogroups will be overlapping. 
+
+```
+awk '
+NR==1 {
+  for (i=2; i<=NF-1; i++) {
+    species[i] = substr($i, 1, 6); # Keep only first 6 letters of species name
+    core_count[i] = 0;
+    shared[i] = 0;
+  }
+  next
+}
+{
+  core=1;
+  for (i=2; i<=NF-1; i++) if ($i==0) core=0; # Check if this is a core orthogroup
+
+  for (i=2; i<=NF-1; i++) {
+    if ($i > 0) {
+      if (core) core_count[i]++;  # Count genes in core orthogroups
+      for (j=2; j<=NF-1; j++) {
+        if (j != i && $j > 0) {shared[i]++; break} # Count genes in shared orthogroups, including core
+      }
+    }
+  }
+}
+END {
+  print "Isolates" "\t" "Core Orthogroups" "\t" "Partially Shared Orthogroups";
+  for (i in species) {
+    print species[i] "\t" core_count[i] "\t" shared[i];
+  }
+}
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/orthogroupcount_in_isolates.txt
+```
+
+
+## Find the unique orthogroups of SRL342 and SRL398 
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/SRL342_SRL398_specific_ogs_and_genes
+```
+
+```
+awk -F'\t' '
+NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignoring last column
+{
+  target = 14;  # Column for SRL342 (fourteenth column)
+  if ($target > 0) {  # Ensure SRL398 has genes
+    is_species_specific = 1;
+
+    # Check all other species columns except target
+    for (i=2; i<=NF-1; i++) {  # NF-1 to skip "Total" column
+      if (i != target && $i > 0) {
+        is_species_specific = 0;
+        break;
+      }
+    }
+
+    if (is_species_specific) {
+      print $1, species[target];  # Print orthogroup ID & species name
+    }
+  }
+}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/SRL342_SRL398_specific_ogs_and_genes/SRL342_species_specific_orthogroups.txt
+```
+```
+awk -F'\t' '
+NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignore last column
+{
+  target = 20;  # Column for SRL398
+  if ($target > 0) {  # Check target has genes
+    is_species_specific = 1;
+
+    # Check other species columns except target
+    for (i=2; i<=NF-1; i++) {  # NF-1 because last column is "Total"
+      if (i != target && $i > 0) {
+        is_species_specific = 0;
+        break;
+      }
+    }
+
+    if (is_species_specific) {
+      print $1, species[target];  # Print orthogroup ID & species name
+    }
+  }
+}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups.txt
+```
 
 
 
