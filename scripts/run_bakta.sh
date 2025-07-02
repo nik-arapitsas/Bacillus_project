@@ -15,7 +15,7 @@
 
 base_dir="/media/sarlab/DATA/Bacillus_project"
 
-for dir in "${base_dir}"/SRL368/; do
+for dir in "${base_dir}"/SRL*/; do
     shortname=$(basename "$dir")
     echo "Processing $shortname"
     
@@ -34,7 +34,7 @@ for dir in "${base_dir}"/SRL368/; do
     bakta_dir="${dir}${shortname}_bakta"
     
     echo "Found assembly: $assembly_file"
-    echo "The output files will be found in the direcotry: $bakta_dir"
+    echo "The output files will be found in the directory: $bakta_dir"
     echo "Their name will have the preffix: ${shortname}_bakta"
 
     # Run Bakta
