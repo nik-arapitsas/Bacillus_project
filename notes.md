@@ -2755,6 +2755,11 @@ Extract the protein sequence of each isolate specific gene:
 
 # Run Orthofinder for the prodigal output
 
+```
+conda activate orthofinder
+orthofinder -f /media/sarlab/DATA/Bacillus_project/Bacillus_project_proteins -t 20 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder
+```
+
 ## Create Graphs
 
 ```
@@ -2990,5 +2995,17 @@ bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix SRL368_bakta --ou
 
 bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix SRL389_bakta --output /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_filtered_bakta --threads 20 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads_unicycler/SRL389_assembly_filtered.fasta
 ```
+
+# Run Orthofinder for the bakta output 
+
+## Re-run Orthofinder with every isolate
+
+```
+conda activate orthofinder
+orthofinder -f /media/sarlab/DATA/Bacillus_project/Bacillus_project_proteins -t 20 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder
+```
+
+
+
 
 
