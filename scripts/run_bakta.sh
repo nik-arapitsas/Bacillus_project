@@ -39,7 +39,7 @@ for dir in "${base_dir}"/SRL*/; do
 
     # Run Bakta
     
-    bakta --db /media/sarlab/DATA/Bacillus_project/SRL662/db --prefix "${shortname}_bakta" --output "${bakta_dir}" --threads 20 "$assembly_file"
+    bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix "${shortname}_bakta" --output "${bakta_dir}" --threads 20 "$assembly_file"
 
 done
 
