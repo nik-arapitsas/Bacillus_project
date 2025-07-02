@@ -2990,3 +2990,5 @@ bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix SRL368_bakta --ou
 
 bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix SRL389_bakta --output /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_filtered_bakta --threads 20 /media/sarlab/DATA/Bacillus_project/SRL389/SRL389_flye_filtered_reads_unicycler/SRL389_assembly_filtered.fasta
 ```
+
+
