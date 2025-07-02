@@ -2917,3 +2917,22 @@ NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignor
   }
 }' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups.txt
 ```
+
+# Annotate the genomes using Bakta
+
+## Install Bakta
+
+```
+conda create -n bakta
+conda install -c conda-forge -c bioconda bakta
+bakta_db download --output  --type full
+```
+
+** The databse has an unziped size of 89.6 Gb
+
+## Run Bakta
+
+```
+/home/nik_arapitsas/Documents/Bacillus_project/scripts/run_bakta.sh
+```
+
