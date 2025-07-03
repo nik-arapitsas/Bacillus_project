@@ -3026,7 +3026,7 @@ The graph was designed in Rstudio. The script is located in the following path:
 2) **Percentage of genes from each isolate assigned to orthogroups**
 
 ```
-awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==5 {for(i=2; i<=NF; i++) print species[i], $i}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/percofgenes_inogs_per_isolate_unsorted.txt  
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==5 {for(i=2; i<=NF; i++) print species[i], $i}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/percofgenes_inogs_per_isolate_unsorted.txt  
 ```
 
 The same sorting with the list above will be used to provide plots that could be easily comparable:
@@ -3034,13 +3034,13 @@ The same sorting with the list above will be used to provide plots that could be
 First, extract the species order from the previous output file with species-specific orthogroups:
 
 ```
-awk '{print $1}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/species_specific_orthogroups.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/isolates.txt 
+awk '{print $1}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/species_specific_orthogroups.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/isolates.txt 
 ```
 
 Then use it to assign the percentage of genes in orthofroups in the desirable order: 
 
 ```
-awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1, a[$1]}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/percofgenes_inogs_per_isolate_unsorted.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/isolates.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/percofgenes_inogs_per_isolate.txt
+awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1, a[$1]}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/percofgenes_inogs_per_isolate_unsorted.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/isolates.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/percofgenes_inogs_per_isolate.txt
 ```
 
 3) **Genes with orthogroups in all or any isolates**
@@ -3080,7 +3080,7 @@ END {
     print species[i] "\t" core_count[i] "\t" shared[i];
   }
 }
-' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/orthogroupcount_in_isolates.txt
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/orthogroupcount_in_isolates.txt
 ```
 
 With the code below when counting the partially shared orthogroups we count the core orthogroups as well. This is better for creating a bar plot where the bars of all and any orthogroups will be overlapping. 
@@ -3114,9 +3114,17 @@ END {
     print species[i] "\t" core_count[i] "\t" shared[i];
   }
 }
-' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul01/Graphs/orthogroupcount_in_isolates.txt
+' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/orthogroupcount_in_isolates.txt
 ```
 
+4) **Number of Unassigned Genes per Isolate - Genetic Novelty**
+
+```
+awk -F'\t' 'NR==1 {for(i=2; i<=NF; i++) species[i]=substr($i, 1, 6)} NR==6 {for(i=2; i<=NF; i++) print species[i], $i}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv | sort -k2,2n > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/unasigned_genes_perisolate.txt  
+```
+```
+awk 'NR==FNR{a[$1]=$2; next} $1 in a {print $1, a[$1]}' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/unasigned_genes_perisolate.txt /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/isolates.txt > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/unasigned_genes_perisolate_sorted.txt
+```
 
 ## Find the unique orthogroups of SRL342 and SRL398 
 
