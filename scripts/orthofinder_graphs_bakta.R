@@ -210,3 +210,45 @@ ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/
        dpi = 300, 
        units="cm",
        device="png")
+
+
+# 4 Prepare graph for percentage of unasigned genes per isolate
+
+# Read the sorted data into R
+perunasigned_perisolate <- read.table("/media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/unasigned_genes_perisolate_sorted.txt", header=FALSE, col.names=c("Isolates", "Unas_genes"))
+
+# Convert Species to factor to maintain sorting order
+perunasigned_perisolate$Isolates <- factor(perunasigned_perisolate$Isolates, levels = perunasigned_perisolate$Isolates)
+
+#Without legend in y axis
+
+Unasigned_genes_plot <- ggplot(perunasigned_perisolate, aes(x = Isolates, y = Unas_genes)) +
+  geom_bar(stat = "identity", fill = "#7281bd", position = "identity") +  # Set bars to black
+  theme_minimal() +
+  labs(title = "Percentage of Unassigned genes per isolate",
+       x = "", y = "") +
+  scale_x_discrete(expand=expansion(add=c(.8, .8))) +
+  scale_y_continuous(expand=expansion(add=c(0, 0))) +
+  theme(
+    panel.grid = element_blank(),  # Remove grid lines
+    axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+    axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
+    axis.ticks = element_line(color = "black", linewidth = 0.5),
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
+    axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5, 
+                               size = 10, color = "black", family = "sans", 
+                               margin = margin(t = 2.5)),  # Darker and more spaced letters
+    axis.text.y = element_text(hjust = 0.5, vjust = 0.5, size = 10, color = "black", family = "sans", 
+                               margin = margin(t = 2.0)),
+    plot.margin = margin(10, 10, 1, 0.5),  # Add extra space around the plot
+    legend.position = "none"  # Remove the legend
+  ) +
+  coord_cartesian(expand = FALSE, ylim = c(0, max(perunasigned_perisolate$Unas_genes) * 1.04)) # Extend the x-axis
+
+ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Graphs/perc_of_unassigned_genes",".png"),
+       plot=Unasigned_genes_plot, 
+       height = 20, 
+       width = 50,
+       dpi = 300, 
+       units="cm",
+       device="png")
