@@ -3247,7 +3247,7 @@ for f in *.fna *.fasta; do g="${f%.*}"; ext="${f##*.}"; clean=$(echo "$g" | tr '
 ```
 
 ```
-PanACoTA annotate -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota -r ./annotation_output -l SRL368_list_genomes.lst -n BATH --threads 20
+PanACoTA annotate -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota -r ./annotation_output -l SRL368_list_genomes.lst -n BATH --cutn 0 --threads 20
 ```
 
 
