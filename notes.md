@@ -3177,5 +3177,81 @@ NR==1 {for(i=2; i<=NF-1; i++) species[i]=$i; next}  # Store species names, ignor
 }' /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/Orthogroups/Orthogroups.GeneCount.tsv > /media/sarlab/DATA/Bacillus_project/Bacillus_project_orthofinder/Results_Jul03/SRL342_SRL398_specific_ogs_and_genes/SRL398_species_specific_orthogroups.txt
 ```
 
+# Use PanACoTA for Pangenome analysis
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota
+cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota
+mkdir SRL368_panacota
+mkdir SRL179_panacota
+mkdir SRL337_panacota
+mkdir SRL543_panacota
+```
+
+## Install ncbi-genome-download package to get the closest relative sequences from the NCBI
+
+```
+conda create -n ncbi_genome_download
+conda activate ncbi_genome_download
+conda install -c bioconda ncbi-genome-download
+```
+
+## Run ncbi-genome-download command 
+
+i) SRL368
+
+```
+ncbi-genome-download bacteria --assembly-accessions GCF_020775355.1,GCF_022663675.1,GCF_000021305.1,GCF_002559825.1,GCF_001182785.1 --formats fasta --flat-output --output-folder /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota
+gunzip *.fna.gz
+```
+
+ii) SRL179
+
+```
+ncbi-genome-download bacteria --assembly-accessions GCF_030123405.1,GCF_000612625.1,GCF_023715505.1 --formats fasta --flat-output --output-folder /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota
+gunzip /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/*.fna.gz
+```
+
+iii) SRL337
+
+```
+ncbi-genome-download bacteria --assembly-accessions GCF_003581585.1,GCF_003581585.1,GCF_008180415.1 --formats fasta --flat-output --output-folder /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL337_panacota
+gunzip /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL337_panacota/*.fna.gz
+```
+
+iv) SRL543
+
+```
+ncbi-genome-download bacteria --assembly-accessions GCF_024706405.1,GCF_020171945.1,GCF_000473245.1 --formats fasta --flat-output --output-folder /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL543_panacota
+gunzip /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL543_panacota/*.fna.gz
+```
+
+There was a newer version for the assembly GCF_024706405.1, the GCF_024706405.2
+
+```
+ncbi-genome-download bacteria --assembly-accessions GCF_024706405.2 --formats fasta --flat-output --output-folder /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL543_panacota
+gunzip /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL543_panacota/*.fna.gz
+```
+
+## PANACOTA FOR SRL368
+
+**I) ASSEMBLE**
+
+```
+cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota
+```
+* PaNACoTA needs a list of file names as input. It can be created with the following script:
+
+```
+for f in *.fna *.fasta; do g="${f%.*}"; ext="${f##*.}"; clean=$(echo "$g" | tr '.' '_'); newname="${clean}.${ext}"; mv "$f" "$newname"; echo "$newname"; done > SRL368_list_genomes.lst
+```
+
+```
+PanACoTA annotate -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota -r ./annotation_output -l SRL368_list_genomes.lst -n BATH --threads 20
+```
+
+
+
+
 
 
