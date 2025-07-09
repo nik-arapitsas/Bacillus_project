@@ -3264,6 +3264,168 @@ Core Genome
 PanACoTA corepers -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_pangenome/PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_core_genome
 ```
 
+Accessory genome specific for SRL368:
+
+```
+mkdir SRL368_accessory
+```
+```
+awk '{$1=$1; print}' OFS='\t' PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv
+```
+```
+awk '{
+  keep = 1
+  genes = ""
+  for (i = 2; i <= NF; i++) {
+    if ($i != "-") {
+      if (index($i, "BATH.0725.00006.") != 1) {
+        keep = 0
+        break
+      } else {
+        genes = genes ? genes OFS $i : $i
+      }
+    }
+  }
+  if (keep && genes != "") {
+    print $1, genes
+  }
+}' OFS="\t" PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > ../SRL368_accessory/SRL368_unique_genes.txt
+```
+```
+awk '{
+  keep = 1
+  genes = ""
+  for (i = 2; i <= NF; i++) {
+    if ($i != "-") {
+      if (index($i, "BATH.0725.00007.") != 1) {
+        keep = 0
+        break
+      } else {
+        genes = genes ? genes OFS $i : $i
+      }
+    }
+  }
+  if (keep && genes != "") {
+    print $1, genes
+  }
+}' OFS="\t" PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > ../SRL368_accessory/GCF_002559825.1_unique_genes.txt
+```
+```
+awk '{
+  keep = 1
+  genes = ""
+  for (i = 2; i <= NF; i++) {
+    if ($i != "-") {
+      if (index($i, "BATH.0725.00008.") != 1) {
+        keep = 0
+        break
+      } else {
+        genes = genes ? genes OFS $i : $i
+      }
+    }
+  }
+  if (keep && genes != "") {
+    print $1, genes
+  }
+}' OFS="\t" PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > ../SRL368_accessory/GCF_020775355.1_unique_genes.txt
+```
+```
+awk '{
+  keep = 1
+  genes = ""
+  for (i = 2; i <= NF; i++) {
+    if ($i != "-") {
+      if (index($i, "BATH.0725.00002.") != 1) {
+        keep = 0
+        break
+      } else {
+        genes = genes ? genes OFS $i : $i
+      }
+    }
+  }
+  if (keep && genes != "") {
+    print $1, genes
+  }
+}' OFS="\t" PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > ../SRL368_accessory/SRL215_unique_genes.txt
+```
+```
+awk '{
+  keep = 1
+  genes = ""
+  for (i = 2; i <= NF; i++) {
+    if ($i != "-") {
+      if (index($i, "BATH.0725.00003.") != 1) {
+        keep = 0
+        break
+      } else {
+        genes = genes ? genes OFS $i : $i
+      }
+    }
+  }
+  if (keep && genes != "") {
+    print $1, genes
+  }
+}' OFS="\t" PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > ../SRL368_accessory/SRL218_unique_genes.txt
+```
+```
+awk '{
+  keep = 1
+  genes = ""
+  for (i = 2; i <= NF; i++) {
+    if ($i != "-") {
+      if (index($i, "BATH.0725.00004.") != 1) {
+        keep = 0
+        break
+      } else {
+        genes = genes ? genes OFS $i : $i
+      }
+    }
+  }
+  if (keep && genes != "") {
+    print $1, genes
+  }
+}' OFS="\t" PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > ../SRL368_accessory/SRL224_unique_genes.txt
+```
+```
+awk '{
+  keep = 1
+  genes = ""
+  for (i = 2; i <= NF; i++) {
+    if ($i != "-") {
+      if (index($i, "BATH.0725.00005.") != 1) {
+        keep = 0
+        break
+      } else {
+        genes = genes ? genes OFS $i : $i
+      }
+    }
+  }
+  if (keep && genes != "") {
+    print $1, genes
+  }
+}' OFS="\t" PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > ../SRL368_accessory/GCF_001182785.1_unique_genes.txt
+```
+```
+awk '{
+  keep = 1
+  genes = ""
+  for (i = 2; i <= NF; i++) {
+    if ($i != "-") {
+      if (index($i, "BATH.0725.00001.") != 1) {
+        keep = 0
+        break
+      } else {
+        genes = genes ? genes OFS $i : $i
+      }
+    }
+  }
+  if (keep && genes != "") {
+    print $1, genes
+  }
+}' OFS="\t" PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst > ../SRL368_accessory/GCF_000021305.1_unique_genes.txt
+```
+
+
 
 
 
