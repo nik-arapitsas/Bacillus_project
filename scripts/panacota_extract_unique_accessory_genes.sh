@@ -12,10 +12,10 @@ lstfile=$(find ./${X}_pangenome -type f -name "PanGenome*.tsv.lst")
 mapfile=$(find ./${X}_annotation_output -type f -name "LSTINFO-*list_genomes.lst")
 
 # Loop through each genome ID used internally by PanACoTA
-tail -n +2 "$mapfile" | cut -f1 | while read -r internal_id; do
+cut -f1 "$mapfile" | while read -r internal_id; do
 
   # Get the original filename (second column)
-  orig_name=$(awk -v id="$internal_id" '$1 == id {print $2}' "$mapfile")
+  orig_name=$(awk -F'\t' -v id="$internal_id" 'NR > 1 && $1 == id { gsub(/^ +| +$/, "", $2); print $2 }' "$mapfile")
 
   # Determine output-friendly isolate ID
   if [[ $orig_name == SRL* ]]; then
