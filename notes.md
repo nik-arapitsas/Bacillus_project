@@ -3264,6 +3264,18 @@ Core Genome
 PanACoTA corepers -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_pangenome/PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_core_genome
 ```
 
+Align core genome
+
+```
+PanACoTA align -c /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_core_genome/PersGenome_PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst_1.lst -l /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_annotation_output/LSTINFO-SRL368_list_genomes.lst -n BATH -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_annotation_output -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_align_core
+```
+
+Phylogenetic tree
+
+```
+PanACoTA tree -a /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_align_core/Phylo-BATH/BATH.grp.aln -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_tree
+```
+
 Accessory genome specific for SRL368:
 
 ```
@@ -3427,7 +3439,70 @@ awk '{
 
 
 
+```
+cp /media/sarlab/DATA/Bacillus_project/SRL337/SRL337_assembly/SRL337_assembly.fasta /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL337_panacota/SRL337_genomes/
+```
 
+```
+cp /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads_unicycler/assembly.fasta /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL543_panacota/SRL543_genomes/
+```
+
+## PANACOTA FOR SRL179
+
+```
+cp /media/sarlab/DATA/Bacillus_project/SRL179/SRL179_assembly/SRL179_assembly.fasta /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_genomes/
+```
+
+**I) ASSEMBLE**
+
+```
+cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_genomes
+```
+* PaNACoTA needs a list of file names as input. It can be created with the following script:
+
+```
+for f in *.fna *.fasta; do
+  id=$(echo "$f" | sed -E 's/(\.[^.]+)$//; s/_ASM.*//; s/\.fasta$//; s/\.fna$//')
+  echo "$f :: $id"
+done > SRL179_list_genomes.lst
+```
+
+Annotation
+
+```
+PanACoTA annotate -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_genomes -r ../SRL179_annotation_output -l SRL179_list_genomes.lst -n NEJE --threads 20 --prodigal --small 
+```
+
+Pangenome Analysis
+
+```
+PanACoTA pangenome -l /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_annotation_output/LSTINFO-SRL179_list_genomes.lst -n NEJE -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_annotation_output/Proteins -i 0.8 -o ../SRL179_pangenome
+```
+
+Core Genome
+
+```
+PanACoTA corepers -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_pangenome/PanGenome-NEJE.All.prt-clust-0.8-mode1_2025-07-10_15-11-16.tsv.lst -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_core_genome
+```
+
+
+Persistent Genome
+
+```
+PanACoTA corepers -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_pangenome/PanGenome-NEJE.All.prt-clust-0.8-mode1_2025-07-10_15-11-16.tsv.lst -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_persistent_genome -t 0.95
+```
+
+Align core genome
+
+```
+PanACoTA align -c /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_core_genome/PersGenome_PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst_1.lst -l /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_annotation_output/LSTINFO-SRL368_list_genomes.lst -n BATH -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_annotation_output -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_align_core
+```
+
+Phylogenetic tree
+
+```
+PanACoTA tree -a /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_align_core/Phylo-BATH/BATH.grp.aln -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_tree
+```
 
 
 
