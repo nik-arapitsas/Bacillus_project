@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Usage: ./extract_unique_genes.sh SRL179
+# Usage: ./panacota_extract_unique_accessory_genes.sh SRL179
 
 X=$1
 
