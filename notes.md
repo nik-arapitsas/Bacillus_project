@@ -2986,6 +2986,10 @@ seqkit stats SRL662_assembly_filtered.fasta
 bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --prefix SRL662_bakta --output /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_filtered_bakta --threads 20 /media/sarlab/DATA/Bacillus_project/SRL662/SRL662_flye_filtered_reads_unicycler/SRL662_assembly_filtered.fasta
 ```
 
+for f in ./*.fna; do
+  bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakta" --threads 20 "$f"
+done
+
 ## The rest of isolates 
 
 ```
@@ -3447,6 +3451,21 @@ cp /media/sarlab/DATA/Bacillus_project/SRL337/SRL337_assembly/SRL337_assembly.fa
 cp /media/sarlab/DATA/Bacillus_project/SRL543/SRL543_flye_filtered_reads_unicycler/assembly.fasta /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL543_panacota/SRL543_genomes/
 ```
 
+### Preparation for running the online platform Pan-genome Explorer
+
+```
+mkdir SRL368_relatives_bakta
+cd SRL368_genomes/
+cp ./GCF*.fna ../SRL368_relatives_bakta/
+cd ..
+cd SRL368_relatives_bakta/
+conda activate bakta
+```
+```
+for f in ./*.fna; do   bak
+ta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakta" --threads 20 "$f"; done
+```
+
 ## PANACOTA FOR SRL179
 
 ```
@@ -3464,19 +3483,25 @@ cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota
 for f in *.fna *.fasta; do
   id=$(echo "$f" | sed -E 's/(\.[^.]+)$//; s/_ASM.*//; s/\.fasta$//; s/\.fna$//')
   echo "$f :: $id"
-done > SRL179_list_genomes.lst
+done > ./SRL179_genomes/SRL179_list_genomes.lst
 ```
 
 Annotation
 
 ```
-PanACoTA annotate -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_genomes -r ../SRL179_annotation_output -l SRL179_list_genomes.lst -n NEJE --threads 20 --prodigal --small 
+PanACoTA annotate -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_genomes -r ../SRL179_annotation_output_small -l SRL179_list_genomes.lst -n NEJE --threads 20 --prodigal --small 
+```
+```
+PanACoTA annotate -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_genomes -r ../SRL179_annotation_output -l SRL179_list_genomes.lst -n NEJE --threads 20 --prodigal  
 ```
 
 Pangenome Analysis
 
 ```
 PanACoTA pangenome -l /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_annotation_output/LSTINFO-SRL179_list_genomes.lst -n NEJE -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_annotation_output/Proteins -i 0.8 -o ../SRL179_pangenome
+```
+```
+PanACoTA pangenome -l /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_annotation_output/LSTINFO-SRL179_list_genomes.lst -n NEJE -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_annotation_output/Proteins -i 0.9 -o ../SRL179_pangenome_0.9
 ```
 
 Core Genome
@@ -3495,14 +3520,49 @@ PanACoTA corepers -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_panaco
 Align core genome
 
 ```
-PanACoTA align -c /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_core_genome/PersGenome_PanGenome-BATH.All.prt-clust-0.8-mode1_2025-07-09_00-45-16.tsv.lst_1.lst -l /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_annotation_output/LSTINFO-SRL368_list_genomes.lst -n BATH -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_annotation_output -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_align_core
+PanACoTA align -c /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_core_genome/PersGenome_PanGenome-NEJE.All.prt-clust-0.8-mode1_2025-07-10_15-11-16.tsv.lst_1.lst -l /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_annotation_output/LSTINFO-SRL179_list_genomes.lst -n NEJE -d /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_annotation_output -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_align_core
 ```
 
 Phylogenetic tree
 
 ```
-PanACoTA tree -a /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_align_core/Phylo-BATH/BATH.grp.aln -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL368_panacota/SRL368_tree
+PanACoTA tree -a /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_align_core/Phylo-NEJE/NEJE.grp.aln -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_panacota/SRL179_tree
 ```
+
+```
+mkdir SRL179_relatives_bakta
+cd SRL179_genomes/
+cp ./GCF*.fna ../SRL179_relatives_bakta/
+cd ..
+cd SRL179_relatives_bakta/
+conda activate bakta
+```
+```
+for f in ./*.fna; do   
+bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakta" --threads 20 "$f"; done
+```
+
+```
+cd ../..
+cd SRL337_panacota/SRL337_genomes/
+cp ./GCF*.fna ../SRL337_relatives_bakta/
+cd ..
+cd SRL337_relatives_bakta/
+conda activate bakta
+for f in ./*.fna; do   
+bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakta" --threads 20 "$f"; done
+```
+```
+cd ../..
+cd SRL543_panacota/SRL543_genomes/
+cp ./GCF*.fna ../SRL543_relatives_bakta/
+cd ..
+cd SRL543_relatives_bakta/
+conda activate bakta
+for f in ./*.fna; do   
+bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakta" --threads 20 "$f"; done
+```
+
 
 
 
