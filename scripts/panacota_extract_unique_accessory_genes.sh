@@ -9,7 +9,7 @@ mkdir -p ${X}_accessory
 
 # Locate required files
 lstfile=$(find ./${X}_pangenome -type f -name "PanGenome*.tsv.lst")
-mapfile=$(find ./${X}_annotation_output -type f -name "*list_genomes.lst")
+mapfile=$(find ./${X}_annotation_output -type f -name "LSTINFO-*list_genomes.lst")
 
 # Loop through each genome ID used internally by PanACoTA
 cut -f1 "$mapfile" | while read -r internal_id; do
