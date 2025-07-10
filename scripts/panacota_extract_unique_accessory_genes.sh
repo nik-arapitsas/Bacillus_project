@@ -15,9 +15,10 @@ mapfile=$(find ./${X}_annotation_output -type f -name "LSTINFO-*list_genomes.lst
 cut -f1 "$mapfile" | while read -r internal_id; do
 
   # Get the original filename (second column)
-  orig_name=$(awk -F'\t' -v id="$internal_id" 'NR > 1 && $1 == id { gsub(/^ +| +$/, "", $2); print $2 }' "$mapfile")
+  orig_name=$(awk -v id="$internal_id" '$1 == id {print $2}' "$mapfile")
 
   # Determine output-friendly isolate ID
+  if [[ -n "$orig_name" && "$orig_name" != "orig_name" && "$orig_name" != "gembase_name" ]]; then
   if [[ $orig_name == SRL* ]]; then
     outname=$(echo "$orig_name" | cut -d'_' -f1)
   elif [[ $orig_name == GCF* ]]; then
@@ -44,5 +45,9 @@ cut -f1 "$mapfile" | while read -r internal_id; do
     if (keep && genes != "")
       print $1, genes
   }' "$lstfile" > ${X}_accessory/${outname}_unique_genes.txt
+
+else
+  echo "⚠️  Skipped invalid or header row: $internal_id ($orig_name)"
+fi
 
 done
