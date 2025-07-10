@@ -15,17 +15,16 @@ mapfile=$(find ./${X}_annotation_output -type f -name "LSTINFO-*list_genomes.lst
 cut -f1 "$mapfile" | while read -r internal_id; do
 
   # Get the original filename (second column)
-  orig_name=$(awk -v id="$internal_id" '$1 == id {print $2}' "$mapfile")
+  orig_name=$(orig_name=$(awk -F'\t' -v id="$internal_id" 'NR > 1 && $1 == id {print $2}' "$mapfile")
 
   # Determine output-friendly isolate ID
-  if [[ -n "$orig_name" && "$orig_name" != "orig_name" && "$orig_name" != "gembase_name" ]]; then
-  if [[ $orig_name == SRL* ]]; then
+    if [[ $orig_name == SRL* ]]; then
     outname=$(echo "$orig_name" | cut -d'_' -f1)
-  elif [[ $orig_name == GCF* ]]; then
+    elif [[ $orig_name == GCF* ]]; then
     outname=$(echo "$orig_name" | awk -F'_' '{print $1 "_" $2}')
-  else
+    else
     outname=$orig_name
-  fi
+    fi
 
   # Extract unique genes present only in this genome
   awk -v target="$internal_id" -v OFS="\t" '
@@ -45,9 +44,5 @@ cut -f1 "$mapfile" | while read -r internal_id; do
     if (keep && genes != "")
       print $1, genes
   }' "$lstfile" > ${X}_accessory/${outname}_unique_genes.txt
-
-else
-  echo "⚠️  Skipped invalid or header row: $internal_id ($orig_name)"
-fi
 
 done
