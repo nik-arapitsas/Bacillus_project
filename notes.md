@@ -3219,9 +3219,12 @@ gunzip /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL179_pana
 iii) SRL337
 
 ```
-ncbi-genome-download bacteria --assembly-accessions GCF_003581585.1,GCF_003581585.1,GCF_008180415.1 --formats fasta --flat-output --output-folder /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL337_panacota/SRL337_genomes
+ncbi-genome-download bacteria --assembly-accessions GCF_003581585.1,GCF_008180615.1,GCF_008180415.1 --formats fasta --flat-output --output-folder /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL337_panacota/SRL337_genomes
 gunzip /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL337_panacota/SRL337_genomes/*.fna.gz
 ```
+
+ncbi-genome-download bacteria --assembly-accessions GCF_008180615.1 --formats fasta --flat-output --output-folder /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL337_panacota/SRL337_genomes
+gunzip /media/sarlab/DATA/Bacillus_project/Bacillus_project_panacota/SRL337_panacota/SRL337_genomes/*.fna.gz
 
 iv) SRL543
 
@@ -3543,22 +3546,20 @@ bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakt
 ```
 
 ```
-cd ../..
-cd SRL337_panacota/SRL337_genomes/
-cp ./GCF*.fna ../SRL337_relatives_bakta/
-cd ..
-cd SRL337_relatives_bakta/
 conda activate bakta
+cd ../../SRL337_panacota/SRL337_genomes/
+mkdir ../SRL337_relatives_bakta
+cp ./GCF*.fna ../SRL337_relatives_bakta/
+cd ../SRL337_relatives_bakta/
 for f in ./*.fna; do   
 bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakta" --threads 20 "$f"; done
 ```
 ```
-cd ../..
-cd SRL543_panacota/SRL543_genomes/
-cp ./GCF*.fna ../SRL543_relatives_bakta/
-cd ..
-cd SRL543_relatives_bakta/
 conda activate bakta
+cd ../../SRL543_panacota/SRL543_genomes/
+mkdir ../SRL543_relatives_bakta
+cp ./GCF*.fna ../SRL543_relatives_bakta/
+cd ../SRL543_relatives_bakta/
 for f in ./*.fna; do   
 bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakta" --threads 20 "$f"; done
 ```
