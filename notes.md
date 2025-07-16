@@ -3611,7 +3611,9 @@ ssh -L 8080:localhost:8080 nik_arapitsas@147.52.170.194
 pip install matplotlib==3.5.1
 ```
 
-## Use anvio for pangenome analysis
+## Use anvio for pangenome analysis of SRL179 and relatives pangenome
+
+### Prepare the workspace
 
 ```
 mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio
@@ -3620,6 +3622,8 @@ cp -R SRL179_genomes /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/
 cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes
 rm -r SRL179_list_genomes.lst
 ```
+
+### Rename the files, change the contig naming in the fasta files and prepare a database for every genome
 
 ```
 mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_simplified 
@@ -3643,9 +3647,42 @@ for fasta in *.fasta *.fna; do
 done
 ```
 
+### 
+
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_profiles
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_collections
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_summaries
+
+for db in *.db; do
+  [ -e "$db" ] || continue
+  base=$(basename "$db")
+  prefix="${db%.*}"
+
+  anvi-profile -c "$db" --blank-profile --sample-name "$prefix" -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_profiles/${prefix}_genome_profile" -T 20
+
+  anvi-export-collection -C "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_collections/${prefix}_genome_collection" -p "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_profiles/${prefix}_genome_profile/PROFILE.db"
+done
+
+anvi-import-collection collection-txt \
+                       -p profile-db \
+                       -c contigs-db \
+                       -C COLLECTION_NAME
+
+anvi-summarize -c "$db" \
+                 -p "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_profiles/${prefix}_genome_profile/PROFILE.db" \
+                 -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_summaries/${prefix}_genome_summary" \
+                 --collection-name default
+
+  echo "✅ Finished $prefix"
+done
+
+echo "🎉 All done! Profiles and summaries are in:"
+echo " - Profiles: $profile_base"
+echo " - Summaries: $summary_base"
+
+     
 
 
 
 
-
-
+anvi-export-collection -C /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_collections/SRL179_genome_collection -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_profiles/SRL179_genome_profile/PROFILE.db
