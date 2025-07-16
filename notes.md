@@ -3564,8 +3564,9 @@ for f in ./*.fna; do
 bakta --db /media/sarlab/DATA/databases/bakta_v6.0/db --output "${f%.fasta}_bakta" --threads 20 "$f"; done
 ```
 
+# Use Anvio for Pangenome analysis
 
-# Install anvio
+## Install anvio
 
 ```
 conda create -y --name anvio-8 python=3.10
@@ -3609,6 +3610,41 @@ ssh -L 8080:localhost:8080 nik_arapitsas@147.52.170.194
 ```
 pip install matplotlib==3.5.1
 ```
+
+## Use anvio for pangenome analysis
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio
+cp -R SRL179_genomes /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/
+cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes
+rm -r SRL179_list_genomes.lst
+```
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_simplified 
+
+for fasta in *.fasta *.fna; do
+  [ -e "$fasta" ] || continue
+  base=$(basename "$fasta")
+  prefix="${base%.*}"
+
+  # Reformat fasta and simplify contig names
+  anvi-script-reformat-fasta "$fasta" \
+    -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_simplified/${prefix}_simplified.fna" \
+    --simplify-names \
+    --report-file "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_simplified/${prefix}_rename-report.txt" \
+    --prefix "$prefix"
+  
+  anvi-gen-contigs-database -f "$fasta" \
+    -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/${prefix}.db" \
+    --project-name "$prefix" -T 20
+
+done
+```
+
+
+
 
 
 
