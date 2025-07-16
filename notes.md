@@ -3600,6 +3600,10 @@ anvi-self-test --suite mini
 rm -rf ~/anvio_install
 ```
 
+Connect remotely:
 
+```
+ssh -L 8080:localhost:8080 nik_arapitsas@147.52.170.194
+```
 
 
