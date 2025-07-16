@@ -3606,4 +3606,8 @@ Connect remotely:
 ssh -L 8080:localhost:8080 nik_arapitsas@147.52.170.194
 ```
 
+```
+pip install matplotlib==3.5.1
+```
+
 
