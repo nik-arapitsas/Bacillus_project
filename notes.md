@@ -3623,7 +3623,7 @@ cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL17
 rm -r SRL179_list_genomes.lst
 ```
 
-### Rename the files, change the contig naming in the fasta files and prepare a database for every genome
+1) Rename the files, change the contig naming in the fasta files and prepare a database for every genome
 
 ```
 mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_simplified 
@@ -3642,10 +3642,78 @@ for fasta in *.fasta *.fna; do
   
   anvi-gen-contigs-database -f "$fasta" \
     -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/${prefix}.db" \
-    --project-name "$prefix" -T 20
+    --project-name "$prefix" -T 20 --full-gene-calling-report "$prefix"_OUTPUT.txt
 
 done
 ```
+
+anvi-export-gene-calls -c SRL179_simplified.db --gene-caller prodigal -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/${prefix}_gene_calls.txt"
+
+
+
+for fasta in *.fasta *.fna; do
+  [ -e "$fasta" ] || continue
+  base=$(basename "$fasta")
+  prefix="${base%.*}"
+
+  anvi-gen-contigs-database -f "$fasta" \
+    -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/${prefix}.db" \
+    --project-name "$prefix" -T 20 --full-gene-calling-report "$prefix"_OUTPUT.txt
+
+done
+
+***To check the genomes stats and info use the following command in the .db files directory:**
+
+```
+anvi-display-contigs-stats *.db
+```
+
+2) Annotate the db files
+
+```
+anvi-setup-kegg-data
+anvi-setup-ncbi-cogs
+anvi-setup-pfams
+```
+```
+for db in *_simplified.db; do
+  echo "🔍 Annotating $db"
+  echo "🔍 1. HMMS Annotation"
+  anvi-run-hmms -c "$db" -I Bacteria_71 --also-scan-trnas -T 20
+  echo "🔍 2. NCBI COG Annotation"
+  anvi-run-ncbi-cogs -c "$db" -T 20
+  echo "🔍 3. KEGG Kofam Annotation"
+  anvi-run-kegg-kofams -c "$db" -T 20
+  echo "🔍 4. Pfam Annotation"
+  anvi-run-pfams -c "$db" -T 20
+done
+```
+
+2) Create a genomes-storage
+
+```
+echo -e "name\tcontigs_db_path" > external_genomes.txt
+for db in *_simplified.db; do
+  name=$(basename "$db" _simplified.db)
+  echo -e "${name}\t$(realpath "$db")" >> external_genomes.txt
+done
+```
+```
+anvi-gen-genomes-storage -e external_genomes.txt -o SRL179-GENOMES.db
+```
+
+3) Run pangenome analysis
+
+```
+anvi-pan-genome -g SRL179-GENOMES.db \
+                --project-name "SRL179_Pangenome" \
+                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome \
+                --num-threads 20 \
+                --minbit 0.5 \
+                --mcl-inflation 10 \
+                --use-ncbi-blast
+```
+
 
 ### 
 
