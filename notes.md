@@ -3674,6 +3674,9 @@ anvi-display-contigs-stats *.db
 anvi-setup-kegg-data
 anvi-setup-ncbi-cogs
 anvi-setup-pfams
+anvi-setup-scg-taxonomy
+anvi-setup-trna-taxonomy
+anvi-setup-interacdome
 ```
 ```
 for db in *_simplified.db; do
@@ -3686,6 +3689,8 @@ for db in *_simplified.db; do
   anvi-run-kegg-kofams -c "$db" -T 20
   echo "🔍 4. Pfam Annotation"
   anvi-run-pfams -c "$db" -T 20
+  echo "🔍 5. SCG Annotation"
+  anvi-run-scg-taxonomy --contigs-db "$db" -T 20
 done
 ```
 
@@ -3710,6 +3715,15 @@ anvi-pan-genome -g SRL179-GENOMES.db \
                 --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome \
                 --num-threads 20 \
                 --minbit 0.5 \
+                --mcl-inflation 10 \
+                --use-ncbi-blast
+```
+```
+anvi-pan-genome -g SRL179-GENOMES.db \
+                --project-name "SRL179_Pangenome" \
+                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome_minbit07 \
+                --num-threads 20 \
+                --minbit 0.7 \
                 --mcl-inflation 10 \
                 --use-ncbi-blast
 ```
