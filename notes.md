@@ -3728,6 +3728,20 @@ anvi-pan-genome -g SRL179-GENOMES.db \
                 --use-ncbi-blast
 ```
 
+### Displaying the pan genome
+
+```
+anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/SRL179-GENOMES.db
+```
+```
+anvi-import-state -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db --state GENES-PROFILE.json --name default
+```
+
+### Calculating rarefaction curves and Heaps’ Law parameters
+
+```
+anvi-compute-rarefaction-curves -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db --iterations 100 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_rarefaction.svg
+```
 
 ### 
 
