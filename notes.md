@@ -3743,6 +3743,18 @@ anvi-import-state -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/
 anvi-compute-rarefaction-curves -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db --iterations 100 -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_rarefaction.svg
 ```
 
+```
+anvi-split -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/SRL179-GENOMES.db -C default -o SPLIT_PANs
+```
+
+```
+anvi-compute-functional-enrichment-in-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/SRL179-GENOMES.db -o /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_functional-enrichment-COG20-FUNCTION --category-variable percent_completion --annotation-source COG20_FUNCTION
+```
+
+```
+anvi-show-misc-data -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db -t items
+```
+
 ### 
 
 mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_profiles
@@ -3782,3 +3794,6 @@ echo " - Summaries: $summary_base"
 
 
 anvi-export-collection -C /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_collections/SRL179_genome_collection -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_profiles/SRL179_genome_profile/PROFILE.db
+
+
+anvi-display-pan -p SRL179_pangenome_minbit07/SRL179_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/SRL179-GENOMES.db
