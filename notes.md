@@ -3877,41 +3877,144 @@ done
 
 ```
 echo -e "name\tcontigs_db_path" > external_genomes.txt
-for db in *_simplified.db; do
-  name=$(basename "$db" _simplified.db)
+for db in *.db; do
+  name=$(basename "$db" .db)
   echo -e "${name}\t$(realpath "$db")" >> external_genomes.txt
 done
 ```
 ```
-anvi-gen-genomes-storage -e external_genomes.txt -o SRL179-GENOMES.db
+anvi-gen-genomes-storage -e external_genomes.txt -o SRL337-GENOMES.db
 ```
 
 3) Run pangenome analysis
 
 ```
-anvi-pan-genome -g SRL179-GENOMES.db \
-                --project-name "SRL179_Pangenome" \
-                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome \
+anvi-pan-genome -g SRL337-GENOMES.db \
+                --project-name "SRL337_Pangenome" \
+                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome \
                 --num-threads 20 \
                 --minbit 0.5 \
                 --mcl-inflation 10 \
                 --use-ncbi-blast
 ```
+
 ```
-anvi-pan-genome -g SRL179-GENOMES.db \
-                --project-name "SRL179_Pangenome" \
-                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome_minbit07 \
-                --num-threads 20 \
-                --minbit 0.7 \
-                --mcl-inflation 10 \
-                --use-ncbi-blast
+anvi-pan-genome -g SRL337-GENOMES.db --project-name "SRL337_Pangenome"                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome_identity80 --num-threads 20 --min-percent-identity 80 --mcl-inflation 10 --use-ncbi-blast
 ```
 
 ### Displaying the pan genome
 
 ```
-anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db/SRL179-GENOMES.db
+anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome_minbit07/SRL337_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_genomes_db/SRL337-GENOMES.db
+```
+
+## Use anvio for pangenome analysis of SRL543
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio
+cp -R SRL543_genomes /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/
+cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes
+```
+
+1) Rename the files, change the contig naming in the fasta files and prepare a database for every genome
+
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_simplified 
 ```
 ```
-anvi-import-state -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db --state GENES-PROFILE.json --name default
+for file in *.fna *.fasta; do
+  [ -e "$file" ] || continue
+  if [[ "$file" == GCF_*_genomic.fna ]]; then
+    # Extract GCF prefix and version, replace '.' with '_'
+    newname=$(echo "$file" | sed -E 's/^(GCF_[0-9]+)\.([0-9]+).*\.fna$/\1_\2.fna/')
+    mv "$file" "$newname"
+  elif [[ "$file" == SRL* ]]; then
+    newname=$(echo "$file" | sed -E 's/^(SRL[0-9]+).*\.fasta$/\1.fasta/')
+    mv "$file" "$newname"
+  fi
+done
+```
+```
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_simplified
+mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_db
+```
+```
+for fasta in *.fasta *.fna; do
+  [ -e "$fasta" ] || continue
+  base=$(basename "$fasta")
+  prefix="${base%.*}"
+
+  # Reformat fasta and simplify contig names
+  anvi-script-reformat-fasta "$fasta" \
+    -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_simplified/${prefix}_simplified.fna" \
+    --seq-type NT \
+    --simplify-names \
+    --report-file "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_simplified/${prefix}_rename-report.txt" \
+    --prefix "$prefix"
+  
+  anvi-gen-contigs-database -f "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_simplified/${prefix}_simplified.fna" -o "/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_db/${prefix}.db" --project-name "$prefix" -T 20 
+
+done
+```
+
+***To check the genomes stats and info use the following command in the .db files directory:**
+
+```
+anvi-display-contigs-stats *.db
+```
+
+2) Annotate the db files
+
+```
+cd /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_db
+```
+```
+for db in *.db; do
+  echo "🔍 Annotating $db"
+  echo "🔍 1. HMMS Annotation"
+  anvi-run-hmms -c "$db" -I Bacteria_71 --also-scan-trnas -T 20
+  echo "🔍 2. NCBI COG Annotation"
+  anvi-run-ncbi-cogs -c "$db" -T 20
+  echo "🔍 3. KEGG Kofam Annotation"
+  anvi-run-kegg-kofams -c "$db" -T 20
+  echo "🔍 4. Pfam Annotation"
+  anvi-run-pfams -c "$db" -T 20
+  echo "🔍 5. SCG Annotation"
+  anvi-run-scg-taxonomy --contigs-db "$db" -T 20
+done
+```
+
+2) Create a genomes-storage
+
+```
+echo -e "name\tcontigs_db_path" > external_genomes.txt
+for db in *.db; do
+  name=$(basename "$db" .db)
+  echo -e "${name}\t$(realpath "$db")" >> external_genomes.txt
+done
+```
+```
+anvi-gen-genomes-storage -e external_genomes.txt -o SRL337-GENOMES.db
+```
+
+3) Run pangenome analysis
+
+```
+anvi-pan-genome -g SRL337-GENOMES.db \
+                --project-name "SRL337_Pangenome" \
+                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome \
+                --num-threads 20 \
+                --minbit 0.5 \
+                --mcl-inflation 10 \
+                --use-ncbi-blast
+```
+
+```
+anvi-pan-genome -g SRL337-GENOMES.db --project-name "SRL337_Pangenome"                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome_identity80 --num-threads 20 --min-percent-identity 80 --mcl-inflation 10 --use-ncbi-blast
+```
+
+### Displaying the pan genome
+
+```
+anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome_minbit07/SRL337_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_genomes_db/SRL337-GENOMES.db
 ```
