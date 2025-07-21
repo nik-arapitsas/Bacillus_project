@@ -3755,6 +3755,11 @@ anvi-compute-functional-enrichment-in-pan -p /media/sarlab/DATA/Bacillus_project
 anvi-show-misc-data -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome/SRL179_Pangenome-PAN.db -t items
 ```
 
+```
+sqlite3 -header -separator $'\t' SRL179_Pangenome-PAN.db "SELECT gene_cluster_id, genome_name FROM gene_clusters;" > gene_cluster_output.txt
+gawk -F"\t" '(NR>1){a[$1FS$2]++}END{for (i in a){print a[i] FS i}}' gene_cluster_output.txt | gawk -F"\t" '{a[$2]++}END{for (i in a){print a[i] FS i}}' | sort -k1 -r | head 
+```
+
 ### 
 
 mkdir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_genomes_db_profiles
