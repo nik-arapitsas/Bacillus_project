@@ -4010,7 +4010,7 @@ anvi-pan-genome -g SRL543-GENOMES.db \
 ```
 
 ```
-anvi-pan-genome -g SRL543-GENOMES.db --project-name "SRL543_Pangenome"                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_pangenome_identity80 --num-threads 20 --min-percent-identity 80 --mcl-inflation 10 --use-ncbi-blast
+anvi-pan-genome -g SRL543-GENOMES.db --project-name "SRL543_Pangenome"                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_pangenome_identity80minbit05 --num-threads 20 --min-percent-identity 80 --minbit 0.5 --mcl-inflation 10 --use-ncbi-blast
 ```
 
 ### Displaying the pan genome
@@ -4126,6 +4126,10 @@ anvi-pan-genome -g SRL368-GENOMES.db \
 
 ```
 anvi-pan-genome -g SRL368-GENOMES.db --project-name "SRL368_Pangenome"                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL368_anvio/SRL368_pangenome_identity80 --num-threads 20 --min-percent-identity 80 --mcl-inflation 10 --use-ncbi-blast
+```
+
+```
+anvi-pan-genome -g SRL368-GENOMES.db --project-name "SRL368_Pangenome"                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL368_anvio/SRL368_pangenome_identity80minbit05 --num-threads 20 --min-percent-identity 80 --minbit 0.5 --mcl-inflation 10 --use-ncbi-blast
 ```
 
 ### Displaying the pan genome
