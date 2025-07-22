@@ -3721,9 +3721,10 @@ anvi-pan-genome -g SRL179-GENOMES.db \
 ```
 anvi-pan-genome -g SRL179-GENOMES.db \
                 --project-name "SRL179_Pangenome" \
-                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome_minbit07 \
+                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL179_anvio/SRL179_pangenome_identity80minbit05 \
                 --num-threads 20 \
-                --minbit 0.7 \
+                --minbit 0.5 \
+                --min-percent-identity 80 \
                 --mcl-inflation 10 \
                 --use-ncbi-blast
 ```
@@ -3899,13 +3900,20 @@ anvi-pan-genome -g SRL337-GENOMES.db \
 ```
 
 ```
-anvi-pan-genome -g SRL337-GENOMES.db --project-name "SRL337_Pangenome"                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome_identity80 --num-threads 20 --min-percent-identity 80 --mcl-inflation 10 --use-ncbi-blast
+anvi-pan-genome -g SRL337-GENOMES.db --project-name "SRL337_Pangenome"                --output-dir /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome_identity80minbit05 --num-threads 20 --min-percent-identity 80 --minbit 0.5 --mcl-inflation 10 --use-ncbi-blast
 ```
 
 ### Displaying the pan genome
 
 ```
 anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome_minbit07/SRL337_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_genomes_db/SRL337-GENOMES.db
+```
+
+### Obtain the SRL337 dataset for the pangenome plots
+
+```
+sqlite3 -header -separator $'\t' SRL337_Pangenome-PAN.db "SELECT gene_cluster_id, genome_name FROM gene_clusters;" > gene_cluster_output.txt
+gawk -F"\t" '(NR>1){a[$1FS$2]++}END{for (i in a){print a[i] FS i}}' gene_cluster_output.txt | gawk -F"\t" '{a[$2]++}END{for (i in a){print a[i] FS i}}' | sort -k1 -r | head 
 ```
 
 ## Use anvio for pangenome analysis of SRL543
@@ -4017,6 +4025,13 @@ anvi-pan-genome -g SRL543-GENOMES.db --project-name "SRL543_Pangenome"          
 
 ```
 anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_pangenome_identity80/SRL543_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_db/SRL543-GENOMES.db
+```
+
+### Obtain the SRL543 dataset for the pangenome plots
+
+```
+sqlite3 -header -separator $'\t' SRL543_Pangenome-PAN.db "SELECT gene_cluster_id, genome_name FROM gene_clusters;" > gene_cluster_output.txt
+gawk -F"\t" '(NR>1){a[$1FS$2]++}END{for (i in a){print a[i] FS i}}' gene_cluster_output.txt | gawk -F"\t" '{a[$2]++}END{for (i in a){print a[i] FS i}}' | sort -k1 -r | head 
 ```
 
 ## Use anvio for pangenome analysis of SRL368
