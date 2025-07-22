@@ -125,13 +125,13 @@ srl179_matrix <- srl179 %>%
   column_to_rownames("gene_cluster_id")
 
 # UpSet plot
-png("SRL179_upset.png", width = 2500, height = 1600, res = 300)
+png("SRL179_upset.png", width = 4300, height = 2500, res = 300)
 upset(srl179_matrix,
       sets = colnames(srl179_matrix),
       order.by = "freq",
-      mainbar.y.label = "Gene Intersections - SRL179 and relatives",
+      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Intersections - SRL179 and relatives",
       sets.x.label = "Genes per Genome",
-      text.scale = 1.5)
+      text.scale = c(1.3, 1.5, 1.5, 1.5, 1.5, 1.3))
 dev.off()
 
 # ii) SRL337 
@@ -147,13 +147,13 @@ srl337_matrix <- srl337 %>%
   column_to_rownames("gene_cluster_id")
 
 # UpSet plot
-png("SRL337_upset.png", width = 2500, height = 1600, res = 300)
+png("SRL337_upset.png", width = 4300, height = 2500, res = 300)
 upset(srl337_matrix,
       sets = colnames(srl337_matrix),
       order.by = "freq",
-      mainbar.y.label = "Gene Intersections - SRL337 and relatives",
+      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Intersections - SRL337 and relatives",
       sets.x.label = "Genes per Genome",
-      text.scale = 1.5)
+      text.scale = c(1.3, 1.5, 1.5, 1.5, 1.5, 1.3))
 dev.off()
 
 # iii) SRL543
@@ -169,49 +169,33 @@ srl543_matrix <- srl543 %>%
   column_to_rownames("gene_cluster_id")
 
 # UpSet plot
-png("SRL543_upset.png", width = 2800, height = 1600, res = 300)
-
-# Set margin and axis font size BEFORE plotting
-par(cex.lab = 0.5,  # smaller axis title text
-    mar = c(1, 1, 1, 1) + 0)  # bottom, left, top, right margins
-
+png("SRL543_upset.png", width = 4300, height = 2500, res = 300)
 upset(srl543_matrix,
       sets = colnames(srl543_matrix),
       order.by = "freq",
-      mainbar.y.label = "Gene Intersections - SRL543 and relatives",
+      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Intersections - SRL543 and relatives",
       sets.x.label = "Genes per Genome",
-      text.scale = c(1.2, 1.2, 1.0, 1.0, 1.0, 1.0))
+      text.scale = c(1.3, 1.5, 1.5, 1.5, 1.5, 1.3))
 dev.off()
 
+# iv) SRL368
 
-# Function to convert to binary presence/absence matrix
-create_upset_matrix <- function(file) {
-  df <- read_delim(file, delim = "\t", col_types = cols()) %>%
-    distinct(gene_cluster_id, genome_name) %>%
-    mutate(value = 1) %>%
-    pivot_wider(names_from = genome_name, values_from = value, values_fill = 0)
-  
-  df <- as.data.frame(df)
-  rownames(df) <- df$gene_cluster_id
-  df$gene_cluster_id <- NULL
-  return(df)
-}
+# Load the table
+srl368 <- read_delim("SRL368_gene_cluster_output.txt", delim = "\t", col_types = cols())
 
-# Generate and plot each UpSet
-for (label in names(pangenome_tables)) {
-  mat <- create_upset_matrix(pangenome_tables[[label]])
-  
-  # Optional: open a new window or save to PDF
-  # pdf(paste0(label, "_upset.pdf"), width = 8, height = 6)
-  
-  print(
-    upset(mat, 
-          sets = colnames(mat), 
-          order.by = "freq", 
-          mainbar.y.label = paste("Gene Intersections -", label),
-          sets.x.label = "Genes per Genome",
-          text.scale = 1.3)
-  )
-  
-  # dev.off()  # close PDF device if used
-}
+# Create presence/absence matrix
+srl368_matrix <- srl368 %>%
+  distinct(gene_cluster_id, genome_name) %>%
+  mutate(present = 1) %>%
+  pivot_wider(names_from = genome_name, values_from = present, values_fill = 0) %>%
+  column_to_rownames("gene_cluster_id")
+
+# UpSet plot
+png("SRL368_upset.png", width = 4300, height = 2500, res = 300)
+upset(srl368_matrix,
+      sets = colnames(srl368_matrix),
+      order.by = "freq",
+      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Intersections - SRL368 and relatives",
+      sets.x.label = "Genes per Genome",
+      text.scale = c(1.3, 1.5, 1.5, 1.5, 1.5, 1.3))
+dev.off() 
