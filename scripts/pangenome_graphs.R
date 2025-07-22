@@ -10,6 +10,9 @@
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/pangenome_graphs.R
 ######################################################################################################
 
+
+# 1) Collective Barplot 
+
 library(tidyverse)
 
 # List of your actual .txt files with labels
@@ -60,17 +63,17 @@ all_pangenome_data$category <- factor(all_pangenome_data$category, levels = c("c
 all_pangenome_data$group <- factor(all_pangenome_data$group, levels = names(pangenome_tables))
 
 # Plot
-ggplot(all_pangenome_data, aes(x = group, y = percent, fill = category)) +
+pangenome_barplot <- ggplot(all_pangenome_data, aes(x = group, y = percent, fill = category)) +
   geom_bar(stat = "identity", position = "stack", width = 0.7) +
   geom_text(aes(label = paste0(percent, "%")),
             position = position_stack(vjust = 0.5),
             color = "white", size = 4.5, fontface = "bold") +
   scale_fill_manual(
     values = c(
-      "core" = "#7171be",
-      "accessory" = "#ff7f0e",
-      "species-specific" = "#2ca02c"
-    )
+      "core" = "#65a7d6",
+      "accessory" = "#785dd2",
+      "species-specific" = "#e38a16"
+    )) +
   scale_y_continuous(expand = c(0, 0), limits = c(0, 100)) +
   labs(
     x = "Pangenomes",
@@ -80,14 +83,28 @@ ggplot(all_pangenome_data, aes(x = group, y = percent, fill = category)) +
   theme_minimal(base_size = 14) +
   theme(
     panel.grid.major.x = element_blank(),  # Remove grid lines
-    axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+    axis.line = element_line(color = "black", size = 0.5),  # Add black axis lines
     axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
     axis.ticks = element_line(color = "black", linewidth = 0.5),
     plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
-    axis.text.x = element_text(angle = 30, hjust = 1, 
-                               size = 10, color = "black", family = "sans", 
+    axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = -1, 
+                               size = 12, color = "black", family = "sans", 
                                margin = margin(t = 2.5)),  # Darker and more spaced letters
-    axis.text.y = element_text(hjust = 0.5, vjust = 0.5, size = 10, color = "black", family = "sans", 
+    axis.title.x = element_text(margin = margin(t = 15)),
+    axis.text.y = element_text(hjust = 0.5, vjust = 0.5, size = 12, color = "black", family = "sans", 
                                margin = margin(t = 2.0)),
     plot.margin = margin(10, 10, 10, 10)  # Add extra space around the plot
   )
+
+# Save the graph 
+
+ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/Bacillus_project_anvio_Graphs/pangenome_barplot",".png"),
+       plot= pangenome_barplot, 
+       height = 50, 
+       width = 45,
+       dpi = 300, 
+       units="cm",
+       device="png")
+
+
+# 2) Upside Plots 
