@@ -4152,3 +4152,8 @@ anvi-pan-genome -g SRL368-GENOMES.db --project-name "SRL368_Pangenome"          
 ```
 anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL368_anvio/SRL368_pangenome_identity80/SRL368_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL368_anvio/SRL368_genomes_db/SRL368-GENOMES.db
 ```
+
+```
+sqlite3 -header -separator $'\t' SRL368_Pangenome-PAN.db "SELECT gene_cluster_id, genome_name FROM gene_clusters;" > gene_cluster_output.txt
+gawk -F"\t" '(NR>1){a[$1FS$2]++}END{for (i in a){print a[i] FS i}}' gene_cluster_output.txt | gawk -F"\t" '{a[$2]++}END{for (i in a){print a[i] FS i}}' | sort -k1 -r | head 
+```
