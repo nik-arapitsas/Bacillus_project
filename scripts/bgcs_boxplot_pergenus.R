@@ -38,12 +38,12 @@ genus_sample_sizes <- bgc_perisolate_genera_grouped %>%
 # Define custom colors
 
 genus_colors <- c(
-  "Bacillus" = "#7171be",         
-  "Paenibacillus" = "#d4c63a",   
-  "Neobacillus" = "#ff94b4",      
-  "Peribacillus" = "#a26324",     
-  "Cytobacillus" = "#8f9ed7",
-  "Rossellomorea" = "#f8d48c"     
+  "Bacillus" = "#009E73",        
+  "Paenibacillus" = "#D55E00",   
+  "Neobacillus" = "#F0E442",     
+  "Peribacillus" = "#0072B2",    
+  "Cytobacillus" = "#56B4E9",    
+  "Rossellomorea" = "#E69F00"    
 )
 
 # A) Create a boxplot
@@ -110,8 +110,17 @@ bgc_perisolate_genera_grouped_barplot <- ggplot(bgc_stats, aes(x = genus, y = me
   geom_col(width = 0.7) +
   geom_errorbar(
     aes(ymin = mean_bgc - se_bgc, ymax = mean_bgc + se_bgc),
-    width = 0.2
+    width = 0.2 
   ) +
+  geom_text(
+  aes(
+    label = paste0("n = ", n),
+    y = ifelse(is.na(se_bgc) | is.nan(se_bgc), mean_bgc + 0.5, mean_bgc + se_bgc + 0.5)
+  ),
+  size = 3,
+  color = "black",
+  fontface = "bold"
+) +
   scale_fill_manual(values = genus_colors) +  # your custom palette
   labs(
     title = "Average number of antiSMASH regions per genus",
@@ -141,8 +150,8 @@ bgc_perisolate_genera_grouped_barplot <- ggplot(bgc_stats, aes(x = genus, y = me
 
 ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_perisolate_genera_grouped_barplot",".png"),
        plot= bgc_perisolate_genera_grouped_barplot, 
-       height = 20, 
-       width = 50,
+       height = 15, 
+       width = 20,
        dpi = 300, 
        units="cm",
        device="png")
