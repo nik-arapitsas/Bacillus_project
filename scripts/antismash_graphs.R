@@ -22,8 +22,8 @@ df_long$Similarity <- factor(df_long$Similarity, levels = c("Undefined", "Low", 
 
 # Define custom colors
 similarity_colors <- c(
-  "High" = "#f8d48c",
-  "Medium" = "#d4c63a",
+  "High" = "#009E73",
+  "Medium" = "#56B4E9",
   "Low" = "#ff94b4",
   "Undefined" = "#7171be"
 )
@@ -55,8 +55,8 @@ antiSMASH_regions_similarity_count_plot <- ggplot(df_long, aes(x = IsolateID, y 
 
 ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/antiSMASH_regions_similarity_count_plot",".png"),
        plot=antiSMASH_regions_similarity_count_plot, 
-       height = 20, 
-       width = 50,
+       height = 22, 
+       width = 55,
        dpi = 300, 
        units="cm",
        device="png")
