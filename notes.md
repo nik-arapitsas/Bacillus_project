@@ -3113,7 +3113,7 @@ NR==1 {
   }
 }
 END {
-  print "Isolates" "\t" "Core Orthogroups" "\t" "Partially Shared Orthogroups";
+  print "Isolates" "\t" "Core Orthogroups" "\t" "Core and Partially Shared Orthogroups";
   for (i in species) {
     print species[i] "\t" core_count[i] "\t" shared[i];
   }
