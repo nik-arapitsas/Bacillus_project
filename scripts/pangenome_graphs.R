@@ -70,9 +70,9 @@ pangenome_barplot <- ggplot(all_pangenome_data, aes(x = percent, y = group, fill
             color = "white", size = 4.5, fontface = "bold") +
   scale_fill_manual(
     values = c(
-      "core" = "#65a7d6",
-      "accessory" = "#785dd2",
-      "species-specific" = "#e38a16"
+      "core" = "#56B4E9",           # sky blue (Okabe-Ito)
+  "accessory" = "#CC79A7",      # reddish purple (Okabe-Ito)
+  "species-specific" = "#E69F00" # orange (Okabe-Ito)
     )) +
   scale_x_continuous(expand = c(0, 0), limits = c(0, 100)) +
   labs(
@@ -125,7 +125,7 @@ srl179_matrix <- srl179 %>%
   column_to_rownames("gene_cluster_id")
 
 # UpSet plot
-png("SRL179_upset.png", width = 4300, height = 2500, res = 300)
+png("SRL179_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl179_matrix,
       sets = colnames(srl179_matrix),
       order.by = "freq",
@@ -147,7 +147,7 @@ srl337_matrix <- srl337 %>%
   column_to_rownames("gene_cluster_id")
 
 # UpSet plot
-png("SRL337_upset.png", width = 4300, height = 2500, res = 300)
+png("SRL337_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl337_matrix,
       sets = colnames(srl337_matrix),
       order.by = "freq",
@@ -169,7 +169,7 @@ srl543_matrix <- srl543 %>%
   column_to_rownames("gene_cluster_id")
 
 # UpSet plot
-png("SRL543_upset.png", width = 4300, height = 2500, res = 300)
+png("SRL543_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl543_matrix,
       sets = colnames(srl543_matrix),
       order.by = "freq",
@@ -191,7 +191,7 @@ srl368_matrix <- srl368 %>%
   column_to_rownames("gene_cluster_id")
 
 # UpSet plot
-png("SRL368_upset.png", width = 4300, height = 2500, res = 300)
+png("SRL368_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl368_matrix,
       sets = colnames(srl368_matrix),
       order.by = "freq",
