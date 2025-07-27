@@ -51,6 +51,17 @@ bgc_group_colors <- c(
   "others" = "#f8d48c"
 )
 
+bgc_group_colors <- c(
+  "NRPS" = "#0072B2",                # strong blue
+  "terpene" = "#E69F00",             # orange
+  "PKS" = "#D55E00",                 # vermilion
+  "NI-siderophore" = "#009E73",      # bluish green
+  "NRPS-PKS hybrids" = "#F0E442",    # vivid yellow
+  "RiPPs" = "#CC79A7",               # reddish pink
+  "NRPS-other hybrids" = "#56B4E9",  # sky blue
+  "others" = "#999999"               # gray for catch-all
+)
+
 # A) Depict only the BGCs with Undefined similarity
 
 # Select the regions with Undefined similarity
@@ -263,9 +274,17 @@ bgcs_perisolate_summary <- bgcs_perisolate_bgc |>
     group_by(IsolateID,Similarity,Category) |>
     summarise(Count=n(), .groups = "keep")
 
-bgcs_complete <- bgcs_perisolate_summary %>%
-  ungroup() %>%
-  complete(IsolateID, Similarity, Category, fill = list(Count = 0))
+bgcs_complete <- bgcs_perisolate_bgc |>
+    group_by(IsolateID,Similarity,Category) |>
+    summarise(Count=n(), .groups = "keep") %>%
+    ungroup() %>%
+    complete(IsolateID, Similarity, Category, fill = list(Count = 0)) %>%
+    mutate(Similarity = factor(Similarity,
+                               levels = c("High", "Medium", "Low", "Undefined"),
+                               labels = c("High similarity confidence",
+                                          "Medium similarity confidence",
+                                          "Low similarity confidence",
+                                          "Undefined similarity confidence")))
 
 bgc_types_plot <- ggplot(bgcs_complete, aes(x = IsolateID, y = Count, fill = Category)) +
   geom_bar(stat = "identity") +
