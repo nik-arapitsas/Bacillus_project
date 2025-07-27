@@ -37,6 +37,17 @@ bgc_group_colors <- c(
   "others" = "#f8d48c"
 )
 
+bgc_group_colors <- c(
+  "NRPS" = "#0072B2",                # strong blue
+  "terpene" = "#E69F00",             # orange
+  "PKS" = "#D55E00",                 # vermilion
+  "NI-siderophore" = "#009E73",      # bluish green
+  "NRPS-PKS hybrids" = "#F0E442",    # vivid yellow
+  "RiPPs" = "#CC79A7",               # reddish pink
+  "NRPS-other hybrids" = "#56B4E9",  # sky blue
+  "others" = "#999999"               # gray for catch-all
+)
+
 # Express every BGC group number as a percent of the total BGCs for every isolate
 bgcs_percent <- bgcs_perisolate %>%
   mutate(Category = case_when(
