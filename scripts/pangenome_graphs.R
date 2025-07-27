@@ -107,7 +107,7 @@ ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/Bacill
        device="png")
 
 
-# 2) Upside Plots 
+# 2) Upset Plots 
 
 install.packages("UpSetR")
 library(UpSetR)
