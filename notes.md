@@ -3906,7 +3906,7 @@ anvi-pan-genome -g SRL337-GENOMES.db --project-name "SRL337_Pangenome"          
 ### Displaying the pan genome
 
 ```
-anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome_minbit07/SRL337_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_genomes_db/SRL337-GENOMES.db
+anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_pangenome/SRL337_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL337_anvio/SRL337_genomes_db/SRL337-GENOMES.db
 ```
 
 ### Obtain the SRL337 dataset for the pangenome plots
@@ -4024,7 +4024,7 @@ anvi-pan-genome -g SRL543-GENOMES.db --project-name "SRL543_Pangenome"          
 ### Displaying the pan genome
 
 ```
-anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_pangenome_identity80/SRL543_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_db/SRL543-GENOMES.db
+anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_pangenome/SRL543_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL543_anvio/SRL543_genomes_db/SRL543-GENOMES.db
 ```
 
 ### Obtain the SRL543 dataset for the pangenome plots
@@ -4150,7 +4150,7 @@ anvi-pan-genome -g SRL368-GENOMES.db --project-name "SRL368_Pangenome"          
 ### Displaying the pan genome
 
 ```
-anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL368_anvio/SRL368_pangenome_identity80/SRL368_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL368_anvio/SRL368_genomes_db/SRL368-GENOMES.db
+anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL368_anvio/SRL368_pangenome/SRL368_Pangenome-PAN.db -g /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/SRL368_anvio/SRL368_genomes_db/SRL368-GENOMES.db
 ```
 
 ```
