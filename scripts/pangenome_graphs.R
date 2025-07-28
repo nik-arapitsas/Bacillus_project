@@ -76,7 +76,7 @@ pangenome_barplot <- ggplot(all_pangenome_data, aes(x = percent, y = group, fill
     )) +
   scale_x_continuous(expand = c(0, 0), limits = c(0, 100)) +
   labs(
-    x = "Gene Percentage (%)",
+    x = "Pangenome Composition (%)",
     y = "Pangenomes",
     fill = "Category"
   ) +
@@ -129,8 +129,8 @@ png("SRL179_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl179_matrix,
       sets = colnames(srl179_matrix),
       order.by = "freq",
-      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Intersections - SRL179 and relatives",
-      sets.x.label = "Genes per Genome",
+      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Cluster Intersections - SRL179 and relatives",
+      sets.x.label = "Gene Clusters per Genome",
       text.scale = c(1.3, 1.5, 1.5, 1.5, 1.5, 1.3))
 dev.off()
 
@@ -151,8 +151,8 @@ png("SRL337_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl337_matrix,
       sets = colnames(srl337_matrix),
       order.by = "freq",
-      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Intersections - SRL337 and relatives",
-      sets.x.label = "Genes per Genome",
+      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Cluster Intersections - SRL337 and relatives",
+      sets.x.label = "Gene Clusters per Genome",
       text.scale = c(1.3, 1.5, 1.5, 1.5, 1.5, 1.3))
 dev.off()
 
@@ -173,8 +173,8 @@ png("SRL543_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl543_matrix,
       sets = colnames(srl543_matrix),
       order.by = "freq",
-      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Intersections - SRL543 and relatives",
-      sets.x.label = "Genes per Genome",
+      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Cluster Intersections - SRL543 and relatives",
+      sets.x.label = "Gene Clusters per Genome",
       text.scale = c(1.3, 1.5, 1.5, 1.5, 1.5, 1.3))
 dev.off()
 
@@ -195,7 +195,7 @@ png("SRL368_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl368_matrix,
       sets = colnames(srl368_matrix),
       order.by = "freq",
-      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Intersections - SRL368 and relatives",
-      sets.x.label = "Genes per Genome",
+      mainbar.y.label = "\n\n\n\n\n\n\n\nGene Cluster Intersections - SRL368 and relatives",
+      sets.x.label = "Gene Clusters per Genome",
       text.scale = c(1.3, 1.5, 1.5, 1.5, 1.5, 1.3))
 dev.off() 
