@@ -124,6 +124,8 @@ srl179_matrix <- srl179 %>%
   pivot_wider(names_from = genome_name, values_from = present, values_fill = 0) %>%
   column_to_rownames("gene_cluster_id")
 
+colnames(srl179_matrix) <- gsub("_(\\d+)$", ".\\1", colnames(srl179_matrix))
+
 # UpSet plot
 png("SRL179_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl179_matrix,
@@ -145,6 +147,8 @@ srl337_matrix <- srl337 %>%
   mutate(present = 1) %>%
   pivot_wider(names_from = genome_name, values_from = present, values_fill = 0) %>%
   column_to_rownames("gene_cluster_id")
+
+colnames(srl337_matrix) <- gsub("_(\\d+)$", ".\\1", colnames(srl337_matrix))
 
 # UpSet plot
 png("SRL337_upset.png", width = 4300, height = 3440, res = 300)
@@ -168,6 +172,8 @@ srl543_matrix <- srl543 %>%
   pivot_wider(names_from = genome_name, values_from = present, values_fill = 0) %>%
   column_to_rownames("gene_cluster_id")
 
+colnames(srl543_matrix) <- gsub("_(\\d+)$", ".\\1", colnames(srl543_matrix))
+
 # UpSet plot
 png("SRL543_upset.png", width = 4300, height = 3440, res = 300)
 upset(srl543_matrix,
@@ -189,6 +195,8 @@ srl368_matrix <- srl368 %>%
   mutate(present = 1) %>%
   pivot_wider(names_from = genome_name, values_from = present, values_fill = 0) %>%
   column_to_rownames("gene_cluster_id")
+
+colnames(srl368_matrix) <- gsub("_(\\d+)$", ".\\1", colnames(srl368_matrix))
 
 # UpSet plot
 png("SRL368_upset.png", width = 4300, height = 3440, res = 300)
