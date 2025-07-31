@@ -70,6 +70,9 @@ pheatmap(
   display_numbers = TRUE,
   number_format = "%.0f",
   border_color = "black",
+  number_color = "black",
+  fontsize_number = 12,
+  angle_col = 90,  
   main = "Functional Gene Counts per Isolate"
 )
 
