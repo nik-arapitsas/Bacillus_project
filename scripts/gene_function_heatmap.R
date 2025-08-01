@@ -64,7 +64,7 @@ colnames(gene_function_distribution) <- gsub(
   colnames(gene_function_distribution)
 )
 
-png("gene_function_heatmap.png", width = 5000, height = 5000, res = 300)
+png("gene_function_heatmap.png", width = 3000, height = 3000, res = 300)
 
 pheatmap(
   gene_function_distribution,
@@ -76,9 +76,9 @@ pheatmap(
   number_format = "%.0f",
   border_color = "black",   
   number_color = "black",
-  fontsize_number = 20,
-  fontsize_row = 14, 
-  fontsize_col = 16,
+  fontsize_number = 12,
+  fontsize_row = 12, 
+  fontsize_col = 12,
   angle_col = 45,  
   main = "Gene Counts per Isolate"
 )
