@@ -59,7 +59,7 @@ colors <- c(
 
 colnames(gene_function_distribution) <- gsub("_", " ", colnames(gene_function_distribution))
 
-png("gene_function_heatmap.png", width = 4500, height = 4500, res = 300)
+png("gene_function_heatmap.png", width = 5000, height = 5000, res = 300)
 
 pheatmap(
   gene_function_distribution,
@@ -73,7 +73,7 @@ pheatmap(
   number_color = "black",
   fontsize_number = 12,
   angle_col = 45,  
-  main = "Functional Gene Counts per Isolate"
+  main = "Gene Counts per Isolate"
 )
 
 dev.off()
