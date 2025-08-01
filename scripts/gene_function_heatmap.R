@@ -58,6 +58,11 @@ colors <- c(
 )
 
 colnames(gene_function_distribution) <- gsub("_", " ", colnames(gene_function_distribution))
+colnames(gene_function_distribution) <- gsub(
+  "Plant Hormone & VOCs production",
+  "Plant Hormone\n& VOCs production",
+  colnames(gene_function_distribution)
+)
 
 png("gene_function_heatmap.png", width = 5000, height = 5000, res = 300)
 
@@ -69,9 +74,11 @@ pheatmap(
   cluster_cols = TRUE,
   display_numbers = TRUE,
   number_format = "%.0f",
-  border_color = "black",
+  border_color = "black",   
   number_color = "black",
-  fontsize_number = 12,
+  fontsize_number = 20,
+  fontsize_row = 14, 
+  fontsize_col = 16,
   angle_col = 45,  
   main = "Gene Counts per Isolate"
 )
