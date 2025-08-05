@@ -38,7 +38,8 @@ antiSMASH_regions_similarity_count_plot <- ggplot(df_long, aes(x = IsolateID, y 
        x = NULL,
        y = "Number of antiSMASH Regions") +
   theme_minimal() +
-  theme(axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+  theme(panel.grid = element_blank(),
+        axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
         axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
         axis.ticks = element_line(color = "black", linewidth = 0.5),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
