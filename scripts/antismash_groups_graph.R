@@ -41,17 +41,6 @@ bgcs_perisolate_bgc <- bgcs_perisolate |>
 # Define custom colors
 
 bgc_group_colors <- c(
-  "NRPS" = "#7171be",
-  "terpene" = "#d4c63a",
-  "PKS" = "#ff94b4",
-  "NI-siderophore" = "#a26324",
-  "NRPS-PKS hybrids" = "#8f9ed7",
-  "RiPPs" = "#c18563",
-  "NRPS-other hybrids" = "#c47ece",
-  "others" = "#f8d48c"
-)
-
-bgc_group_colors <- c(
   "NRPS" = "#0072B2",                # strong blue
   "terpene" = "#E69F00",             # orange
   "PKS" = "#D55E00",                 # vermilion
@@ -87,7 +76,8 @@ undefined_bgc_types_plot <- ggplot(bgcs_summary, aes(x = IsolateID, y = Count, f
        x = "Isolate ID",
        y = "Count of Undefined BGCs",
        fill = "BGC Category") +
-  theme(axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+  theme(panel.grid = element_blank(), #remove grid lines
+        axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
         axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
         axis.ticks = element_line(color = "black", linewidth = 0.5),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
@@ -139,7 +129,8 @@ low_bgc_types_plot <- ggplot(bgcs_low_summary, aes(x = IsolateID, y = Count, fil
        x = "Isolate ID",
        y = "Count of Low BGCs",
        fill = "BGC Category") +
-  theme(axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+  theme(panel.grid = element_blank(), #remove grid lines
+        axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
         axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
         axis.ticks = element_line(color = "black", linewidth = 0.5),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
@@ -190,7 +181,8 @@ medium_bgc_types_plot <- ggplot(bgcs_medium_summary, aes(x = IsolateID, y = Coun
        x = "Isolate ID",
        y = "Count of Medium BGCs",
        fill = "BGC Category") +
-  theme(axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+  theme(panel.grid = element_blank(), #remove grid lines
+        axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
         axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
         axis.ticks = element_line(color = "black", linewidth = 0.5),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
@@ -242,7 +234,8 @@ high_bgc_types_plot <- ggplot(bgcs_high_summary, aes(x = IsolateID, y = Count, f
        x = "Isolate ID",
        y = "Count of High BGCs",
        fill = "BGC Category") +
-  theme(axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+  theme(panel.grid = element_blank(), #remove grid lines
+        axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
         axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
         axis.ticks = element_line(color = "black", linewidth = 0.5),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
@@ -294,7 +287,8 @@ bgc_types_plot <- ggplot(bgcs_complete, aes(x = IsolateID, y = Count, fill = Cat
        x = "Isolate ID",
        y = "Count of BGCs",
        fill = "BGC Category") +
-  theme(axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+  theme(panel.grid = element_blank(), #remove grid lines
+        axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
         axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
         axis.ticks = element_line(color = "black", linewidth = 0.5),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
