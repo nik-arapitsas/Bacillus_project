@@ -4157,3 +4157,24 @@ anvi-display-pan -p /media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/S
 sqlite3 -header -separator $'\t' SRL368_Pangenome-PAN.db "SELECT gene_cluster_id, genome_name FROM gene_clusters;" > gene_cluster_output.txt
 gawk -F"\t" '(NR>1){a[$1FS$2]++}END{for (i in a){print a[i] FS i}}' gene_cluster_output.txt | gawk -F"\t" '{a[$2]++}END{for (i in a){print a[i] FS i}}' | sort -k1 -r | head 
 ```
+
+# Collect info about the raw and filtered reads
+
+```
+wc -l ./SRL*_filtered_reads/SRL*_long_filtered.fastq | awk '{print $1/4}'
+```
+
+```
+samtools fastq SRL152_output.1066_1--1066_1.subreads.bam > ./SRL152_filtered_reads/SRL152_long_unfiltered.fastq
+```
+```
+filtlong --min_length 1000 --keep_percent 95 ./SRL152_filtered_reads/SRL152_long_unfiltered.fastq > ./SRL152_filtered_reads/SRL152_long_filtered.fastq
+```
+
+```
+fastp -i *_1.fq.gz -I *_2.fq.gz -o ./SRL662_filtered_reads/SRL662_A01_FDSW210370227-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -O ./SRL662_filtered_reads/SRL662_A01_FDSW210370227-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --report_title "SRL662 fastp report" --unpaired1 ./SRL662_filtered_reads/SRL662_A01_FDSW210370227-1r_HLG2FDSX2_L1_1_unpaired.fq.gz --unpaired2 ./SRL662_filtered_reads/SRL662_A01_FDSW210370227-1r_HLG2FDSX2_L1_2_unpaired.fq.gz
+```
+
+```
+fastp -i *_1.fq.gz -I *_2.fq.gz -o ./SRL656_filtered_reads/SRL656_A02_FDSW210370228-1r_HLG2FDSX2_L1_1_trimmed.fq.gz -O ./SRL656_filtered_reads/SRL656_A02_FDSW210370228-1r_HLG2FDSX2_L1_2_trimmed.fq.gz --report_title "SRL656 fastp report" --unpaired1 ./SRL656_filtered_reads/SRL656_A02_FDSW210370228-1r_HLG2FDSX2_L1_1_unpaired.fq.gz --unpaired2 ./SRL656_filtered_reads/SRL656_A02_FDSW210370228-1r_HLG2FDSX2_L1_2_unpaired.fq.gz
+```
