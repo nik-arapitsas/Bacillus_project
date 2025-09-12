@@ -282,7 +282,7 @@ bgcs_complete <- bgcs_perisolate_bgc |>
 bgc_types_plot <- ggplot(bgcs_complete, aes(x = IsolateID, y = Count, fill = Category)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = bgc_group_colors) +
-  theme_minimal() +
+  theme_bw() +
   labs(title = "BGCs per Isolate by Category",
        x = "Isolate ID",
        y = "Count of BGCs",
