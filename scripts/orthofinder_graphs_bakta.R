@@ -23,11 +23,12 @@ print(duplicates)
 
 ggplot(data, aes(x = Isolates, y = IsolatesSpecificOrthogroups)) +
   geom_bar(stat = "identity", fill = "black", position = "identity") +  # Set bars to black
-  theme_minimal() +
+  theme_bw() +
   labs(title = "Number of Isolate-Specific Orthogroups",
        x = "", y = "Isolate-Specific Orthogroups") +
   theme(
     panel.grid = element_blank(),  # Remove grid lines
+    panel.border = element_blank(),
     axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
     axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
     axis.ticks = element_line(color = "black", linewidth = 0.5),
@@ -46,13 +47,14 @@ ggplot(data, aes(x = Isolates, y = IsolatesSpecificOrthogroups)) +
 
 IsolateSpecificOgs_plot <- ggplot(data, aes(x = Isolates, y = IsolatesSpecificOrthogroups)) +
   geom_bar(stat = "identity", fill = "#7281bd", position = "identity") +  # Set bars to black
-  theme_minimal() +
+  theme_bw() +
   labs(title = "Number of Isolate-Specific Orthogroups",
        x = "", y = "") +
   scale_x_discrete(expand=expansion(add=c(.8, .8))) +
   scale_y_continuous(expand=expansion(add=c(0, 0))) +
   theme(
     panel.grid = element_blank(),  # Remove grid lines
+    panel.border = element_blank(),
     axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
     axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
     axis.ticks = element_line(color = "black", linewidth = 0.5),
@@ -90,14 +92,15 @@ data_gene_perc$Isolates <- factor(data_gene_perc$Isolates, levels = data_gene_pe
 
 PercOfOgs_plot <- ggplot(data_gene_perc, aes(x = Isolates, y = PercentageinOgs)) +
   geom_bar(stat = "identity", fill = "#7281bd", position = "identity") +  # Set bars to black
-  geom_hline(yintercept = 100, linetype = "dashed", color = "black", size = 0.2) +  # Dashed line at 100%
-  theme_minimal() +
+  geom_hline(yintercept = 100, linetype = "dashed", color = "black", size = 0.4) +  # Dashed line at 100%
+  theme_bw() +
   scale_x_discrete(expand=expansion(add=c(.8, .8))) +
   scale_y_continuous(expand=expansion(add=c(0, 0))) +
   labs(title = "Percentage of Genes in Orthogroups",
        x = "", y = "Percentage of genes (%)") +
   theme(
     panel.grid = element_blank(),  # Remove grid lines
+    panel.border = element_blank(),
     axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
     axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
     axis.ticks = element_line(color = "black", linewidth = 0.5),
@@ -153,8 +156,9 @@ SharedOgs_plot <- ggplot(data_combined, aes(x = Isolates, y = Count, fill = Cate
   guides(fill = guide_legend(title = NULL, byrow = TRUE)) +
   scale_x_discrete(expand=expansion(add=c(.8, .8))) +
   scale_y_continuous(expand=expansion(add=c(0, 0))) +
-  theme_minimal() +
+  theme_bw() +
   theme(panel.grid = element_blank(),
+        panel.border = element_blank(),
         axis.line = element_line(color = "black", size = 0.2),
         axis.ticks.length = unit(0.1, "cm"),
         axis.ticks = element_line(color = "black", linewidth = 0.5),
@@ -208,13 +212,14 @@ perunasigned_perisolate$Isolates <- factor(perunasigned_perisolate$Isolates, lev
 
 Unasigned_genes_plot <- ggplot(perunasigned_perisolate, aes(x = Isolates, y = Unas_genes)) +
   geom_bar(stat = "identity", fill = "#7281bd", position = "identity") +  # Set bars to black
-  theme_minimal() +
+  theme_bw() +
   labs(title = "Percentage of Unassigned genes per isolate",
        x = "", y = "") +
   scale_x_discrete(expand=expansion(add=c(.8, .8))) +
   scale_y_continuous(expand=expansion(add=c(0, 0))) +
   theme(
     panel.grid = element_blank(),  # Remove grid lines
+    panel.border = element_blank(),
     axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
     axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
     axis.ticks = element_line(color = "black", linewidth = 0.5),
