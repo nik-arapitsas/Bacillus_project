@@ -112,7 +112,9 @@ legend_plot <- make_pie(
   show_legend = TRUE
 ) + theme(
   plot.title = element_blank(),
-  legend.position = "bottom"
+  legend.position = "bottom",
+  legend.background = element_rect(fill = "white", color = NA),       
+  legend.box.background = element_rect(fill = "white", color = NA)    
 )
 
 legend <- get_legend(legend_plot)
@@ -133,6 +135,7 @@ ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgcs_perisol
        plot= bgcs_perisolate_pies, 
        height = 30, 
        width = 25,
-       dpi = 300, 
+       dpi = 300,
+       bg = "white", 
        units="cm",
        device="png")
