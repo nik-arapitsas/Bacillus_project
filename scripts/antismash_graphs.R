@@ -37,9 +37,10 @@ antiSMASH_regions_similarity_count_plot <- ggplot(df_long, aes(x = IsolateID, y 
   labs(title = "antiSMASH region count per isolate",
        x = NULL,
        y = "Number of antiSMASH Regions") +
-  theme_minimal() +
+  theme_bw() +
   theme(panel.grid = element_blank(),
         axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
+        panel.border = element_blank(),
         axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
         axis.ticks = element_line(color = "black", linewidth = 0.5),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
