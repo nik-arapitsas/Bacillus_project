@@ -127,8 +127,9 @@ bgc_perisolate_genera_grouped_barplot <- ggplot(bgc_stats, aes(x = genus, y = me
     x = "Genus",
     y = "Mean antiSMASH region count ± SE"
   ) +
-  theme_minimal() +
+  theme_bw() +
   theme(panel.grid = element_blank(),
+        panel.border = element_blank(),
         axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
         axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
         axis.ticks = element_line(color = "black", linewidth = 0.5),
