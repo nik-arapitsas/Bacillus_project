@@ -71,7 +71,7 @@ bgcs_summary <- bgcs_undefined %>%
 undefined_bgc_types_plot <- ggplot(bgcs_summary, aes(x = IsolateID, y = Count, fill = Category)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = bgc_group_colors) +
-  theme_minimal() +
+  theme_bw() +
   labs(title = "Undefined BGCs per Isolate by Category",
        x = "Isolate ID",
        y = "Count of Undefined BGCs",
@@ -124,7 +124,7 @@ bgcs_low_summary <- bgcs_low %>%
 low_bgc_types_plot <- ggplot(bgcs_low_summary, aes(x = IsolateID, y = Count, fill = Category)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = bgc_group_colors) +
-  theme_minimal() +
+  theme_bw() +
   labs(title = "Low BGCs per Isolate by Category",
        x = "Isolate ID",
        y = "Count of Low BGCs",
@@ -176,7 +176,7 @@ bgcs_medium_summary <- bgcs_medium %>%
 medium_bgc_types_plot <- ggplot(bgcs_medium_summary, aes(x = IsolateID, y = Count, fill = Category)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = bgc_group_colors) +
-  theme_minimal() +
+  theme_bw() +
   labs(title = "Medium BGCs per Isolate by Category",
        x = "Isolate ID",
        y = "Count of Medium BGCs",
@@ -229,7 +229,7 @@ bgcs_high_summary <- bgcs_high %>%
 high_bgc_types_plot <- ggplot(bgcs_high_summary, aes(x = IsolateID, y = Count, fill = Category)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = bgc_group_colors) +
-  theme_minimal() +
+  theme_bw() +
   labs(title = "Heigh BGCs per Isolate by Category",
        x = "Isolate ID",
        y = "Count of High BGCs",
