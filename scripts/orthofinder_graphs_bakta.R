@@ -1,5 +1,5 @@
 ######################################################################################################
-# script name: orthofinder_graphs_bakta.R
+# script name: orthofinder_graphs.R
 # developed by: Nikolaos P. Arapitsas
 # framework: SarrisLab
 ######################################################################################################
@@ -8,8 +8,8 @@
 # "Unravelling the genomic and functional arsenal of Bacilli endophytes from
 # plants with different lifestyles"
 ######################################################################################################
-# usage:./orthofinder_graphs_bakta.R
-# complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/antismash_add_species_names.R
+# usage:./orthofinder_graphs.R
+# complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/orthofinder_graphs.R
 ######################################################################################################
 
 # Load necessary library
