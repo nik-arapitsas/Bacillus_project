@@ -1,3 +1,17 @@
+######################################################################################################
+# script name: orthofinder_graphs_bakta.R
+# developed by: Nikolaos P. Arapitsas
+# framework: SarrisLab
+######################################################################################################
+# GOAL:
+# This script was used to create the Supplementary Fig. S8 of the manuscript
+# "Unravelling the genomic and functional arsenal of Bacilli endophytes from
+# plants with different lifestyles"
+######################################################################################################
+# usage:./orthofinder_graphs_bakta.R
+# complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/antismash_add_species_names.R
+######################################################################################################
+
 # Load necessary library
 library(ggplot2)
 install.packages("ggpubr", dependencies = TRUE)
