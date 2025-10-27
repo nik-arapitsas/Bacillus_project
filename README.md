@@ -4,8 +4,9 @@ This repository documents the computational pipeline used to assemble, annotate,
 
 It aims to enhance the transparency and reproducibility of the pipeline used in our work with the title "Unravelling the genomic and functional arsenal of Bacilli endophytes from plants with different lifestyles".
 
-##
-<span style="font-size:25px">The repository is currently under preparation and will be complete very soon!</span>
 
 ##
+## The repository is currently under preparation and will be complete very soon! <br><br>
+
+
 
