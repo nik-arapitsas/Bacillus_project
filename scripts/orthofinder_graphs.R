@@ -14,8 +14,6 @@
 
 # Load necessary library
 library(ggplot2)
-install.packages("ggpubr", dependencies = TRUE)
-install.packages("RcppEigen")
 install.packages("ggpubr")
 library(ggpubr)
 
