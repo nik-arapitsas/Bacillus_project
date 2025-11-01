@@ -1,4 +1,17 @@
 #!/bin/bash
+######################################################################################################
+# script name: run_rfplasmid.sh
+# developed by: Nikolaos P. Arapitsas
+# framework: SarrisLab
+######################################################################################################
+# GOAL:
+# Aim of this script is to run the rfplasmid command for every assembly in the 
+# /media/sarlab/DATA/Bacillus_project directory
+######################################################################################################
+# !!! MAKE SURE TO USE: conda activate rfplasmid BEFORE RUNNING THE SCRIPT !!!
+# usage:./run_rfplasmid.sh
+# complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/run_rfplasmid.sh
+######################################################################################################
 
 base_dir="/media/sarlab/DATA/Bacillus_project"
 
