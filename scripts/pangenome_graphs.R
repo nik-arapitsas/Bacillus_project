@@ -15,8 +15,7 @@
 
 library(tidyverse)
 
-# List of your actual .txt files with labels
-setwd("Bacillus_project/Bacillus_project_anvio/Bacillus_project_anvio_Graphs")
+# List of the gene_cluster_output.txt files with labels
 
 pangenome_tables <- list(
   "SRL179 and relatives" = "SRL179_gene_cluster_output.txt",
@@ -98,7 +97,7 @@ pangenome_barplot <- ggplot(all_pangenome_data, aes(x = percent, y = group, fill
 
 # Save the graph 
 
-ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/Bacillus_project_anvio_Graphs/pangenome_barplot",".png"),
+ggsave(paste0("pangenome_barplot",".png"),
        plot= pangenome_barplot, 
        height = 20, 
        width = 25,
