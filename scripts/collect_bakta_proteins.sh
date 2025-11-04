@@ -13,7 +13,7 @@
 ######################################################################################################
 
 
-base_dir="/media/sarlab/DATA/Bacillus_project"
+base_dir="Bacillus_project"
 protein_dir="${base_dir}/Bacillus_project_proteins"
 mkdir -p "$protein_dir"
 
