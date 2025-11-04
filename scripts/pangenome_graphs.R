@@ -4,7 +4,7 @@
 # framework: SarrisLab
 ######################################################################################################
 # GOAL:
-# Aim of this script is to create the collective barplot and upside plots of the pangenome analysis
+# Aim of this script is to create the collective barplot and the UpSet plots of the pangenome analysis
 ######################################################################################################
 # usage:./pangenome_graphs.R
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/pangenome_graphs.R
@@ -16,7 +16,7 @@
 library(tidyverse)
 
 # List of your actual .txt files with labels
-setwd("/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/Bacillus_project_anvio_Graphs")
+setwd("Bacillus_project/Bacillus_project_anvio/Bacillus_project_anvio_Graphs")
 
 pangenome_tables <- list(
   "SRL179 and relatives" = "SRL179_gene_cluster_output.txt",
@@ -107,7 +107,7 @@ ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Bacillus_project_anvio/Bacill
        device="png")
 
 
-# 2) Upset Plots 
+# 2) UpSet Plots 
 
 install.packages("UpSetR")
 library(UpSetR)
