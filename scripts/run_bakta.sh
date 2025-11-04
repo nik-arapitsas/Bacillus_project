@@ -13,7 +13,7 @@
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/run_bakta.sh
 ######################################################################################################
 
-base_dir="/media/sarlab/DATA/Bacillus_project"
+base_dir="Bacillus_project"
 
 for dir in "${base_dir}"/SRL*/; do
     shortname=$(basename "$dir")
