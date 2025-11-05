@@ -69,9 +69,9 @@ pangenome_barplot <- ggplot(all_pangenome_data, aes(x = percent, y = group, fill
             color = "white", size = 4.5, fontface = "bold") +
   scale_fill_manual(
     values = c(
-      "core" = "#56B4E9",           # sky blue (Okabe-Ito)
-  "accessory" = "#CC79A7",      # reddish purple (Okabe-Ito)
-  "species-specific" = "#E69F00" # orange (Okabe-Ito)
+      "core" = "#56B4E9",
+  "accessory" = "#CC79A7",
+  "species-specific" = "#E69F00"
     )) +
   scale_x_continuous(expand = c(0, 0), limits = c(0, 100)) +
   labs(
