@@ -4,7 +4,7 @@
 # framework: SarrisLab
 ######################################################################################################
 # GOAL:
-# Aim of this script is to create pie charts plotting the types of BGC per isolate 
+# Aim of this script is to create pie charts plotting the types of BGCs per isolate 
 ######################################################################################################
 # usage:./antismash_bgcs_pie_charts.R
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/antismash_bgcs_pie_charts.R
@@ -13,39 +13,24 @@
 # Load the necessary libraries 
 library(readr)
 library(tidyverse)
-library(ggplot2)
-library(dplyr)
-install.packages("gtable")
 install.packages("patchwork")
-library(gtable)
 library(patchwork)
 library(cowplot)
 
 # Read the CSV file that contains the Isolate ID, BGC type, BGC count and Similarity Confidence without the species name 
-bgcs_perisolate <- read_csv("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_similarity_with_species.csv")
+bgcs_perisolate <- read_csv("bgc_similarity_with_species.csv")
 
 # Define custom colors
 
 bgc_group_colors <- c(
-  "NRPS" = "#7171be",
-  "terpene" = "#d4c63a",
-  "PKS" = "#ff94b4",
-  "NI-siderophore" = "#a26324",
-  "NRPS-PKS hybrids" = "#8f9ed7",
-  "RiPPs" = "#c18563",
-  "NRPS-other hybrids" = "#c47ece",
-  "others" = "#f8d48c"
-)
-
-bgc_group_colors <- c(
-  "NRPS" = "#0072B2",                # strong blue
-  "terpene" = "#E69F00",             # orange
-  "PKS" = "#D55E00",                 # vermilion
-  "NI-siderophore" = "#009E73",      # bluish green
-  "NRPS-PKS hybrids" = "#F0E442",    # vivid yellow
-  "RiPPs" = "#CC79A7",               # reddish pink
-  "NRPS-other hybrids" = "#56B4E9",  # sky blue
-  "others" = "#999999"               # gray for catch-all
+  "NRPS" = "#0072B2",
+  "terpene" = "#E69F00",
+  "PKS" = "#D55E00",
+  "NI-siderophore" = "#009E73",
+  "NRPS-PKS hybrids" = "#F0E442",
+  "RiPPs" = "#CC79A7",
+  "NRPS-other hybrids" = "#56B4E9",
+  "others" = "#999999"
 )
 
 # Express every BGC group number as a percent of the total BGCs for every isolate
@@ -131,7 +116,7 @@ bgcs_perisolate_pies <- plot_grid(
   rel_heights = c(1, 0.2)
 )
 
-ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgcs_perisolate_pies",".png"),
+ggsave(paste0("bgcs_perisolate_pies",".png"),
        plot= bgcs_perisolate_pies, 
        height = 30, 
        width = 25,
