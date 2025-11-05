@@ -16,10 +16,8 @@ install.packages("pheatmap")
 library(pheatmap)
 library(readxl)
 
-setwd("/media/sarlab/DATA/Bacillus_project/Bacillus_project_gene_mining")
-
 # Load your data
-gene_function_distribution <- read_excel("Supplementary_Material_Functions_Distribution_per_Isolate.xlsx")  
+gene_function_distribution <- read_excel("Functions_Distribution_per_Isolate.xlsx")  
 
 # Set row names 
 gene_function_distribution <- as.data.frame(gene_function_distribution)
