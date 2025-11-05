@@ -4,13 +4,13 @@
 # framework: SarrisLab
 ######################################################################################################
 # GOAL:
-# Aim of this script is to generate a barplot of BGC counts per genus. 
+# Aim of this script is to generate a barplot of BGC counts per genus.
 ######################################################################################################
 # usage:./bgcs_barplot_pergenus.R
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/bgcs_barplot_pergenus.R
 ######################################################################################################
 
-# Load the necessary libraries 
+# Load the necessary libraries
 library(dplyr)
 library(ggplot2)
 library(readr)
