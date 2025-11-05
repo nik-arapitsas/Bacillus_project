@@ -1,0 +1,26 @@
+﻿Isolate ID,Species name,antiSMASH regions,Low Similarity,Medium Similarity,High Similarity,Undefined Similarity
+SRL152,Peribacillus frigoritolerans,10,1,1,2,6
+SRL163,Bacillus velezensis,16,0,0,8,8
+SRL179,Neobacillus jeddahensis,8,1,0,0,7
+SRL215,Bacillus_A thuringiensis_S,17,3,0,3,11
+SRL218,Bacillus_A thuringiensis_S,17,3,0,3,11
+SRL221,Bacillus velezensis,16,0,0,8,8
+SRL224,Bacillus_A thuringiensis_S,17,3,0,3,11
+SRL244,Bacillus velezensis,16,0,0,8,8
+SRL266,Peribacillus frigoritolerans,10,1,1,3,5
+SRL335,Cytobacillus oceanisediminis_B,6,0,0,0,6
+SRL337,Bacillus salacetis,4,0,0,0,4
+SRL340,Peribacillus frigoritolerans,10,1,1,1,7
+SRL342,Paenibacillus sp001955855,15,5,0,3,7
+SRL368,Bacillus_A thuringiensis_S,17,3,1,2,11
+SRL369,Bacillus_AB infantis,7,1,0,0,6
+SRL374,Bacillus velezensis,16,0,0,8,8
+SRL379,Bacillus velezensis,16,0,0,8,8
+SRL389,Peribacillus frigoritolerans,10,1,1,3,5
+SRL398,Paenibacillus sp001955855,15,5,0,3,7
+SRL543,Bacillus_AB infantis,7,1,0,0,6
+SRL544,Rossellomorea haikouensis_A,6,1,1,0,4
+SRL571,Bacillus altitudinis,13,0,2,3,8
+SRL656,Bacillus paralicheniformis,13,0,2,4,7
+SRL658,Bacillus paralicheniformis,13,0,2,4,7
+SRL662,Bacillus paralicheniformis,17,3,4,2,8
