@@ -4,7 +4,7 @@
 # framework: SarrisLab
 ######################################################################################################
 # GOAL:
-# Aim of this script is to generate a boxplot and a barplot of BGC counts per genus. 
+# Aim of this script is to generate a barplot of BGC counts per genus. 
 ######################################################################################################
 # usage:./bgcs_barplot_pergenus.R
 # complete path: /home/nik_arapitsas/Documents/Bacillus_project/scripts/bgcs_barplot_pergenus.R
@@ -18,7 +18,7 @@ library(stringr)
 library(forcats)
 
 # Read the CSV file that contains the Isolate ID, BGC type, BGC count and Similarity Confidence without the species name 
-bgcs_perisolate <- read_csv("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_similarity_with_species.csv")
+bgcs_perisolate <- read_csv("bgc_similarity_with_species.csv")
 
 # Keep only the Genus name for every isolate 
 bgcs_perisolate_genera <- bgcs_perisolate %>%
@@ -46,47 +46,7 @@ genus_colors <- c(
   "Rossellomorea" = "#E69F00"    
 )
 
-# A) Create a boxplot
-
-bgc_perisolate_genera_grouped_boxplot <- ggplot(bgc_perisolate_genera_grouped, aes(x = bgc_count, y = reorder(genus, bgc_count, median), fill = genus)) +
-  geom_boxplot(outlier.shape = 18) +
-  scale_fill_manual(values = genus_colors) +
-  geom_text(data = genus_sample_sizes,
-          aes(x = 2, y = genus, label = paste0("n: ", n)),
-          hjust = 0, vjust = 0.5,
-          inherit.aes = FALSE, size = 3.5) +
-  theme_minimal() +
-  scale_y_discrete(labels = function(x) parse(text = paste0("italic('", x, "')"))) +
-  labs(
-    title = "Distribution of antiSMASH regions by genus",
-    x = "antiSMASH regions (count)",
-    y = NULL
-  ) +
-  theme(
-    legend.position = "none",
-    panel.grid.major.y = element_blank(),
-    axis.line = element_line(color = "black", size = 0.2),  # Add black axis lines
-    axis.ticks.length = unit(0.1, 'cm'),  # Set the tick length to be smaller
-    axis.ticks = element_line(color = "black", linewidth = 0.5),
-    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center align title
-    axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5, size = 10, color = "black", family = "sans", margin = margin(t = 2.5)),
-    axis.text.y = element_text(hjust = 0.5, vjust = 0.5, size = 10, color = "black", family = "sans", margin = margin(t = 2.0)),
-    plot.margin = margin(10, 10, 10, 10)
-) +
-  scale_x_continuous(expand = expansion(mult = c(0.02, 0.05))) +
-  coord_cartesian(xlim = c(0, 20))
-
-# Save the graph 
-
-ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_perisolate_genera_grouped_boxplot",".png"),
-       plot= bgc_perisolate_genera_grouped_boxplot, 
-       height = 20, 
-       width = 50,
-       dpi = 300, 
-       units="cm",
-       device="png")
-
-# B) Create a barplot
+# Create a barplot
 
 # Summarize BGCs per genus
 bgc_per_genus <- bgcs_perisolate_genera %>%
@@ -150,7 +110,7 @@ bgc_perisolate_genera_grouped_barplot <- ggplot(bgc_stats, aes(x = genus, y = me
 
 # Save the graph 
 
-ggsave(paste0("/media/sarlab/DATA/Bacillus_project/Antismash_Graphs/bgc_perisolate_genera_grouped_barplot",".png"),
+ggsave(paste0("bgc_perisolate_genera_grouped_barplot",".png"),
        plot= bgc_perisolate_genera_grouped_barplot, 
        height = 15, 
        width = 20,
