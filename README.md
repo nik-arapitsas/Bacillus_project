@@ -1,6 +1,6 @@
 # "Unravelling the genomic and functional arsenal of Bacilli endophytes from plants with different lifestyles"
 
-This repository documents the computational pipeline used to assemble, annotate, and do comparative genomic analyses on the genomes of 25 Bacilli endophytes.
+This repository documents the computational pipeline used to assemble, annotate, and do comparative genomic and functional analyses on the genomes of 25 Bacilli endophytes.
 
 It aims to enhance the transparency and reproducibility of the pipeline used in our work with the title "Unravelling the genomic and functional arsenal of Bacilli endophytes from plants with different lifestyles".
 
