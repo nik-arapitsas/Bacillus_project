@@ -36,7 +36,7 @@ filtlong --min_length 1000 --keep_percent 95 A01_long_unfiltered.fastq > A01_lon
 
 Below we will show the procedure combining flye and unicycler for the hybrid genome assembly of the isolate **SRL662** as an example. For the isolates where unicycler was performed directly, without a prior flye assembly, the --existing_long_read_assembly option in the unicycler command was omitted.    
 
-#### A first long-read-only assembly using flye 
+#### Preparation of a first assembly with flye using only the long reads  
 
 The command used for the isolate **SRL662** is the following:
 
@@ -58,7 +58,7 @@ The structural statistics of the assemblies were evaluated using [QUAST v5.0.2](
 quast assembly.fasta -o ../SRL662_quast
 ```
 
-For evaluating functional completeness, [BUSCO 5.8.0](https://github.com/metashot/busco) was used, with the Firmicutes database (firmicutes_odb10):
+For evaluating functional completeness, [BUSCO v5.8.0](https://github.com/metashot/busco) was used, with the Firmicutes database (firmicutes_odb10):
 
 ```
 busco -i assembly.fasta -o SRL662_busco --out_path ../SRL662_busco -l firmicutes_odb10 -m genome -c 23 -f
@@ -113,13 +113,13 @@ orthofinder -f ./Bacillus_project_proteins -t 23 -o ./Bacillus_project_orthofind
 
 ### Collection of the Data plotted on the collective OrthoFinder plot  
 
-The OrthoFinder produced the drectory: 
+The OrthoFinder produced the directory: 
 
 ```
 Bacillus_project/Bacillus_project_orthofinder/Results_Jul03
 ```
 
-The name of this directory changes in regard to the date when the OrthFinder command is performed by the user. We created a directory named "Graphs" in the directory "Results_Jul03" where we saved the data we used for the OrthoFinder graphs and all the outputs directly and indirectly associated with the graphs. 
+The name of this directory changes in regard to the date the OrthoFinder command is performed by the user. We created a directory named "Graphs" in the directory "Results_Jul03" where we saved the data we used for the OrthoFinder graphs and all the outputs directly and indirectly associated with the graphs. 
 
 ```
 cd Bacillus_project_orthofinder/Results_Jul03
@@ -378,7 +378,7 @@ mkdir Bacillus_project_anvio_Graphs
 The files SRL179_gene_cluster_output.txt, SRL337_gene_cluster_output.txt, SRL368_gene_cluster_output.txt and SRL543_gene_cluster_output.txt were collected inside the "Bacillus_project_anvio_Graphs". Then, the graphs were created in R (version 4.5.1) using the [pangenome_graphs.R](scripts/pangenome_graphs.R) script. This script was executed inside the "Bacillus_project_anvio_Graphs" directory.  
 
 
-### Biosynthetic Gene Clusters (BGCs) analysis
+## Biosynthetic Gene Clusters (BGCs) analysis
 
 For BGC prediction, the assemblies were uploaded to the online platform of [antiSMASH version 8.0.1](https://antismash.secondarymetabolites.org/#!/start).   
 
@@ -387,7 +387,7 @@ The information regarding the BGCs of each isolate and their similarity confiden
 Graphs were prepared in R (version 4.5.1) using the [antismash_bgcs_pie_charts.R](scripts/antismash_bgcs_pie_charts.R), [antismash_groups_similarity_graphs.R](scripts/antismash_groups_similarity_graphs.R), and [bgcs_barplot_pergenus.R](scripts/bgcs_barplot_pergenus.R) scripts.  
 
 
-### Plotting of gene counts associated with plant–microbe interactions across the 25 bacterial isolates using a heatmap
+## Plotting of gene counts associated with plant–microbe interactions across the 25 bacterial isolates using a heatmap
 
 Gene counts across nine functional categories and isolates were collected in the file [Functions_Distribution_per_Isolate.xlsx](data/Functions_Distribution_per_Isolate.xlsx) that is available in the [data directory](data) of this repository. For their visualization, the script [gene_function_heatmap.R](scripts/gene_function_heatmap.R) was used in R (version 4.5.1). 
 
