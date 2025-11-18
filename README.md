@@ -391,6 +391,9 @@ Graphs were prepared in R (version 4.5.1) using the [antismash_bgcs_pie_charts.R
 
 Gene counts across nine functional categories and isolates were collected in the file [Functions_Distribution_per_Isolate.xlsx](data/Functions_Distribution_per_Isolate.xlsx) that is available in the [data directory](data) of this repository. For their visualization, the script [gene_function_heatmap.R](scripts/gene_function_heatmap.R) was used in R (version 4.5.1). 
 
+## Plotting the results of the *in vitro* bioassays against fungal phytopathogens    
+
+The results of the *in vitro* bioassays which were performed to evaluate the inhibitory activity of the 25 isolates against 4 phytopathogenic fungi are available in the file [in_vitro_pathogen_inhibition.xlsx](data/in_vitro_pathogen_inhibition.xlsx) that is available in the [data directory](data) of this repository. The plots were prepared using the script [bioassays_statistics.R](scripts/bioassays_statistics.R) in R (version 4.4).  
 
 ## Coding environment
 
