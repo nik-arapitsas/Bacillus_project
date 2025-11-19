@@ -293,9 +293,9 @@ microbe_heatmap <- ggplot() +
                                                     size = 5))
            ) +
 
-    coord_fixed() +  # square tiles
+   # coord_fixed() +  # square tiles
     theme_bw() +
-    facet_wrap(~ facet_vars, nrow = 4) +
+    facet_wrap(~ facet_vars, nrow = 4,scales = "free_y") +
     theme(
           panel.border = element_rect(color = "black", fill = NA, linewidth = 0.6),
           panel.grid = element_blank(),  # no gridlines
